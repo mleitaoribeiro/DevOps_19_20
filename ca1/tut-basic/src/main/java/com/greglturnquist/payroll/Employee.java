@@ -33,14 +33,17 @@ public class Employee {
 	private String lastName;
 	private String description;
 	private String jobTitle;
+	private String email;
 
 	private Employee() {}
 
-	public Employee(String firstName, String lastName, String description, String jobTitle) {
+	public Employee(String firstName, String lastName, String description, String jobTitle, String email) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.description = description;
 		this.jobTitle = jobTitle;
+		this.email = email;
+
 	}
 
 	@Override
@@ -101,6 +104,17 @@ public class Employee {
 		this.jobTitle = jobTitle;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		if (email != null && email.length() != 0) {
+			this.email = email;
+		}
+		else throw new IllegalArgumentException("The email is invalid.");
+	}
+
 	@Override
 	public String toString() {
 		return "Employee{" +
@@ -109,6 +123,7 @@ public class Employee {
 			", lastName='" + lastName + '\'' +
 			", description='" + description + '\'' +
 			", jobTitle='" + jobTitle + '\'' +
+			", email='" + email + '\'' +
 			'}';
 	}
 }
