@@ -1,12 +1,6 @@
 # Class Assignment 1 Report
 
-Here you should write the report for the assignment.
-
-You should use Markdown Syntax so that the report is properly rendered in Bitbucket. See how to write README files for Bitbucket in [here](https://confluence.atlassian.com/bitbucket/readme-content-221449772.html)
-
-The source code for this assignment is located in the folder [ca1/tut-basic](https://bitbucket.org/atb/devops-19-20-rep-template/src/master/ca1/tut-basic)
-
-As a suggestion, the report should have the following sections.
+The source code for this assignment is located in the folder [ca1/tut-basic](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca1/tut-basic/)
 
 ## 1. Analysis, Design and Implementation
 
