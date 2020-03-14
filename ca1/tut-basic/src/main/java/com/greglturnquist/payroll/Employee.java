@@ -60,7 +60,6 @@ public class Employee {
 
 	@Override
 	public int hashCode() {
-
 		return Objects.hash(id, firstName, lastName, description);
 	}
 
@@ -69,7 +68,10 @@ public class Employee {
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		if (id != null && id != 0) {
+			this.id = id;
+		}
+		else throw new IllegalArgumentException("The id is invalid.");
 	}
 
 	public String getFirstName() {
@@ -77,7 +79,10 @@ public class Employee {
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		if (firstName != null && firstName.length() != 0) {
+			this.firstName = firstName;
+		}
+		else throw new IllegalArgumentException("The firstName is invalid.");
 	}
 
 	public String getLastName() {
@@ -85,7 +90,10 @@ public class Employee {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		if (lastName != null && lastName.length() != 0) {
+			this.lastName = lastName;
+		}
+		else throw new IllegalArgumentException("The lastName is invalid.");
 	}
 
 	public String getDescription() {
@@ -93,7 +101,10 @@ public class Employee {
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		if (description != null && description.length() != 0) {
+			this.description = description;
+		}
+		else throw new IllegalArgumentException("The description is invalid.");
 	}
 
 	public String getJobTitle() {
@@ -101,7 +112,10 @@ public class Employee {
 	}
 
 	public void setJobTitle(String jobTitle) {
-		this.jobTitle = jobTitle;
+		if (jobTitle != null && jobTitle.length() != 0) {
+			this.jobTitle = jobTitle;
+		}
+		else throw new IllegalArgumentException("The jobTitle is invalid.");
 	}
 
 	public String getEmail() {
