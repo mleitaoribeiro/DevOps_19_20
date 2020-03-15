@@ -42,8 +42,7 @@ public class Employee {
 		this.lastName = lastName;
 		this.description = description;
 		this.jobTitle = jobTitle;
-		this.email = email;
-
+		setEmail(email);
 	}
 
 	@Override
@@ -123,7 +122,8 @@ public class Employee {
 	}
 
 	public void setEmail(String email) {
-		if (email != null && email.length() != 0) {
+		String at = "@";
+		if (email != null && email.length() != 0 && email.contains(at)) {
 			this.email = email;
 		}
 		else throw new IllegalArgumentException("The email is invalid.");

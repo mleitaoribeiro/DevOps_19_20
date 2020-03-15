@@ -255,4 +255,18 @@ class EmployeeTest {
         }
     }
 
+    @Test
+    @DisplayName("validate input for email - without @")
+    void setEmailWithoutAt() {
+        //Arrange and Act
+        try {
+            new Employee("Bilbo", "Baggins", "destroy the ring", "ringBearer",
+                    "bilbobagginsgmail.com");
+        }
+        //Assert
+        catch (IllegalArgumentException description) {
+            assertEquals("The email is invalid.", description.getMessage());
+        }
+    }
+
 }
