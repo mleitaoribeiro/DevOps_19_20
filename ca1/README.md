@@ -1,4 +1,4 @@
-# Class Assignment 1 Report - Controlo de versões com git
+# Relatório Class Assignment 1 - Controlo de versões com git
 
 O código fonte para esta tarefa está localizada na pasta [ca1/tut-basic](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca1/tut-basic/).
 
@@ -10,11 +10,11 @@ Para a realização da Class Assignment 1 (Ca1) foi sugerido utilizar o sistema 
 
 Na realização desta tarefa foi usada a distribuição Linux Ubuntu 18.04 LTS on Windows e para poder cumprir todos os 
 requisitos necessários para a implementação do Ca1 foi necessário:
- * acesso à Ubuntu Command Line;
- * ter instalado o git command line package;
- * um IDE que suporte git (neste caso, foi utilizado o IntelliJ);
- * acesso a um repositório remoto (neste caso, foi utilizado o Bitbucket);
- * acesso à pasta "Basic" utilizada no Class Assignment 0 proveniente do Tutorial React.js and Spring Data REST application.
+* acesso à Ubuntu Command Line;
+* ter instalado o git command line package;
+* um IDE que suporte git (neste caso, foi utilizado o IntelliJ);
+* acesso a um repositório remoto (neste caso, foi utilizado o Bitbucket);
+* acesso à pasta "Basic" utilizada no Class Assignment 0 proveniente do Tutorial React.js and Spring Data REST application.
 
 ### 1.2 Configurar o git
 
