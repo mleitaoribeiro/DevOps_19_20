@@ -27,7 +27,7 @@ $ git config --global user.name "Marta Ribeiro"
 $ git config --global user.email 1191779@isep.ipp.pt
 ```
 
-###1.3 Inicializar um repositório de uma pasta existente
+### 1.3 Inicializar um repositório de uma pasta existente
 
 Para pudermos mais tarde publicar as versões estáveis das alterações que forem realizadas na aplicação, é necessário 
 primeiro adicionarmos ao repositório escolhido os ficheiros sobre os quais queremos trabalhar. Para isso, através da
@@ -47,7 +47,7 @@ directory, adicionar todos os ficheiros presentes à staging area e realizar o c
 fez-se a ligação ao repositorio para o qual queremos trabalhar e finalmente foi feito o push dos ficheiros para o mesmo.
 A partir deste momento, o repositório remoto utlizado deverá conter toda a informação presente na pasta devOps.
 
-###1.4 Criar a tag inicial 
+### 1.4 Criar a tag inicial 
 
 Para podermos ter o controlo das alterações que vamos introduzindo no projeto, devemos ir colocando tags no master branch
 do projeto, no final de cada alteração relevante que é realizada. O git suporta dois tipos de tag: lightweight and 
@@ -75,7 +75,7 @@ $ git tag
   v1.2.0
 ````
 
-###1.5 Criar uma nova funcionalidade a partir da criação de um branch
+### 1.5 Criar uma nova funcionalidade a partir da criação de um branch
 
 
 
