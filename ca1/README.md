@@ -32,7 +32,7 @@ $ git config --global user.email 1191779@isep.ipp.pt
 
 Antes de adicionar ficheiros ao repositório Git para permitir o controlo das suas versões e alterações, é necessário 
 inicializar o repositório. Também é necessário configurar, se existente, o endereço do repositório remoto (neste caso, 
-o endereço do repositório BitBucket). Para isso, na working directory, realizaram-se os seguintes comandos:
+o endereço do repositório Bitbucket). Para isso, na working directory, realizaram-se os seguintes comandos:
 
 ```
 $ git init
@@ -48,23 +48,22 @@ $ git commit -m "Initial commit"
 $ git push -u origin master
 ```
 
-
-Este conjuntos de comandos irá permitir inicializar a pasta para a qual queremos manter o controlo de versões - working 
-directory, adicionar todos os ficheiros presentes à staging area e realizar o commit para o repositório Git, usando a 
-opção -m para poder de seguida introduzir a mensagem do commit. De seguida, fez-se a ligação ao repositorio remoto para
-o qual queremos trabalhar e finalmente foi feito o push dos ficheiros para o mesmo, usando a opção -u para que o Git faça
+Este conjuntos de comandos irá permitir inicializar a pasta para a qual se quer manter o controlo de versões - working 
+directory, adicionar todos os ficheiros presentes à staging area e realizar o commit para o repositório Git. Foi usada a 
+opção -m para poder, de seguida, introduzir a mensagem do commit. Posteriormente, fez-se a ligação ao repositório remoto para
+o qual se pretende trabalhar e finalmente foi feito o push dos ficheiros para o mesmo, usando a opção -u para que o Git faça
 o seguimento da ligação ente o repositorio local e remoto. A partir deste momento, o repositório remoto utlizado deverá 
-conter toda a informação presente na pasta devOps.
+conter toda a informação presente na pasta devOps-19-20-a-1191779.
 
-Se por outro lado fosse pretendido clonar um repositório já existente e trabalhar a partir deste para o assignment, 
-deveria ser executado o comando clone seguido do url do repositorio remoto:
+Se por outro lado, fosse pretendido clonar um repositório já existente e trabalhar a partir deste para o assignment, 
+deveria ser executado o comando clone seguido do url do repositório remoto:
 
 ```
 $ git clone https://martalribeiro@bitbucket.org/martalribeiro/devops-19-20-a-1191779.git
 ```
 
 Para que ficheiros não desejados fossem ignorados pelo Git e não fossem guardados no repositório, foi criado um ficheiro 
-.gitignore através da página https://www.gitignore.io/ com as palavras chave Java, Maven, IntelliJ. Para que este ficheiro
+.gitignore através da página https://www.gitignore.io/ com as palavras-chave Java, Maven e IntelliJ. Para que este ficheiro
 fosse também guardado no repositório Git e no remoto, foram realizados os seguintes comandos: 
 
 ```
@@ -75,26 +74,26 @@ $ git push -u origin master
 
 ### 1.4 Criar a tag inicial 
 
-Para podermos ter o controlo das alterações que vamos introduzindo no projeto, devemos ir colocando tags no master branch
-do projeto, no final de cada alteração relevante que é realizada. O Git suporta dois tipos de tag: lightweight and 
+Para se poder ter o controlo das alterações que se vai introduzindo no projeto, deve-se ir colocando tags no master branch
+do projeto, no final de cada alteração relevante que é realizada. O Git suporta dois tipos de tag: lightweight e 
 annotated. Uma lightweight tag é muito parecida a um branch que nunca muda, é apenas um apontador para um commit específico.
-Por outro lado, uma annotated tag é guardado como um objeto completo na bse de dados do Git.
+Por outro lado, uma annotated tag é guardado como um objeto completo na base de dados do Git.
 
-Seguindo os requisitos do Ca1, devemos marcar este branch como versão inicial através de uma annotated tag v1.2.0. Para 
-isso, utilizamos os seguintes comandos:
+Seguindo os requisitos do Ca1, deve-se marcar este branch como versão inicial através de uma annotated tag v1.2.0. Para 
+isso, utilizou-se os seguintes comandos:
 
 ```
 $ git tag -a v1.2.0 -m "versão 1.2.0"
 ```
 
 A opção -a indica ao Git que é um annotated tag e a opção -m especifica qual a mensagem associada, ficando esta armazenada
-com o tag. Para transferir a tag para o repositório remoto utilizamos o comando:
+com o tag. Para transferir o tag para o repositório remoto utilizamos o comando:
 
 ```
 $ git push origin v1.2.0
 ```
 
-Para podermos consultar as tags e respectivas versões existentes só temos de executar:
+Para se poder consultar os tags e respectivas versões existentes, é necessário executar:
 
 ````
 $ git tag
@@ -103,17 +102,17 @@ $ git tag
 
 ### 1.5 Criar a nova funcionalidade email a partir da criação de um branch email-field
 
-Para criar uma nova funcionalidade de email para a aplicação que estamos a trabalhar é necessário criarmos um novo branch
-email-field para que possamos trabalhar na funcionalidade sem comprometer o branch principal (master) nem o trabalho realizado
-até ao momento. Para isso foi realizado o seguinte comando:
+Para criar uma nova funcionalidade de email para a esta aplicação é necessário criar um novo branch email-field para se
+poder trabalhar na funcionalidade, sem comprometer o branch principal (master), nem o trabalho realizado até ao momento. Para 
+isso, foi realizado o seguinte comando:
 
 ````
 $ git branch email-field
 ````
 
-Quando estamos a trabalhar com branches é importante sabermos sempre em que branch estamos a trabalhar no momento. Para 
-isso, o Git um contém um pointer especial chamado HEAD que aponta para o branch local no qual estamos a trabalhar isso.
-Para podermos consultar esta informação apenas temos de executar o comando:
+Quando se trabalha com branches, é importante sempre saber em que branch se está a trabalhar no momento. Para isso, o Git 
+contém um pointer especial chamado HEAD que aponta para o branch local no qual estamos a trabalhar. Para se consultar esta 
+informação, executa-se o comando:
 
 ````
 $ git branch
@@ -121,7 +120,7 @@ $ git branch
 * master
 ````
 
-O asterisco (*) serve para indicar o HEAD branch. Concluimos então que quando criámos o novo branch email-field não fomos
+O asterisco (\*) serve para indicar o HEAD branch. Conclui-se então que quando se criou o novo branch email-field não fomos
 automaticamente encaminhados para o novo branch criado. Para isso é necessário executar:
 
 ````
