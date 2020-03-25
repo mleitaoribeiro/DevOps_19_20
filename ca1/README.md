@@ -200,11 +200,11 @@ $ git tag -a v1.3.0 -m "versão 1.3.0"
 $ git push origin v1.3.0
 ```
 
-### 1.10 Criar um branch para a correção de bugs a partir da criação de um novo branch fix-email-field
+### 1.10 Criar um branch para a correção de bugs a partir da criação de um novo branch fix-invalid-email
 
-O objectivo da criação do branch fix-email-field é a correção de um bug: o servidor só deverá aceitar a criação de Employees
+O objectivo da criação do branch fix-invalid-email é a correção de um bug: o servidor só deverá aceitar a criação de Employees
 com um email válido, ou seja, tem de possuir o simbolo *@*. Para atingir este requisito devem ser repetidos os passos 1.5 a
-1.9 deste relatório, de forma a suportar esta funcionalidade, mas o nome do branch passa a ser fix-email-field e a versão 
+1.9 deste relatório, de forma a suportar esta funcionalidade, mas o nome do branch passa a ser fix-invalid-email e a versão 
 final estável é marcada com a annotated tag v1.3.1.
 
 ### 1.11 Final do Ca1
@@ -219,9 +219,9 @@ $ git push origin Ca1
 ## 2. Análise da alternativa
 
 
-Ao contrário das versões centralizadas, numa versão distribuída não existe uma cópia central no servidor para se armazenar todas as versões
-dos ficheiros de um projeto. Em vez disso, é feita uma cópia completa do repositório local para que seja possível obter toda a
-história do projeto sempre que necessário.
+Ao contrário das versões centralizadas, numa versão distribuída não existe uma cópia central no servidor para se armazenar 
+todas as versões dos ficheiros de um projeto. Em vez disso, é feita uma cópia completa do repositório local para que seja 
+possível obter toda a história do projeto sempre que necessário.
 
 
 ## 3. Implementação da alternativa - Mercurial
@@ -272,9 +272,9 @@ seguintes comandos:
 ```
 $ hg init
 
-hg add
-hg commit -m "Initial commit"
-hg push
+$ hg add
+$ hg commit -m "Initial commit"
+$ hg push
 ```
 
 Se por outro lado fosse pretendido clonar um repositório já existente:
@@ -406,10 +406,20 @@ v1.3.0                            16:bfe73f859e35
 v1.2.0                             1:2b9bb47a1b98
 ````
 
-### 1.10 Criar um branch para a correção de bugs a partir da criação de um novo branch fix-email-field
+### 1.10 Criar um branch para a correção de bugs a partir da criação de um novo branch fix-invalid-email
 
-A criação do branch fix-email-field foi realizada exatamente da mesma forma e com o mesmo propósito da realizada com o
-Git. A versão final estável foi marcada com a tag v1.3.1.
+A criação do branch fix-invalid-email foi realizada exatamente da mesma forma e com o mesmo propósito da realizada com o
+Git. No entanto, no final da realização da tarefa, este branch não foi eliminado, sendo o merge executado com os seguintes
+comandos:
+
+````
+$ hg up default
+$ hg merge fix-invalid-email
+$ hg ci -m merge
+$ hg push
+````
+
+A versão final estável foi marcada com a tag v1.3.1.
 
 ````
 $ hg tags
