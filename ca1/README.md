@@ -120,8 +120,8 @@ $ git branch
 * master
 ````
 
-O asterisco (\*) serve para indicar o HEAD branch. Conclui-se então que quando se criou o novo branch email-field não fomos
-automaticamente encaminhados para o novo branch criado. Para isso é necessário executar:
+O asterisco (\*) serve para indicar o HEAD branch. Conclui-se então que quando se criou o novo branch email-field, não se foi
+automaticamente encaminhado para o novo branch criado. Para isso, é necessário executar:
 
 ````
 $ git checkout email-field
@@ -131,9 +131,9 @@ $ git branch
   master
 ````
 
-Após este passo devemos recorrer ao IDE para realizarmos todas as alterações que irão dar suporte à funcionalidade email.
-De seguida deverá ser feito o commit e o push para o repositório remoto de estas todas as alterações no novo branch em 
-que estamos a trabalhar. Para isso executou-se:
+Após este passo, deve-se recorrer ao IDE para realizar todas as alterações que irão dar suporte à funcionalidade email. De
+seguida, deverá ser feito o commit e o push para o repositório remoto de todas as alterações realizadas no novo branch. Para 
+isso, executou-se:
 
 ```
 $ git add .
@@ -143,31 +143,31 @@ $ git push -u origin email-field
 
 ### 1.6 Validação e debugging da nova funcionalidade
 
-Para cumprir este requisito foram adicionadas validações aos métodos responsáveis pela manipulação de todos os atributos da 
-classe de forma a impossibilitar a introdução de valores nulos e vazios nesses campos. De seguida foram também adicionados 
-testes unitários para testar a criação de Employees. Para isso, foi necessário primeiro actualizar as dependências do Maven 
-no ficheiro pom.xml para que fosse utilizada a versão mais recente do Junit. Depois desta alteração, foi criada uma nova 
-pasta de testes no source e criada a classe EmployeeTest. Nesta classe foram adicionados vários métodos de acordo 
-com a metodologia do JUnit (protocolo Arrange / Act / Assert e fazendo uso do método equals). Desta forma foi possível 
-realizar o debug dos métodos da classe Employee ao nível do servidor e corrigir possíveis erros.
+Para cumprir este requisito, foram adicionadas validações aos métodos responsáveis pela manipulação de todos os atributos da 
+classe, de forma a impossibilitar a introdução de valores nulos e vazios nesses campos. De seguida, foram adicionados 
+testes unitários para testar a criação do objecto Employees. Para isso, foi necessário primeiro actualizar as dependências do Maven 
+no ficheiro pom.xml, para que fosse utilizada a versão mais recente do Junit. Depois desta alteração, foi criada uma nova 
+pasta de testes no source e criada a classe EmployeeTest. Nesta classe, foram adicionados vários métodos de acordo com a 
+metodologia do JUnit (protocolo Arrange / Act / Assert e fazendo uso do método equals). Desta forma, foi possível realizar 
+o debug dos métodos da classe Employee, ao nível do servidor, e corrigir possíveis erros.
 
-Tal como foi mencionado para a criação do atributo email, no final de cada grupo de testes foi realizado o commit de todas
-estas alterações através da utilização dos comandos supramencionados.
+Tal como foi mencionado para a criação do atributo email, no final de cada grupo de testes foi realizado o commit de todas as
+alterações através da utilização dos comandos supramencionados.
 
-Para o debug a nível do cliente foi posta a correr a aplicação na Ubuntu command line com o seguinte comando:
+Para o debug a nível do cliente foi colocada a correr a aplicação na CLI do Ubuntu :
  
  ```
  $ mvn spring-boot:run
  ```
  
-Esta ficou disponível no endereço *localhost:8080*, o qual está acessível através do browser Google Chrome. Através da realização de
-comandos *curl* a nível da Ubuntu command line e da utilização das ferramentas *Components* e *Profiler* da extensão 
-"React Developer Tools", foi possível realizar o debug.
+Esta ficou disponível no endereço *localhost:8080*, o qual foi acedido através do browser Google Chrome. Através da realização de
+comandos *curl* a nível da CLI do Ubuntu e da utilização das ferramentas *Components* e *Profiler* da extensão "React Developer
+Tools", foi possível realizar o debug.
 
 ### 1.7 Merge do branch email-field ao master branch
 
-Após todas as alterações terem sido validadas e testadas, teve de ser realizado o merge do branch criado com a nova 
-funcionalidade ao branch master. Para isso executou-se:
+Após todas as alterações terem sido validadas e testadas, teve de ser realizado o merge do branch criado com a nova funcionalidade 
+ao branch master. Para isso executou-se:
 
 ````
 $ git checkout master
@@ -180,7 +180,7 @@ passa a ser novamente o master branch.
 
 ### 1.8 Eliminar um branch inativo
 
-Após o merge do branch email-field com o master branch este fica inativo. Caso este não vá ser mais utilizado, é boa 
+Após o merge do branch email-field com o master branch, este passa a ficar inativo. Caso este não vá ser mais utilizado, é boa 
 prática eliminar os branches inactivos. Para este efeito executa-se:
 
 ````
@@ -188,6 +188,7 @@ $ git branch -d email-field
 ````
 
 Para efeitos de avaliação, os branches inativos foram mantidos.
+
 
 ### 1.9 Criar um novo tag após adição da nova funcionalide
 
@@ -199,12 +200,26 @@ $ git tag -a v1.3.0 -m "versão 1.3.0"
 $ git push origin v1.3.0
 ```
 
+
 ### 1.10 Criar um branch para a correção de bugs a partir da criação de um novo branch fix-invalid-email
 
 O objectivo da criação do branch fix-invalid-email é a correção de um bug: o servidor só deverá aceitar a criação de Employees
-com um email válido, ou seja, tem de possuir o simbolo *@*. Para atingir este requisito devem ser repetidos os passos 1.5 a
+com um email válido, ou seja, tem de possuir o simbolo *@*. Para atingir este requisito, devem ser repetidos os passos 1.5 a
 1.9 deste relatório, de forma a suportar esta funcionalidade, mas o nome do branch passa a ser fix-invalid-email e a versão 
 final estável é marcada com a annotated tag v1.3.1.
+
+```
+$ git tag -a v1.3.0 -m "versão 1.3.1"
+$ git push origin v1.3.1
+```
+
+````
+$ git tag
+v1.2.0
+v1.3.0
+v1.3.1
+````
+
 
 ### 1.11 Final do Ca1
 
@@ -217,17 +232,17 @@ $ git push origin Ca1
 
 ## 2. Análise da alternativa
 
-Para a realição desta tarefa foi escolhido o sistema de controlo de versões Mercurial, em alternativa ao Git. 
+Como sistema de controlo de versões alternativo ao Git, foi escolhido o sistema Mercurial.
 
 Tal como o Git, O Mercurial trata-se de uma versão distrbuída em que é realizada uma cópia completa do repositório local para o working 
-directory. Depois de adionarmos as alterações ou funcionalidades pretendidas, é possível fazer um merge com o projeto presente no 
-repositório e assim termos sempre uma versão atualizada e estável de todo o projeto. A forma distribuída oferece vantagens
-em comparação com as versões centralizadas, pois nestas existe apenas uma unica cópia central no servidor, é feito um pull
-apenas dos ficheiros em que queremos trabalhar e depois faz-se commit das alterações para esta cópia. Um exemplo de uma 
-versão centralizada é o Subversion (SVN).
+directory. Depois de se adionar as alterações ou funcionalidades pretendidas, é possível fazer um merge com o projeto presente no 
+repositório e assim ter sempre uma versão atualizada e estável de todo o projeto. A forma distribuída oferece vantagens em comparação 
+com as versões centralizadas, pois nestas existe apenas uma unica cópia central no servidor. Para adicionar novas funcionalidade, apenas 
+é feito *pull* dos ficheiros necessários e depois é feito o commit das alterações para esta cópia. Um exemplo de uma versão centralizada 
+é o Subversion (SVN).
 
-Embora o Git e o Mercurial partilhem esta grande vantagem, existem também grandes diferenças entre eles, sendo a maior diferença
-a arquitectura dos branches. Pode assim ser agumentado que embora o Mercurial seja mais fácil de aprender e de usar, o modelo de
+Embora Git e Mercurial partilhem esta grande vantagem, existem também grandes diferenças entre eles, sendo a maior diferença a 
+arquitectura dos branches. Pode assim ser agumentado que embora o Mercurial seja mais fácil de aprender e de usar, o modelo de 
 organização de branches é muitas vezes confuso, sendo assim o Git uma melhor opção neste contexto.
 
 ### 2.1 Usabilidade
@@ -242,33 +257,33 @@ do momento em que o utilizador se torna experiente, o Git oferece maior flexibil
 Em termos de segurança, quer o Git quer o Mercurial possuem algumas fraquezas relativamente à proteção contra alterações 
 acidentais por parte dos utlizadores. Tal como no tópico da usabilidade, é a experiência do utilizador que dita qual será
 o sistema mais seguro. No caso de um utilizador inexperiente, o Mercurial é mais seguro dado que, por omissão, não permite 
-alterar o histórico de versões, podendo ser apenas alterado o único commit realizado. Por outro lado, o Git já permite fazer
-alterações no histórico (guarda alterações aos commits por um período de 30 dias) mas as ferramentas oferecidas que permitem 
-garantir a segurança dos projetos são complexas e só apenas bem entendidas por utilizadores experientes. Isto pode conduzir
+alterar o histórico de versões, podendo ser apenas alterado o último commit realizado. Por outro lado, o Git já permite fazer
+alterações no histórico (guarda alterações aos commits por um período de 30 dias), mas as ferramentas oferecidas que permitem 
+garantir a segurança do histórico são complexas e só apenas bem entendidas por utilizadores experientes. Isto pode conduzir
 a resultados catastróficos quando utilizado por utilizadores inexperientes.
 
 
 ### 2.3 Arquitetura de Branches
 
-Em termos de arquitectura de branches, o Git tem um modelo mais eficaz, em que os branches são apnenas referências para um
-determinado commit, permitindo criar, eliminar e mudar os branches sem que os commits sejam afetados. Suporta também a ideia
-de uma staging area e, desta forma, poder selecionar os ficheiros que vão ser adicionados aos commits. 
+Em termos de arquitectura de branches, o Git tem um modelo mais eficaz, em que os branches são apenas referências para um
+determinado commit, permitindo criar, eliminar e mudar os branches sem que os commits sejam afetados. Suporta também o conceito
+de uma staging area e, desta forma, é possível selecionar os ficheiros que vão ser adicionados aos commits. 
 
 Por outro lado, em Mercurial, um branch é armazenado como um constituinte permanente de um commit, sendo assim difícil poder
 ser removido porque irá ser alterado o historico de versões. No entanto, existe também o conceito de bookmark que equivale aos 
-ao conceito de branch utilizado no Git porque é apenas uma referência para o commit que é automaticamente atualizado sempre que
-este é feito. Assim, podemos utilizar os bookmarks para referenciar os commits e utiliza-los de forma aos branches em Git. Em 
-Mercurial, não existe staging area e portanto não é possível selecionar os ficheiros que vão ser adicionados aos commits.
+ao conceito de branch utilizado no Git. Este é apenas uma referência para o commit e irá ser automaticamente atualizado sempre que
+este o commit feito. Assim, podem-se utilizar os bookmarks para referenciar os commits e utilizá-los de forma idêntica aos branches
+em Git. Em Mercurial, não existe staging area e portanto não é possível selecionar os ficheiros que vão ser adicionados aos commits.
+
 
 ## 3. Implementação da alternativa - Mercurial
 
 ### 3.1 Preparação do Assignment
-
-Para a realização da Ca1 foi utilizado o sistema de controlo de versões distribuída Mercurial como alternativa ao Git. 
-A preparação do assignment foi similar à feita para o Git, mas neste caso foi instalado o Mercurial com o gestor de pacotes
+ 
+A preparação do assignment para Mercurial foi similar à feita para o Git, mas neste caso foi instalado o Mercurial com o gestor de pacotes
 apt e o repositório remoto utlizado foi o HelixTeamHub.
 
-### 1.2 Configurar o Mercurial
+### 3.2 Configurar o Mercurial
 
 Para configurar o nome do utlizador e o seu endereço de email, tal como efectuado para o Git, foram utilizados os seguintes 
 comandos no user directory:
@@ -286,8 +301,8 @@ E editado o ficheiro com a seguinte informação:
 username = Marta Ribeiro <1191779@isep.ipp.pt>
 ````
 
-Em adição à configuração dos dados do utilizador que vai executar os commits, quando trabalhamos em Mercurial deve-se 
-também proceder à configuração do repositório remoto, neste caso o HelixTeamHub, para facilitar os pushes:
+Em adição à configuração dos dados do utilizador que vai executar os commits, quando se trabalha em Mercurial deve-se 
+também proceder à configuração do repositório remoto, neste caso o HelixTeamHub, para facilitar o *push*:
 
 ````
 $ hg config --local
@@ -300,7 +315,7 @@ E editar o ficheiro com apenas a seguinte informação:
 default = https://1191779isepipppt@helixteamhub.cloud/isep/projects/devops-19-20-a-1191779/repositories/mercurial/devops-19-20-A-1191779-mercurial
 ````
 
-### 1.3 Inicializar um repositório de uma pasta existente
+### 3.3 Inicializar um repositório de uma pasta existente
 
 A inicialização de um repositório em Mercurial é identica à do Git. Para isso, na working directory, realizaram-se os 
 seguintes comandos:
@@ -319,15 +334,15 @@ Se por outro lado fosse pretendido clonar um repositório já existente:
 $ hg clone https://1191779isepipppt@helixteamhub.cloud/isep/projects/devops-19-20-a-1191779/repositories/mercurial/devops-19-20-A-1191779-mercurial
 ```
 
-Foi igualmente criado um ficheiro .hgignore tal como com o Git e de seguida:
+Foi igualmente criado um ficheiro .hgignore tal como com o Git e, de seguida:
 
 ```
-$ hg add .gitignore
+$ hg add .hgignore
 $ hg commit -m "Added .hgignore file"
 $ hg push
 ```
 
-### 1.4 Criar a tag inicial 
+### 3.4 Criar a tag inicial 
 
 Para marcar o default branch como versão inicial através da tag v1.2.0, utilizou-se o seguinte comando:
 
@@ -340,20 +355,20 @@ Ao contrário do Git, o Mercurial utiliza o conceito de changeset, que correspon
 um número à medida que vão sendo feitas alterações. Neste comando, a opção *-r 1* indica que vamos a marcar a changeset 1 com a
 tag v1.2.0.
 
-Para podermos consultar as tags e respectivas versões existentes só temos de executar:
+Para podermos consultar os tags e respectivas versões existentes, é necessário executar:
 
 ````
 $ hg tags
 v1.2.0                             1:2b9bb47a1b98
 ````
 
-### 1.5 Criar a nova funcionalidade email a partir da criação de um branch email-field
+### 3.5 Criar a nova funcionalidade email a partir da criação de um branch email-field
 
 Esta tarefa foi realizada em Mercurial de forma idêntica à realizada em Git. No entanto, em Mercurial o branch principal 
 é denominado default branch e existem dois conceitos associados à criação de novas funcionalidades: bookmarks e branches 
 (ver ponto 2).
 
-Neste assignment foram explorados os bookmarks e os branches para todas as opções serem . No presente relatório
+Neste assignment foram explorados os bookmarks e os branches para um melhor entendimento do sistema Mercurial. No presente relatório
 vai apenas ser aplicado o conceito de branch e os passos foram idênticos aos seguidos para o Git.
 
 Assim, para criar um novo branch email-field, foram realizados os seguintes comandos:
@@ -365,8 +380,7 @@ $ hg push --new-branch
 ````
 
 Ao criar este branch, este passa a ser automaticamente o working directory, mas apenas fica visivel para consulta e marcado 
-com o apontador HEAD (letras a verde), após o push do novo branch. Para podermos consultar todos os branches temos de 
-executar o comando:
+com o apontador HEAD (letras a verde) após *push* do novo branch. Para se poder consultar todos os branches, executa-se o comando:
 
 ````
 $ hg branches
@@ -383,15 +397,15 @@ $ hg commit -m "Added email-field attribute"
 $ hg push
 ```
 
-### 1.6 Validação e debugging da nova funcionalidade
+### 3.6 Validação e debugging da nova funcionalidade
 
 As validações e o debugging da aplicação foram realizados de forma idêntica à realizada com o Git. No final de cada grupo 
-de testes foi realizado o commit de todas estas alterações, através da utilização dos comandos supramencionados.
+de testes foi realizado o commit de todas as alterações, através da utilização dos comandos supramencionados.
 
-### 1.7 Merge do branch email-field ao default branch
+### 3.7 Merge do branch email-field ao default branch
 
 Após todas as alterações terem sido validadas e testadas, teve de ser realizado o merge do branch criado com a nova 
-funcionalidade ao branch defualt. Para isso executou-se:
+funcionalidade ao branch defualt. Para isso, executou-se:
 
 ````
 $ hg up default
@@ -400,18 +414,18 @@ $ hg ci -m merge
 $ hg push
 ````
 
-Após esta execução, primeiro faz-se a passagem para o default branch, a seguir o merge com o branch email-field, depois
+Nesta execução, primeiro fez-se a passagem para o default branch, a seguir o merge com o branch email-field, de seguida
 o commit do merge feito e finalmente o push. A partir deste momento, o default branch fica atualizado com a funcionalidade 
 do branch email-field e o working directory passa a ser novamente o default branch.
 
-### 1.8 Eliminar um branch inativo
+### 3.8 Eliminar um branch inativo
 
 Após o merge do branch email-field com o default branch, este fica inativo. Caso este não vá ser mais necessário, normalmente é boa 
-prática eliminar os branches inactivos. No entanto, em Mercurial tem de se ter sempre atenção que se o branch for eliminado,
+prática eliminar os branches inactivos. No entanto, em Mercurial tem de se ter sempre em atenção que se o branch for eliminado,
 o historico de versões é alterado permanentemente.
 
-Para este efeitos, estando o Head no branch email-field, executa-se um commit que transmite a eliminação do branch e, de seguida, 
-o mesmo é eliminado. Só depois é realizado o merge.
+Para este efeito, estando o Head no branch email-field, executa-se um commit que transmite a eliminação do branch e, de seguida, 
+o mesmo é eliminado. Só depois é realizado o merge:
 
 ````
 $ hg up email-field
@@ -426,7 +440,7 @@ Para efeitos de avaliação, os branches inativos devem ser mantidos. Neste caso
 o branch que vai ser criado no passo 1.10 é mantido. De qualquer forma, foram criados bookmarks para marcar os commits 
 pertencentes a cada branch.
 
-### 1.9 Criar um novo tag após adição da nova funcionalide
+### 3.9 Criar um novo tag após adição da nova funcionalide
 
 Para marcar o default branch com a versão estável desta funcionalidade, utilizou-se a tag v1.3.0 a partir do seguinte comando:
 
@@ -435,7 +449,7 @@ $ hg tag -r 16 v1.3.0
 $ hg push
 ```
 
-Para consultar todas as tags:
+Para consultar todo os tags:
 
 ````
 $ hg tags
@@ -443,7 +457,7 @@ v1.3.0                            16:bfe73f859e35
 v1.2.0                             1:2b9bb47a1b98
 ````
 
-### 1.10 Criar um branch para a correção de bugs a partir da criação de um novo branch fix-invalid-email
+### 3.10 Criar um branch para a correção de bugs a partir da criação de um novo branch fix-invalid-email
 
 A criação do branch fix-invalid-email foi realizada exatamente da mesma forma e com o mesmo propósito da realizada com o
 Git. No entanto, no final da realização da tarefa, este branch não foi eliminado, sendo o merge executado com os seguintes
@@ -456,7 +470,12 @@ $ hg ci -m merge
 $ hg push
 ````
 
-A versão final estável foi marcada com a tag v1.3.1.
+A versão final estável foi marcada com o tag v1.3.1.
+
+```
+$ hg tag -r 20 v1.3.1
+$ hg push
+```
 
 ````
 $ hg tags
@@ -465,9 +484,9 @@ v1.3.0                            16:bfe73f859e35
 v1.2.0                             1:2b9bb47a1b98
 ````
 
-### 1.11 Final do Ca1
+### 3.11 Final do Ca1
 
-No final do Class Assignment 1 marcou-se o default branch com tag Ca1, executando-se:
+No final do Class Assignment 1, marcou-se o default branch com o tag Ca1, executando-se:
 
 ```
 $ hg tag -r 22 Ca1
