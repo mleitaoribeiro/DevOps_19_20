@@ -218,11 +218,48 @@ $ git push origin Ca1
 
 ## 2. Análise da alternativa
 
+Para a realição desta tarefa foi escolhido o sistema de controlo de versões Mercurial, em alternativa ao Git. 
 
-Ao contrário das versões centralizadas, numa versão distribuída não existe uma cópia central no servidor para se armazenar 
-todas as versões dos ficheiros de um projeto. Em vez disso, é feita uma cópia completa do repositório local para que seja 
-possível obter toda a história do projeto sempre que necessário.
+Tal como o Git, O Mercurial trata-se de uma versão distrbuída em que é realizada uma cópia completa do repositório local para o working 
+directory. Depois de adionarmos as alterações ou funcionalidades pretendidas, é possível fazer um merge com o projeto presente no 
+repositório e assim termos sempre uma versão atualizada e estável de todo o projeto. A forma distribuída oferece vantagens
+em comparação com as versões centralizadas, pois nestas existe apenas uma unica cópia central no servidor, é feito um pull
+apenas dos ficheiros em que queremos trabalhar e depois faz-se commit das alterações para esta cópia. Um exemplo de uma 
+versão centralizada é o Subversion (SVN).
 
+Embora o Git e o Mercurial partilhem esta grande vantagem, existem também grandes diferenças entre eles, sendo a maior diferença
+a arquitectura dos branches. Pode assim ser agumentado que embora o Mercurial seja mais fácil de aprender e de usar, o modelo de
+organização de branches é muitas vezes confuso, sendo assim o Git uma melhor opção neste contexto.
+
+### 2.1 Usabilidade
+
+Comparando com o Git, o Mercurial é uma ferramenta mais simples de usar. Possui uma sintaxe simples e a documentação é mais 
+fácil de entender. Um utilizador com pouca experiência facilmente consegue começar a trabalhar com Mercurial, enquanto que com
+o Git é sempre dispendido mais tempo a tentar perceber de que forma o sistema e os seus comandos funcionam. No entanto, a partir
+do momento em que o utilizador se torna experiente, o Git oferece maior flexibilidade.
+
+### 2.2 Segurança
+
+Em termos de segurança, quer o Git quer o Mercurial possuem algumas fraquezas relativamente à proteção contra alterações 
+acidentais por parte dos utlizadores. Tal como no tópico da usabilidade, é a experiência do utilizador que dita qual será
+o sistema mais seguro. No caso de um utilizador inexperiente, o Mercurial é mais seguro dado que, por omissão, não permite 
+alterar o histórico de versões, podendo ser apenas alterado o único commit realizado. Por outro lado, o Git já permite fazer
+alterações no histórico (guarda alterações aos commits por um período de 30 dias) mas as ferramentas oferecidas que permitem 
+garantir a segurança dos projetos são complexas e só apenas bem entendidas por utilizadores experientes. Isto pode conduzir
+a resultados catastróficos quando utilizado por utilizadores inexperientes.
+
+
+### 2.3 Arquitetura de Branches
+
+Em termos de arquitectura de branches, o Git tem um modelo mais eficaz, em que os branches são apnenas referências para um
+determinado commit, permitindo criar, eliminar e mudar os branches sem que os commits sejam afetados. Suporta também a ideia
+de uma staging area e, desta forma, poder selecionar os ficheiros que vão ser adicionados aos commits. 
+
+Por outro lado, em Mercurial, um branch é armazenado como um constituinte permanente de um commit, sendo assim difícil poder
+ser removido porque irá ser alterado o historico de versões. No entanto, existe também o conceito de bookmark que equivale aos 
+ao conceito de branch utilizado no Git porque é apenas uma referência para o commit que é automaticamente atualizado sempre que
+este é feito. Assim, podemos utilizar os bookmarks para referenciar os commits e utiliza-los de forma aos branches em Git. Em 
+Mercurial, não existe staging area e portanto não é possível selecionar os ficheiros que vão ser adicionados aos commits.
 
 ## 3. Implementação da alternativa - Mercurial
 
@@ -314,13 +351,11 @@ v1.2.0                             1:2b9bb47a1b98
 ### 1.5 Criar a nova funcionalidade email a partir da criação de um branch email-field
 
 Esta tarefa foi realizada em Mercurial de forma idêntica à realizada em Git. No entanto, em Mercurial o branch principal 
-é denominado default branch e existem dois conceitos associados à criação de novas funcionalidades: bookmarks e branches.
-O bookmark equivale aos branches usados no Git porque é apenas uma referência para o commit que é automaticamente atualizado
-sempre que este é feito. Já o branch é armazenado como um constituinte permanente de um commit, tendo de ser feito push deste
-para associar o commit a esse branch.
+é denominado default branch e existem dois conceitos associados à criação de novas funcionalidades: bookmarks e branches 
+(ver ponto 2).
 
-Neste assignment foram utilizadas os bookmarks e os branches por uma questão de explorar todas as opções. No presente relatório
-vai apenas ser exlicado o conceito de branch e os passos foram identicos aos seguidos para o Git.
+Neste assignment foram explorados os bookmarks e os branches para todas as opções serem . No presente relatório
+vai apenas ser aplicado o conceito de branch e os passos foram idênticos aos seguidos para o Git.
 
 Assim, para criar um novo branch email-field, foram realizados os seguintes comandos:
 
@@ -372,9 +407,12 @@ do branch email-field e o working directory passa a ser novamente o default bran
 
 ### 1.8 Eliminar um branch inativo
 
-Após o merge do branch email-field com o default branch, este fica inativo. Caso este não vá ser mais necessário, é boa 
-prática eliminar os branches inactivos. Para este efeito, estando o Head no branch email-field, executa-se um commit que 
-transmite a eliminação do branch e, de seguida, o mesmo é eliminado. Só depois é realizado o merge.
+Após o merge do branch email-field com o default branch, este fica inativo. Caso este não vá ser mais necessário, normalmente é boa 
+prática eliminar os branches inactivos. No entanto, em Mercurial tem de se ter sempre atenção que se o branch for eliminado,
+o historico de versões é alterado permanentemente.
+
+Para este efeitos, estando o Head no branch email-field, executa-se um commit que transmite a eliminação do branch e, de seguida, 
+o mesmo é eliminado. Só depois é realizado o merge.
 
 ````
 $ hg up email-field
@@ -445,7 +483,7 @@ $ hg push
 * https://ommune.com/kb/pushing-a-new-project-directory-to-bitbucket-repository/
 * https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository
 * https://git-scm.com/book/en/v2/Git-Basics-Tagging
-* por o link da comparação
+* https://www.perforce.com/blog/vcs/git-vs-mercurial-how-are-they-different
 * https://confluence.atlassian.com/get-started-with-bitbucket/git-and-mercurial-commands-860009656.html
 * https://confluence.atlassian.com/get-started-with-bitbucket/install-and-set-up-mercurial-860009660.html
 * https://www.mercurial-scm.org/guide
