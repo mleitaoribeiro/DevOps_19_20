@@ -45,7 +45,16 @@ jar {
     }
 }
 
+task runServer(type:JavaExec, dependsOn: classes){
+    group = "DevOps"
+    description = "Launches a server that supports a chat on localhost:59001 "
 
+    classpath = sourceSets.main.runtimeClasspath
+
+    main = 'basic_demo.ChatServerApp'
+
+    args '59001'
+}
 
 task runClient(type:JavaExec, dependsOn: classes){
     group = "DevOps"
