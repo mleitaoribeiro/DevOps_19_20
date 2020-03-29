@@ -1,5 +1,18 @@
-# Class Assignment 2 Report
+# Relatório Class Assignment 2 - Gradle como ferramenta de build
 
-Here you should write the report for the assignment.
+## Class Assignment 2, parte 1
 
-You should use Markdown Syntax so that the report is properly rendered in Bitbucket. See how to write README files for Bitbucket in [here](https://confluence.atlassian.com/bitbucket/readme-content-221449772.html)
+O código fonte para esta tarefa está localizado na pasta [ca2/ca2.1/gradle_basic_demo](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca2/ca2.1/gradle_basic_demo/)
+
+
+## 1. Análise, Design e Implementação
+
+
+
+## 2. Análise de uma alternativa
+
+
+
+## 3. Implementação de uma alternativa
+
+
