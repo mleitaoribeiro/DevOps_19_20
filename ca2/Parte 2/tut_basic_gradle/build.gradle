@@ -31,3 +31,8 @@ frontend {
 	nodeVersion = "12.13.1"
 	assembleScript = "run webpack"
 }
+
+task copyGeneratedJar(type: Copy) {
+	from 'build/libs'
+	into 'dist'
+}
