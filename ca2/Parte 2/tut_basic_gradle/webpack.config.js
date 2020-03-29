@@ -6,13 +6,13 @@ module.exports = {
     cache: true,
     mode: 'development',
     output: {
-        path: __dirname,
+        path: dirname,
         filename: './src/main/resources/static/built/bundle.js'
     },
     module: {
         rules: [
             {
-                test: path.join(__dirname, '.'),
+                test: path.join(dirname, '.'),
                 exclude: /(node_modules)/,
                 use: [{
                     loader: 'babel-loader',
