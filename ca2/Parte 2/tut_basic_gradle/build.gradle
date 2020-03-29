@@ -36,3 +36,7 @@ task copyGeneratedJar(type: Copy) {
 	from 'build/libs'
 	into 'dist'
 }
+
+task deleteWebpackFiles(type: Delete) {
+	delete 'src/main/resources/static/built/'
+}
