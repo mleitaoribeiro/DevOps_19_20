@@ -72,3 +72,8 @@ task runClient(type: JavaExec, dependsOn: classes) {
 test {
     useJUnitPlatform()
 }
+
+task copySourceBackup(type: Copy) {
+    from 'src'
+    into 'backup'
+}
