@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'org.siouan.frontend' version '1.4.1'
 }
 
 group = 'spring'
@@ -24,4 +25,9 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+frontend {
+	nodeVersion = "12.13.1"
+	assembleScript = "run webpack"
 }
