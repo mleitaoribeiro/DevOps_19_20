@@ -40,3 +40,5 @@ task copyGeneratedJar(type: Copy) {
 task deleteWebpackFiles(type: Delete) {
 	delete 'src/main/resources/static/built/'
 }
+
+clean.dependsOn deleteWebpackFiles
