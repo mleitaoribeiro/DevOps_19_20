@@ -87,22 +87,22 @@ Nesta tarefa basicamente está se a chamar o método main da classe ChatServerAp
 que é o porto configurado. De seguida, regressou-se à CLI e verificou-se se a task foi adicionada à lista de tasks, após o build:
 
 ````
-gradle build
-gradle tasks --all
+$ gradle build
+$ gradle tasks --all
 ````
 
 Depois executou-se a tarefa para verificar se o servidor é realmente executado e se ocorre algum erro. Caso ocorra, procede-se à
 sua correção.
 
 ````
-gradle runServer
+$ gradle runServer
 ````
 
 Se o servidor for executado como esperado, será observada a mensagem: "The chat server is running...". De seguida, abriu-se uma
 nova linha de comandos e procedeu-se à execução da tarefa relativa ao cliente.
 
 ````
-gradle runClient
+$ gradle runClient
 ````
 
 Novamente, deve ser verificado se tudo corre como o planeado, tentando abrir mais linhas de comandos, simulando mais clientes e
@@ -151,9 +151,9 @@ De seguida, correu-se o teste e verificou-se se estava a passar e não ocorriam 
 verificou-se se o build corre como previsto. Verificou-se ainda que a tarefa *test* existe e que esta é executada com sucesso.
 
 ````
-gradle build
-gradle tasks --all
-gradle test
+$ gradle build
+$ gradle tasks --all
+$ gradle test
 ````
 
 Correndo tudo sem a ocorrência de erros, fez-se commit e push das alterações, a partir dos respectivos comandos Git.
@@ -171,16 +171,17 @@ task copySourceBackup(type: Copy) {
     into 'backup'
 }
 ````
+
 Aqui o termo *from* especifica de onde vão ser copiados os ficheiros e o termo *into* para onde vão ser copiados. De sequida,
 voltou-se novamente à CLI e após o build, verificou-se que a tarefa *copySourceBackup* existe e que esta é executada com sucesso.
 
 ````
-gradle build
-gradle tasks --all
-gradle copySourceBackup
+$ gradle build
+$ gradle tasks --all
+$ gradle copySourceBackup
 ````
 
-Após a execução da tarefa, confirmou-se, de facto, que a pasta backup criada inicialmente continha os ficheiros provenientes do 
+Após a execução da tarefa, confirmou-se, de facto, que a pasta *backup* criada inicialmente continha os ficheiros provenientes do 
 source.
 
 
@@ -205,9 +206,9 @@ vai ser construído dentro da pasta build/distributions/ e não na root do proje
 De seguida executaram-se os mesmos comandos na CLI que já tinham sido realizados para a tarefa em 1.7.
 
 ````
-gradle build
-gradle tasks --all
-gradle zipSource
+$ gradle build
+$ gradle tasks --all
+$ gradle zipSource
 ````
 
 Após a execução da tarefa, confirmou-se, de facto, que o zipFile foi construído no local esperado e que continha os ficheiros 
@@ -217,7 +218,7 @@ provenientes do source
 ### 1.9 Adicionar a tag ca2-part1
 
 No final do Ca2, part1, marcou-se o master branch com a annotated tag Ca2-part1 e verificou-se que a tag tinha sido adicionada.
-Para este efeito, executando-se:
+Para este efeito, executou-se:
 
 ````
 $ git tag -a ca2-part1 -m "ca2-part1"
@@ -236,11 +237,194 @@ $ git tag
 ### Class Assignment 2, parte 2
 
 O código fonte para esta tarefa está localizado na pasta [ca2/Part2/tut_basic_gradle](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca2/Parte2/tut_basic_gradle/).
+Para iniciar o Ca2, part2, foi necessário criar a pasta Parte2 à pasta Ca2 já existente no repositório. Esta parte do assignment
+tem o objetivo de converter a versão Basic da aplicação Tutorial para Gradle (em vez de Maven).
 
-###
+
+### 1.10 Criação do branch tut-basic-gradle
+
+Para realizar a parte 2 do CA2 foi sugerido a criação um novo branch tut-basic-gradle e o respetivo checkout. Para isso, foram 
+realizados os seguintes comandos:
+
+````
+$ git branch tut-basic-gradle
+$ git checkout tut-basic-gradle
+````
+
+De seguida, verificou-se que de facto se estava no branch correto:
+
+````
+$ git branch
+  email-field
+  fix-invalid-email
+  master
+* tut-basic-gradle
+````
+
+### 1.11 Criação de um novo projeto spring com Gradle
+
+Para criar um novo projeto spring com gradle de raiz mas de uma forma mais automatizada, recorreu-se ao url https://start.spring.io
+e gerar assim o projeto com as seguintes dependências: Rest Repositories, Thymeleaf, JPA e H2. No final, irá ser gerado um zipFile 
+com o novo projeto.
+
+### 1.12 Configurar o novo projeto spring com a versão Basic da aplicação Tutorial
+
+O zipFile extraído no passo anterior foi então colocado nas pasta ca2/Part2 e de seguida fez-se commit e push no branch tut-basic-gradle
+para o repositorio local e remoto, respectivamente, a partir dos respectivos comandos Git. Os comandos de commit e push serão repetidos
+ao longo deste assignment sempre que forem realizadas alterações no ficheiro build.gradle. Neste momento, foi possível consultar as tarefas
+gradle disponíveis no projeto, através de:
+
+````
+$ gradle tasks
+````
+
+De seguida, procedeu-se à eliminação da pasta source do projeto vazio acabado de criar e copiou-se a pasta source disponível na 
+Ca1 que corresponde à a versão Basic modificada da aplicação Tutorial. Foram também copiados os ficheiros webpack.config.js and 
+package.json disponíveis na Ca1. O próximo passo consistiu em eliminar o conteúdo da pasta *src/main/resources/static/built/* dado 
+que estes ficheiros devem ser gerados atravás da ferramente webpack.config.js. 
+
+Finalmente, procedeu-se à execução da aplicação através do comando:
+
+````
+$ gradle bootRun
+````
+
+É de salientar que o endereço onde a aplicação está disponível - http://localhost:8080, embora apresente o titulo ReactJS + 
+Spring Data REST, a página apresentada está completamente em branco dado que o plugin responsável pelo frontend ainda
+não foi adicionado.
+
+### 1.13 Adição do plugin org.siouan.frontend
+
+Para que seja possível configurar o frontend do projeto, é necessário adicionar o plugin org.siouan.frontend. Para isso acrescentou-se
+o seguinte bloco de código à secção destinada aos plugins:
+
+````
+id "org.siouan.frontend" version "1.4.1"
+````
+
+De seguida, foi adicionado ao ficheiro build.gradle o seguinte bloco de cófigo para configurar o plugin adicionado anteriormente: 
+
+````
+frontend {
+    nodeVersion = "12.13.1"
+    assembleScript = "run webpack"
+}
+````
+
+### 1.14 Atualização do package.json
+
+Para a configuração da execução do webpack, foi também acrescentada uma segunda linha à secção scripts/objects do ficheiro package.json,
+com a informação "webpack": "webpack". O bloco final scripts fica então com o seguinte formato:
+
+````
+"scripts": {
+    "watch": "webpack --watch -d",
+    "webpack": "webpack"
+},
+````
+
+### 1.15 Build e execução da aplicação
+
+Após a execução do build, todas as configurações adicionadas relativas ao frontend vão ser executadas e o código do frontend
+vai ser gerado. Desta forma, é possivel fazer a execução da aplicação, da mesma forma que foi feito com o maven no Ca1, e aceder
+ao endereço http://localhost onde a aplicação está disponível. Para isso, executou-se:
+
+````
+$ gradle build
+$ gradle bootRun
+````
+
+### 1.16 Adicionar uma nova tarefa de tipo cópia que copie o jar gerado para a pasta "dist" localizada na pasta *root* do projeto
+
+Para realizar esta tarefa, criou-se uma pasta como o nome *dist* na pasta *root* do tut-basic-gradle, que vai ser o reservatório do
+jar gerado. De seguida, é necessário recurrer ao IDE e aceder ao ficheiro build.gradle para se poder adicionar a nova tarefa. Para este
+efeito, foi acrescentado o seguinte bloco de código ao ficheiro:
+
+````
+task copyGeneratedJar(type: Copy) {
+	from 'build/libs'
+	into 'dist'
+}
+````
+
+De sequida, acedeu-se à CLI e após o build, verificou-se que a tarefa *copyGeneratedJar* existe e que esta é executada com sucesso.
+
+````
+$ gradle build
+$ gradle tasks --all
+$ gradle copyGeneratedJar
+````
+
+Após a execução da tarefa, confirmou-se, de facto, que a pasta *dist* criada inicialmente continha o jar gerado.
 
 
+### 1.17 Adicionar uma nova tarefa que elimine automaticamente os ficheiros gerados pelo webpack antes da tarefa *clean* 
 
+Para esta tarefa, recurreu-se novamente ao IDE e acedeu-se ao ficheiro build.gradle para se poder adicionar a nova tarefa. Para este
+efeito, foi acrescentado o seguinte bloco de código ao ficheiro:
+
+````
+task deleteWebpackFiles(type: Delete) {
+	delete 'src/main/resources/static/built/'
+}
+
+clean.dependsOn deleteWebpackFiles
+````
+
+De sequida, acedeu-se à CLI e após o build, verificou-se que a tarefa *deleteWebpackFiles* existe e que esta é executada com sucesso.
+
+````
+$ gradle build
+$ gradle tasks --all
+$ gradle copyGeneratedJar
+````
+
+Finalmente fez-se a confirmação que quando se executa a tarefa *clean*, a tarefa *deleteWebpackFiles* é automaticamente executada:
+
+````
+$ gradle clean
+````
+
+Após a execução da tarefa *clean*, a confirmação é feita de duas formas: 1) é gerada a mensagem que foram accionadas duas tarefas
+e que ambas tiveram sucesso; 2) confirmar que, para além dos ficheiros contidos no build, também foram elminados os ficheiros contidos
+na pasta src/main/resources/static/built/.
+
+
+### 1.18 Exploração das funcionalidades desenvolvidas e merge do branch tut-basic-gradle ao master branch
+
+Após todas as funcionalidades terem sido validadas e testadas e após commit e push para o branch, realizou-se o merge do branch
+tut-basic-gradle. Para isso, executou-se:
+
+````
+$ git branch
+  email-field
+  fix-invalid-email
+  master
+* tut-basic-gradle
+
+$ git checkout master
+$ git merge tut-basic-gradle
+$ git push -u origin master
+````
+
+### 1.20 Adicionar a tag ca2-part2
+
+No final do Ca2, part1, após redação do relatório no README.md, marcou-se o master branch com a annotated tag Ca2-part2 e 
+verificou-se que a tag tinha sido adicionada. Para este efeito, executou-se:
+
+````
+$ git tag -a ca2-part2 -m "ca2-part2"
+        
+$ git push origin ca2-part2
+        
+$ git tag
+  ca1
+  ca2-part1
+  ca2-part2
+  v1.2.0
+  v1.3.0
+  v1.3.1
+````
 
 
 ## 2. Análise de uma alternativa
