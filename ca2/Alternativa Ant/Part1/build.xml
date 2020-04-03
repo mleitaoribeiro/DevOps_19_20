@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+<project name="Ant Example" basedir="." default="main">
+
+    <property name="lib.dir" value="lib"/>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="init" depends="clean">
+        <mkdir dir="build/classes"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac includeantruntime="false" srcdir="src" destdir="build/classes" classpathref="classpath"/>
+    </target>
+
+    <!-- Builds jar for the App class -->
+    <target name="app" depends="compile">
+        <mkdir dir="build/jar"/>
+        <jar destfile="lib/basic_demo-0.1.0.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="basic_demo.App"/>
+            </manifest>
+        </jar>
+    </target>
+
+
+    <target name="main" depends="clean, app"/>
+
+
+
+    <!-- Builds jar for the ChatServerApp class -->
+    <target name="jarServer" depends="runServer">
+        <mkdir dir="build/jar"/>
+        <jar destfile="lib/basic_demo-0.1.0.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="basic_demo.ChatServerApp"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- Task that launches the server for a chat room -->
+    <target name="runServer" depends="compile">
+        <java classname="basic_demo.ChatServerApp" fork="true" classpathref="classpath">
+            <arg line = "59001"/>
+        </java>
+    </target>
+
+
+
+    <!-- Builds jar for the ChatClientApp class -->
+    <target name="jarClient" depends="runClient">
+        <mkdir dir="build/jar"/>
+        <jar destfile="lib/basic_demo-0.1.0.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="basic_demo.ChatClientApp"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- Task that launches a client that enters in the chat room -->
+    <target name="runClient" depends="compile">
+        <java classname="basic_demo.ChatClientApp" fork="true" classpathref="classpath">
+            <arg line = "localhost 59001"/>
+        </java>
+    </target>
+
+</project>
