@@ -101,4 +101,18 @@
         </junit>
     </target>
 
+    <!-- Task copy to backup the sources of the application -->
+    <target name="copySourceBackup" depends="jar">
+        <delete dir="backup/"/>
+        <mkdir dir="backup/"/>
+        <copy todir="backup/">
+            <fileset dir="src/"/>
+        </copy>
+    </target>
+
+    <!-- Task zip to make an archive of the sources of the application. -->
+    <target name="zipSource" depends="jar">
+        <zip destfile="source.zip" basedir="src/" update="true"/>
+    </target>
+
 </project>
