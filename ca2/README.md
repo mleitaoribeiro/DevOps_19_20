@@ -161,9 +161,8 @@ Correndo tudo sem a ocorrência de erros, fez-se commit e push das alterações,
 
 ### 1.7 Adicionar uma nova tarefa de tipo cópia e que faça o backup dos ficheiros do source
 
-Para realizar esta tarefa, criou-se uma pasta como o nome *backup* na pasta *root* do projeto gradle basic demo, que vai ser
-o reservatório dos ficheiros dos quais vamos realizar a cópia. De seguida, é necessário recurrer novamente ao IDE e aceder ao ficheiro
-build.gradle para se poder adicionar a nova tarefa. Para este efeito, foi acrescentado o seguinte bloco de código ao ficheiro:
+Para realizar esta tarefa,é necessário recurrer novamente ao IDE e aceder ao ficheiro build.gradle para se poder adicionar a nova 
+tarefa. Para este efeito, foi acrescentado o seguinte bloco de código ao ficheiro:
 
 ````
 task copySourceBackup(type: Copy) {
@@ -172,8 +171,9 @@ task copySourceBackup(type: Copy) {
 }
 ````
 
-Aqui o termo *from* especifica de onde vão ser copiados os ficheiros e o termo *into* para onde vão ser copiados. De sequida,
-voltou-se novamente à CLI e após o build, verificou-se que a tarefa *copySourceBackup* existe e que esta é executada com sucesso.
+Aqui o termo *from* especifica de onde vão ser copiados os ficheiros e o termo *into* para onde vão ser copiados. Se a pasta especificada
+no *into* não existir, irá ser criada automaticamente. De sequida, voltou-se novamente à CLI e após o build, verificou-se que a tarefa 
+*copySourceBackup* existe e que esta é executada com sucesso.
 
 ````
 $ gradle build
@@ -181,7 +181,7 @@ $ gradle tasks --all
 $ gradle copySourceBackup
 ````
 
-Após a execução da tarefa, confirmou-se, de facto, que a pasta *backup* criada inicialmente continha os ficheiros provenientes do 
+Após a execução da tarefa, confirmou-se, de facto, que a pasta *backup* foi criada e continha os ficheiros provenientes do 
 source.
 
 
@@ -429,9 +429,12 @@ $ git tag
 
 ## 2. Análise de uma alternativa
 
+Como ferramenta de build alternativo ao Gradle, foi escolhido a ferramenta Ant.
 
 
-## 3. Implementação de uma alternativa
+## 3. Implementação de uma alternativa - Ant
+
+
 
 
 
@@ -449,7 +452,16 @@ $ git tag
 * https://github.com/Siouan/frontend-gradle-plugin
 * https://stackoverflow.com/questions/41532108/run-clean-task-before-every-build-automatically-in-gradle
 * https://docs.gradle.org/current/userguide/tutorial_using_tasks.html
-
+* http://ant.apache.org/
+* https://dzone.com/tutorials/java/ant/ant-example/ant-example.html
+* https://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html
+* https://ant.apache.org/manual/listeners.html
+* https://stackoverflow.com/questions/3730880/use-ant-for-running-program-with-command-line-arguments
+* https://github.com/junit-team/junit4/wiki/Getting-started-%E2%80%93-Ant
+* https://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html#resources
+* https://ant.apache.org/manual/Tasks/copy.html
+* https://www.javatpoint.com/apache-ant-copy-task
+* https://www.javatpoint.com/apache-ant-zip-task
 
 
 
