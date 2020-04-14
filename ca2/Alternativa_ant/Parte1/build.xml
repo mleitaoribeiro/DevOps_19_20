@@ -31,7 +31,7 @@
     <!-- Builds jar for the App class -->
     <target name="jar" depends="compile">
         <mkdir dir="build/jar"/>
-        <jar destfile="lib/basic_demo-0.1.0.jar" basedir="build/classes">
+        <jar destfile="build/jar/basic_demo_ant-0.1.0.jar" basedir="build/classes">
             <manifest>
                 <attribute name="Main-Class" value="basic_demo.App"/>
             </manifest>
@@ -42,17 +42,6 @@
     <target name="main" depends="clean, jar"/>
 
 
-
-    <!-- Builds jar for the ChatServerApp class -->
-    <target name="jarServer" depends="runServer">
-        <mkdir dir="build/jar"/>
-        <jar destfile="lib/basic_demo-0.1.0.jar" basedir="build/classes">
-            <manifest>
-                <attribute name="Main-Class" value="basic_demo.ChatServerApp"/>
-            </manifest>
-        </jar>
-    </target>
-
     <!-- Task that launches the server for a chat room -->
     <target name="runServer" depends="compile">
         <java classname="basic_demo.ChatServerApp" fork="true" classpathref="classpath">
@@ -60,17 +49,6 @@
         </java>
     </target>
 
-
-
-    <!-- Builds jar for the ChatClientApp class -->
-    <target name="jarClient" depends="runClient">
-        <mkdir dir="build/jar"/>
-        <jar destfile="lib/basic_demo-0.1.0.jar" basedir="build/classes">
-            <manifest>
-                <attribute name="Main-Class" value="basic_demo.ChatClientApp"/>
-            </manifest>
-        </jar>
-    </target>
 
     <!-- Task that launches a client that enters in the chat room -->
     <target name="runClient" depends="compile">
@@ -81,7 +59,7 @@
 
 
     <!-- Tasks for junit tests -->
-    <target name="test-compile" depends="jar">
+    <target name="test-compile" depends="compile">
         <mkdir dir="build/test"/>
         <javac srcdir="src/test/" destdir="build/test" includeantruntime="true">
             <classpath refid="junit.classpath"/>
@@ -102,16 +80,15 @@
     </target>
 
     <!-- Task copy to backup the sources of the application -->
-    <target name="copySourceBackup" depends="jar">
+    <target name="copySourceBackup" depends="compile">
         <delete dir="backup/"/>
-        <mkdir dir="backup/"/>
         <copy todir="backup/">
             <fileset dir="src/"/>
         </copy>
     </target>
 
     <!-- Task zip to make an archive of the sources of the application. -->
-    <target name="zipSource" depends="jar">
+    <target name="zipSource" depends="compile">
         <zip destfile="source.zip" basedir="src/" update="true"/>
     </target>
 

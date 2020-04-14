@@ -83,8 +83,8 @@ task runServer(type:JavaExec, dependsOn: classes){
 }
 ````
 
-Nesta tarefa basicamente está se a chamar o método main da classe ChatServerApp, para executar o servidor, e a fornecer o argumento 59001,
-que é o porto configurado. De seguida, regressou-se à CLI e verificou-se se a task foi adicionada à lista de tasks, após o build:
+Nesta tarefa basicamente chama-se o método main da classe ChatServerApp, para executar o servidor, e a fornecer o argumento 59001,
+que é o porto configurado. De seguida, regressou-se à CLI e verificou-se se a tarefa foi adicionada à lista de tarefas, após o build:
 
 ````
 $ gradle build
@@ -185,7 +185,7 @@ Após a execução da tarefa, confirmou-se, de facto, que a pasta *backup* foi c
 source.
 
 
-### 1.8 Adicionar uma nova tarefa de tipo zip e que construa um zipFile que contém os ficheiros do source 
+### 1.8 Adicionar uma nova tarefa de tipo zip que construa um zipFile que contém os ficheiros do source 
 
 Para esta tarefa recorre-se novamente ao IDE e acede-se ao ficheiro build.gradle para se poder adicionar a nova tarefa. Para este
 efeito, foi acrescentado o seguinte bloco de código ao ficheiro:
@@ -418,6 +418,8 @@ $ git tag -a ca2-part2 -m "ca2-part2"
 $ git push origin ca2-part2
         
 $ git tag
+  Ant-ca2-part1
+  AntAltern
   ca1
   ca2-part1
   ca2-part2
@@ -432,9 +434,254 @@ $ git tag
 Como ferramenta de build alternativo ao Gradle, foi escolhido a ferramenta Ant.
 
 
+
+
+
+
 ## 3. Implementação de uma alternativa - Ant
 
+### 3.1 Preparação do Assignment
 
+A preparação do assignment para Ant foi similar à feita para o gradle, mas neste caso foi instalado o apache ant com o gestor de pacotes 
+apt. Neste ponto, marcou-se o master branch com a annotated tag AntAltern.
+
+
+### Class Assignment 2, parte 1
+
+O código fonte para esta tarefa está localizado na pasta [ca2/Alternativa_ant/Parte1](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca2/Alternativa_ant/Parte1/).
+
+### 3.2 Criação do novo projeto ant e adição da pasta source do gradle basic demo
+
+Para iniciar o Ca2, part1 com ant, foi necessário criar um novo projeto ant vazio com: 
+* uma pasta lib que contém o jar *log4j-1.2.17*, para gerir as dependências relativas ao apache log4j;
+* colocar na mesma pasta lib o jar basic_demo-0.1.0, proeviniente da pasta build/libs do gradle basic demo, para gerir as dependencias
+relativas ao servidor do chat room;
+* um ficheiro build.xml, que vai permitir fazer o build da aplicação;
+* um bloco de código com a tag <path/> no ficheiro build.xml, onde está definida a localização dos ficheiros jar utilizados nas tarefas ant;
+* 4 tarefas básicas no ficheiro build.xml: *clean*, *init*, *compile* e *jar* e a tarefa *main* que é executada por default e 
+corre as 4 anteriores automaticamente no mesmo comando; isto é possível terem sido colocadas dependências entre tarefas.
+
+Para realizar o build da aplicação basta realizar o seguinte comando na pasta *root* do projeto:
+
+````
+$ ant
+````
+
+Quando o comando *ant* é corrido sem qualquer tipo de opção à frente, é corrida sempre a tarefa definida como default no ficheiro
+build.xml, que neste caso é a tarefa *main*.
+
+De seguida, adicionou-se a pasta *source* do projeto gradle basic demo ao novo projeto ant vazio, o qual foi colocado na pasta 
+Alternativa_ant/Parte1 criada na pasta Ca2 já existente no repositório. Finalmentem, acedendo à CLI do Ubuntu, foi feito o commit
+e o push para o repositório local e remoto, respectivamente.
+
+```
+$ git add .
+$ git commit -m "added folder Ant as an alternative"
+$ git push -u origin master
+```
+
+### 3.3 Adaptação das intruções disponíveis no ficheiro README
+
+As intruções neste ficheiro foram exexutadas de forma idêntica ao build com gradle, mas com as devidas adaptações. Sendo o ponto de 
+partida a pasta *root* do projeto ant, foi feita a execução do servidor do chat room através do seguinte comando:
+
+````
+$ java -cp lib/basic_demo-0.1.0.jar basic_demo.ChatServerApp 59001
+````
+
+De seguida, abriu-se uma nova linha de comando para se poder executar o cliente do servidor:
+
+````
+$ java -cp lib/basic_demo-0.1.0.jar basic_demo.ChatClientApp localhost 59001
+````
+
+
+### 3.4 Adicionar uma nova tarefa para executar o servidor
+
+Esta tarefa foi realizada de forma idêntica ao build com gradle, mas com as devidas adaptações para xml. Acedendo ao ficheiro build.xml,
+foi acrescentado o seguinte bloco de código ao ficheiro:
+
+````
+<target name="runServer" depends="compile">
+    <java classname="basic_demo.ChatServerApp" fork="true" classpathref="classpath">
+        <arg line = "59001"/>
+    </java>
+</target>
+````
+
+Nesta tarefa, para executar o servidor, acede-se à classe ChatServerApp e o argumento *59001* é fornecido através da tag <arg line/>.
+O termo "depends="jar" faz que sempre que a tarefa seja executado, a tarefa jar é executada anteriomente. Depois executou-se a tarefa
+para verificar se o servidor é realmente executado e se ocorre algum erro.
+
+````
+$ ant runServer
+````
+
+Se o servidor for executado como esperado, será observada a mensagem: "The chat server is running...". No final, fez-se commit
+e push das alterações, a partir dos respectivos comandos Git.
+
+
+### 3.5 Adicionar uma nova tarefa para executar o cliente do chat room
+
+Como neste projeto novo com ant não existe ainda uma tarefa responsável pela execução por parte do cliente, foi necessário criar
+uma nova tarefa com este propósito, através do seguinte bloco de código:
+
+````
+<target name="runClient" depends="compile">
+    <java classname="basic_demo.ChatClientApp" fork="true" classpathref="classpath">
+        <arg line = "localhost 59001"/>
+    </java>
+</target> 
+````
+
+Para além do argumento *59001*, é fornecido também o argumento *localhost* através da tag <arg line/>. De seguida, estando o 
+servidor a correr, abriu-se uma nova linha de comando e procedeu-se à execução da tarefa relativa ao cliente.
+
+````
+$ ant runClient
+````
+
+No final, correndo tudo conforme o previsto e não se verificando nenhum erro, fez-se commit e push das alterações, a partir
+dos respectivos comandos Git.
+
+
+### 3.6 Adicionar um teste unitário à aplicação e fazer update do ant script
+
+Para realizar esta tarefa, foram adicionadas dois jars à pasta *lib*, *junit-4.12* e *hamcrest-core-1.3*, para ser possível a 
+gestão das dependências do junit. De seguida, adicionou-se novamente uma tag <path/> para definir a localização dos jars do 
+junit no ficheiro build.xml, bem como a localização dos ficheiros compilados após o build da aplicação:
+
+````
+<path id="junit.classpath">
+    <fileset dir="lib/" includes="*.jar"/>
+    <pathelement location="build/classes"/>
+    <pathelement location="build/test"/>
+</path>
+````
+
+Para execução dos testes, foi necessário adicionar uma tarefa com a tag <javac/> para compilar o código de teste e uma tarefa
+com a tag <junit/> para executar os testes realizados.
+
+````
+<target name="test-compile" depends="compile">
+    <mkdir dir="build/test"/>
+    <javac srcdir="src/test/" destdir="build/test" includeantruntime="true">
+        <classpath refid="junit.classpath"/>
+    </javac>
+</target>
+
+<target name="junit" depends="test-compile">
+    <junit printsummary="on" fork="true">
+        <classpath>
+            <path refid="junit.classpath"/>
+            <pathelement location="build/test/"/>
+        </classpath>
+        <formatter type="brief" usefile="false" />
+        <batchtest>
+            <fileset dir="src/test/java/" includes="**/*Test.java" />
+        </batchtest>
+    </junit>
+</target>
+````
+
+De seguida, foi criada a pasta de testes e adicionou-se o teste sugerido no guião do Ca2, part1, com os respectivos imports
+resultantes das dependências adicionadas.
+
+````
+package basic_demo;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class AppTest {
+    
+    @Test 
+    public void testAppHasAGreeting() {
+        App classUnderTest = new App();
+        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+    }
+}
+````
+
+De seguida, correu-se o teste no IDE e verificou-se se estava a passar e não ocorriam erros de compilação. Finalmente, voltou-se
+à CLI do Ubuntu para verificar que a tarefa *test* é executada com sucesso, sem falhas ou erros.
+
+````
+$ ant test
+````
+
+Correndo tudo como previsto, fez-se commit e push das alterações, a partir dos respectivos comandos Git.
+
+
+### 3.7 Adicionar uma nova tarefa de tipo cópia e que faça o backup dos ficheiros do source
+
+Esta tarefa foi realizada de forma idêntica ao build com gradle. Para este efeito, foi acrescentado o seguinte bloco de código
+com a tag <copy/> ao ficheiro build.xml:
+
+````
+<target name="copySourceBackup" depends="compile">
+    <delete dir="backup/"/>
+    <copy todir="backup/">
+        <fileset dir="src/"/>
+    </copy>
+</target>
+````
+
+Aqui o termo *todir* especifica de onde vão ser copiados os ficheiros e o termo *dir* para onde vão ser copiados. Se a pasta especificada
+no *todir* não existir, irá ser criada automaticamente. A tag <delete/> foi colocada antes da cópia ser realizada para que no início
+de um backups, se existir, a pasta desatualizada seja eliminada. De sequida, voltou-se novamente à CLI e após o build, verificou-se que a tarefa 
+*copySourceBackup* é executada com sucesso.
+
+````
+$ ant copySourceBackup
+````
+
+Após a execução da tarefa, confirmou-se, de facto, que a pasta *backup* foi criada e continha os ficheiros provenientes do 
+source.
+
+
+### 3.8 Adicionar uma nova tarefa de tipo zip que construa um zipFile que contém os ficheiros do source 
+
+Esta tarefa foi realizada de forma idêntica ao build com gradle. Para este efeito, foi acrescentado o seguinte bloco de código
+com a tag <zip/> ao ficheiro build.xml:
+
+````
+<target name="zipSource" depends="compile">
+    <zip destfile="source.zip" basedir="src/" update="true"/>
+</target>
+````
+
+Aqui o termo *destfile* vai ser o nome do ficheiro zip no final e o termo *basedir* é o nome da pasta do qual se vai realizar 
+o arquivo. O termo "update="true"" significa que se o arquivo zip já existir aquando da execução da tarefa, este vai ser atulizado
+caso a pasta de origem tiver sofrido alterações. De seguida executou-se:
+
+````
+$ ant zipSource
+````
+
+Após a execução da tarefa, confirmou-se, de facto, que o zipFile foi construído no local esperado e que continha os ficheiros 
+provenientes do source
+
+
+### 3.9 Adicionar a tag Ant-ca2-part1
+
+No final do Ca2, part1 com ant, marcou-se o master branch com a annotated tag Ant-ca2-part1 e verificou-se que a tag tinha sido
+adicionada. Para este efeito, executou-se:
+
+````
+$ git tag -a Ant-ca2-part1 -m "Ant-ca2-part1"
+        
+$ git push origin Ant-ca2-part1
+        
+$ git tag
+  Ant-ca2-part1
+  AntAltern
+  Ca1
+  ca2-part1
+  v1.2.0
+  v1.3.0
+  v1.3.1
+````
 
 
 
