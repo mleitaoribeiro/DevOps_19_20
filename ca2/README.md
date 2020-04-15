@@ -1,4 +1,4 @@
-# Relatório Class Assignment 2 - Gradle como ferramenta de build
+ # Relatório Class Assignment 2 - Gradle como ferramenta de build
 
 
 ## 1. Análise, Design e Implementação
@@ -28,9 +28,9 @@ O código fonte para esta tarefa está localizado na pasta [ca2/Part1/gradle_bas
 
 ### 1.3 Adicionar o gradle basic demo ao repositório
 
-Para iniciar o Ca2, part1, foi necessário criar a pasta Parte1 à pasta Ca2 já existente no repositório. De seguida, foi efectuado o
+Para iniciar o Ca2, part1, foi necessário criar a pasta Parte1 na pasta Ca2 já existente no repositório. De seguida, foi efectuado o
 download da aplicação disponível em https://bitbucket.org/luisnogueira/gradle_basic_demo/ para a pasta Parte1, que consiste 
-num projeto para um servidor básico de um chat room. Finalmentem acedendo à CLI do Ubuntu foi feito o commit e o push para o 
+num projeto para um servidor básico de um chat room. Finalmente, acedendo à CLI do Ubuntu foi feito o commit e o push para o 
 repositório local e remoto, respectivamente.
 
 ```
@@ -53,8 +53,8 @@ De seguida, para executar o servidor do chat room, executou-se o seguinte comand
 $ java -cp build/libs/basic_demo-0.1.0.jar basic_demo.ChatServerApp <server port>
 ````
 
-A porção final do comando, <server port>, foi substituída por um porto válido para a execução do server - *59001*, que é o que 
-está definido no ficheiro build da aplicação. De seguida, é necessário abrir uma nova linha de comando para se poder executar
+A porção final do comando, <server port>, foi substituída por um porto válido para a execução do server - *59001*, que é o 
+definido no ficheiro build da aplicação. De seguida, é necessário abrir uma nova linha de comando para se poder executar
 o cliente do servidor:
 
 ````
@@ -83,7 +83,7 @@ task runServer(type:JavaExec, dependsOn: classes){
 }
 ````
 
-Nesta tarefa basicamente chama-se o método main da classe ChatServerApp, para executar o servidor, e a fornecer o argumento 59001,
+Nesta tarefa basicamente chama-se o método main da classe ChatServerApp, para executar o servidor, e está-se a fornecer o argumento 59001,
 que é o porto configurado. De seguida, regressou-se à CLI e verificou-se se a tarefa foi adicionada à lista de tarefas, após o build:
 
 ````
@@ -99,7 +99,7 @@ $ gradle runServer
 ````
 
 Se o servidor for executado como esperado, será observada a mensagem: "The chat server is running...". De seguida, abriu-se uma
-nova linha de comandos e procedeu-se à execução da tarefa relativa ao cliente.
+nova linha de comando e procedeu-se à execução da tarefa relativa ao cliente.
 
 ````
 $ gradle runClient
@@ -200,7 +200,7 @@ task zipSource(type: Zip) {
 ````
 
 Aqui o termo *archiveFileName* vai ser o nome do ficheiro zip no final e o termo *destinationDirectory* é o nome da pasta onde
-irá estar o zipFile no interior da pasta *root* do projeto gradle basic demo. Se este último termo não for definido, o zipFile 
+irá estar o zipFile, que será criado na pasta *root* do projeto gradle basic demo. Se este último termo não for definido, o zipFile 
 vai ser construído dentro da pasta build/distributions/ e não na root do projeto.
 
 De seguida executaram-se os mesmos comandos na CLI que já tinham sido realizados para a tarefa em 1.7.
@@ -237,13 +237,14 @@ $ git tag
 ### Class Assignment 2, parte 2
 
 O código fonte para esta tarefa está localizado na pasta [ca2/Part2/tut_basic_gradle](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca2/Parte2/tut_basic_gradle/).
-Para iniciar o Ca2, part2, foi necessário criar a pasta Parte2 à pasta Ca2 já existente no repositório. Esta parte do assignment
-tem o objetivo de converter a versão Basic da aplicação Tutorial para Gradle (em vez de Maven).
+
+Para iniciar o Ca2, part2, foi necessário criar a pasta Parte2 na pasta Ca2 já existente no repositório. Esta parte do assignment
+tem o objetivo de converter o build da versão Basic da aplicação Tutorial de maven para gradle.
 
 
 ### 1.10 Criação do branch tut-basic-gradle
 
-Para realizar a parte 2 do CA2 foi sugerido a criação um novo branch tut-basic-gradle e o respetivo checkout. Para isso, foram 
+Para realizar a parte 2 do CA2, foi sugerida a criação um novo branch tut-basic-gradle e o respetivo checkout. Para isso, foram 
 realizados os seguintes comandos:
 
 ````
@@ -264,7 +265,7 @@ $ git branch
 ### 1.11 Criação de um novo projeto spring com Gradle
 
 Para criar um novo projeto spring com gradle de raiz mas de uma forma mais automatizada, recorreu-se ao url https://start.spring.io
-e gerar assim o projeto com as seguintes dependências: Rest Repositories, Thymeleaf, JPA e H2. No final, irá ser gerado um zipFile 
+e gerou-se assim o projeto com as seguintes dependências: Rest Repositories, Thymeleaf, JPA e H2. No final, foi gerado um zipFile 
 com o novo projeto.
 
 ### 1.12 Configurar o novo projeto spring com a versão Basic da aplicação Tutorial
@@ -279,9 +280,9 @@ $ gradle tasks
 ````
 
 De seguida, procedeu-se à eliminação da pasta source do projeto vazio acabado de criar e copiou-se a pasta source disponível na 
-Ca1 que corresponde à a versão Basic modificada da aplicação Tutorial. Foram também copiados os ficheiros webpack.config.js and 
+Ca1 que corresponde à versão Basic modificada da aplicação Tutorial. Foram também copiados os ficheiros *webpack.config.js* e
 package.json disponíveis na Ca1. O próximo passo consistiu em eliminar o conteúdo da pasta *src/main/resources/static/built/* dado 
-que estes ficheiros devem ser gerados atravás da ferramente webpack.config.js. 
+que estes ficheiros devem ser gerados automaticamente atravás da ferramente webpack.config.js. 
 
 Finalmente, procedeu-se à execução da aplicação através do comando:
 
@@ -290,8 +291,7 @@ $ gradle bootRun
 ````
 
 É de salientar que o endereço onde a aplicação está disponível - http://localhost:8080, embora apresente o titulo ReactJS + 
-Spring Data REST, a página apresentada está completamente em branco dado que o plugin responsável pelo frontend ainda
-não foi adicionado.
+Spring Data REST, possui uma página completamente em branco dado que o plugin responsável pelo frontend ainda não foi adicionado.
 
 ### 1.13 Adição do plugin org.siouan.frontend
 
@@ -302,7 +302,7 @@ o seguinte bloco de código à secção destinada aos plugins:
 id "org.siouan.frontend" version "1.4.1"
 ````
 
-De seguida, foi adicionado ao ficheiro build.gradle o seguinte bloco de cófigo para configurar o plugin adicionado anteriormente: 
+De seguida, foi adicionado ao ficheiro build.gradle, o seguinte bloco de cófigo para configurar o plugin adicionado anteriormente: 
 
 ````
 frontend {
@@ -314,7 +314,7 @@ frontend {
 ### 1.14 Atualização do package.json
 
 Para a configuração da execução do webpack, foi também acrescentada uma segunda linha à secção scripts/objects do ficheiro package.json,
-com a informação "webpack": "webpack". O bloco final scripts fica então com o seguinte formato:
+com a informação "webpack": "webpack". O bloco final da seccção scripts fica então com o seguinte formato:
 
 ````
 "scripts": {
@@ -336,9 +336,8 @@ $ gradle bootRun
 
 ### 1.16 Adicionar uma nova tarefa de tipo cópia que copie o jar gerado para a pasta "dist" localizada na pasta *root* do projeto
 
-Para realizar esta tarefa, criou-se uma pasta como o nome *dist* na pasta *root* do tut-basic-gradle, que vai ser o reservatório do
-jar gerado. De seguida, é necessário recurrer ao IDE e aceder ao ficheiro build.gradle para se poder adicionar a nova tarefa. Para este
-efeito, foi acrescentado o seguinte bloco de código ao ficheiro:
+Para realizar esta tarefa, é necessário recurrer novamente ao IDE e aceder ao ficheiro build.gradle para se poder adicionar a nova tarefa. 
+Para este efeito, foi acrescentado o seguinte bloco de código ao ficheiro:
 
 ````
 task copyGeneratedJar(type: Copy) {
@@ -355,7 +354,7 @@ $ gradle tasks --all
 $ gradle copyGeneratedJar
 ````
 
-Após a execução da tarefa, confirmou-se, de facto, que a pasta *dist* criada inicialmente continha o jar gerado.
+Após a execução da tarefa, confirmou-se, de facto, que a pasta *dist* foi criada e contém o jar gerado.
 
 
 ### 1.17 Adicionar uma nova tarefa que elimine automaticamente os ficheiros gerados pelo webpack antes da tarefa *clean* 
@@ -376,7 +375,7 @@ De sequida, acedeu-se à CLI e após o build, verificou-se que a tarefa *deleteW
 ````
 $ gradle build
 $ gradle tasks --all
-$ gradle copyGeneratedJar
+$ gradle deleteWebpackFiles
 ````
 
 Finalmente fez-se a confirmação que quando se executa a tarefa *clean*, a tarefa *deleteWebpackFiles* é automaticamente executada:
@@ -409,8 +408,8 @@ $ git push -u origin master
 
 ### 1.20 Adicionar a tag ca2-part2
 
-No final do Ca2, part1, após redação do relatório no README.md, marcou-se o master branch com a annotated tag Ca2-part2 e 
-verificou-se que a tag tinha sido adicionada. Para este efeito, executou-se:
+No final do Ca2, part1, após redação do relatório no README.md e da implementação da alternativa, marcou-se o master branch 
+com a annotated tag Ca2-part2 e verificou-se que a tag tinha sido adicionada. Para este efeito, executou-se:
 
 ````
 $ git tag -a ca2-part2 -m "ca2-part2"
@@ -431,7 +430,7 @@ $ git tag
 
 ## 2. Análise de uma alternativa
 
-Como ferramenta de build alternativo ao gradle, foi escolhido a ferramenta o apache ant. 
+Como ferramenta de build alternativo ao gradle, foi escolhida a ferramenta apache ant. 
 
 Ao contrário do gradle, que apareceu mais recentemente, em 2012, e que se tem tornado uma ferramenta mais popular nos últimos 
 anos, o apache ant é uma ferramente de build mais antiga, qua apareceu por volta de 2000, e que foi o sucessor da ferramenta
@@ -452,16 +451,17 @@ Boot, é possivel utilizar o apache ant+ivy através do módulo spring boot antl
 jar.
 
 Em relação ao tipo de linguagem, ao contrário do gradle, que usa uma *domain specific language* (DSL) baseada em Groovy, que é 
-muito simples e prática, o ant utiliza ficheiros que são escritos em XML. Isto é claramente também uma desvantagem pois o XML 
+muito simples e prática, o ant utiliza ficheiros que são escritos em XML. Isto pode ser também uma desvantagem pois o XML 
 é uma linguagem com mais regras e que gera muito mais linhas de código, levando a ficheiros build de tamanho considerável em projetos
-grandes. Ou seja, mais uma vez a manutenção destes ficheiros vai ser muito mais dificil de ser realizada. 
+grandes. Ou seja, mais uma vez a manutenção destes ficheiros vai ser muito mais dificil de ser realizada, embora o XML seja muitas
+vezes visto como uma linguagem mais poderosa e com um estrutua mais organizada.
 
-Um dos benefícios que o Ant também possui é que as tarefas são organizadas em *targets* e permite desta forma construir tarefas
+Um dos benefícios que o Ant também possui é que as tarefas são organizadas em *targets* e permite, desta forma, construir tarefas
 personalizadas. Este facto tornou-se uma grande vantagem aquando do surgimento do maven (2004), em que as tarefas personalizadas são
 muito mais dificieis de construir, e que levou a que muitos utilizadores se mantivessem fiéis ao uso do ant para pequenos projetos, 
 mesmo não sendo possível a gestão automática de dependências. 
 
-Podemos então concluir que o apache ant, embora com algumas vantagens, é mais difícil para trabalhar do que a ferramenta gradle,
+Podemos então concluir que o apache ant, embora com algumas vantagens, é mais difícil de trabalhar do que a ferramenta gradle,
 especialmente em projetos de maior dimensão. O gradle é uma ferramenta que foi construída a partir de conceitos já existentes em 
 ant e em maven e, portanto, concilia a vantagem da gestão de dependências, através de plugins, com a possibilidade de definir 
 tarefas personalizadas que podem ser executadas quando o utilizador pretender. Para além disso, utiliza uma linguagem simples que
@@ -479,7 +479,7 @@ A preparação do assignment para Ant foi similar à feita para o gradle, mas ne
 apt. Neste ponto, marcou-se o master branch com a annotated tag AntAltern.
 
 Para a implementação da alternativa foi sugerido que fosse seguido o guião proposto para a parte 2 do Ca2. Foi então feita uma
-tentativa de implementação da versão Basic da aplicação Tutorial React.js and Spring Data REST, que utiliza SpringBoot, com a ferramenta
+tentativa de implementação na versão Basic da aplicação Tutorial React.js and Spring Data REST, que utiliza SpringBoot, com a ferramenta
 de build apache ant. Dado nesta aplicação ser necessária a gestão de múltiplas dependências, foi utilizado o sub-projeto apache ivy e o 
 módulo Spring Boot AntLib de forma a agilizar estas dependências e a não ser ser necessário configurar todos os ficheiros de forma manual.
 
@@ -501,7 +501,7 @@ relativas ao servidor do chat room;
 * um ficheiro build.xml, que vai permitir fazer o build da aplicação;
 * um bloco de código com a tag <path/> no ficheiro build.xml, onde está definida a localização dos ficheiros jar utilizados nas tarefas ant;
 * 4 tarefas básicas no ficheiro build.xml: *clean*, *init*, *compile* e *jar* e a tarefa *main* que é executada por default e 
-corre as 4 anteriores automaticamente no mesmo comando; isto é possível terem sido colocadas dependências entre tarefas.
+corre as 4 anteriores automaticamente no mesmo comando; isto é possível devido a terem sido colocadas dependências entre tarefas.
 
 Para realizar o build da aplicação basta realizar o seguinte comando na pasta *root* do projeto:
 
@@ -552,7 +552,7 @@ foi acrescentado o seguinte bloco de código ao ficheiro:
 ````
 
 Nesta tarefa, para executar o servidor, acede-se à classe ChatServerApp e o argumento *59001* é fornecido através da tag <arg line/>.
-O termo "depends="jar" faz que sempre que a tarefa seja executado, a tarefa jar é executada anteriomente. Depois executou-se a tarefa
+O termo "depends="compile" faz que sempre que a tarefa seja executado, a tarefa *compile* é executada anteriomente. Depois executou-se a tarefa
 para verificar se o servidor é realmente executado e se ocorre algum erro.
 
 ````
@@ -566,7 +566,7 @@ e push das alterações, a partir dos respectivos comandos Git.
 ### 3.5 Adicionar uma nova tarefa para executar o cliente do chat room
 
 Como neste projeto novo com ant não existe ainda uma tarefa responsável pela execução por parte do cliente, foi necessário criar
-uma nova tarefa com este propósito, através do seguinte bloco de código:
+uma tarefa com este propósito, através do seguinte bloco de código:
 
 ````
 <target name="runClient" depends="compile">
@@ -694,7 +694,7 @@ com a tag <zip/> ao ficheiro build.xml:
 ````
 
 Aqui o termo *destfile* vai ser o nome do ficheiro zip no final e o termo *basedir* é o nome da pasta do qual se vai realizar 
-o arquivo. O termo "update="true"" significa que se o arquivo zip já existir aquando da execução da tarefa, este vai ser atulizado
+o arquivo. O termo "update="true"" significa que se o arquivo zip já existir aquando da execução da tarefa, este vai ser atualizado
 caso a pasta de origem tiver sofrido alterações. De seguida executou-se:
 
 ````
@@ -741,6 +741,13 @@ $ git tag
 * https://github.com/Siouan/frontend-gradle-plugin
 * https://stackoverflow.com/questions/41532108/run-clean-task-before-every-build-automatically-in-gradle
 * https://docs.gradle.org/current/userguide/tutorial_using_tasks.html
+* https://www.baeldung.com/ant-maven-gradle
+* https://medium.com/@kapil.sharma91812/few-points-on-java-build-tools-ant-vs-maven-vs-gradle-e149a43325b8
+* https://medium.com/@Colin_But/ant-vs-maven-vs-gradle-801fde21af80
+* https://ant.apache.org/ivy/features.html
+* https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#build-tool-plugins-antlib
+* https://docs.spring.io/spring-boot/docs/2.0.x/reference/html/build-tool-plugins-antlib.html#spring-boot-ant-exejar
+* https://docs.spring.io/spring-boot/docs/2.0.x/reference/html/using-boot-build-systems.html#using-boot-ant
 * http://ant.apache.org/
 * https://dzone.com/tutorials/java/ant/ant-example/ant-example.html
 * https://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html
@@ -751,7 +758,3 @@ $ git tag
 * https://ant.apache.org/manual/Tasks/copy.html
 * https://www.javatpoint.com/apache-ant-copy-task
 * https://www.javatpoint.com/apache-ant-zip-task
-* https://ant.apache.org/ivy/features.html
-* https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#build-tool-plugins-antlib
-* https://docs.spring.io/spring-boot/docs/2.0.x/reference/html/build-tool-plugins-antlib.html#spring-boot-ant-exejar
-* https://docs.spring.io/spring-boot/docs/2.0.x/reference/html/using-boot-build-systems.html#using-boot-ant
