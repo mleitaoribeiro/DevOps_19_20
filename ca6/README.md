@@ -1,5 +1,15 @@
-# Class Assignment 2 Report
+# Relatório Class Assignment 6
 
-Here you should write the report for the assignment.
+O código fonte para esta tarefa está localizado na pasta [ca6](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca6/).
 
-You should use Markdown Syntax so that the report is properly rendered in Bitbucket. See how to write README files for Bitbucket in [here](https://confluence.atlassian.com/bitbucket/readme-content-221449772.html)
+
+## 1. Análise, Design e Implementação
+
+
+
+## 2. Análise da alternativa
+
+
+
+
+## 3. Implementação da alternativa
