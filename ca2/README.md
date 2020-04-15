@@ -431,11 +431,44 @@ $ git tag
 
 ## 2. Análise de uma alternativa
 
-Como ferramenta de build alternativo ao Gradle, foi escolhido a ferramenta Ant.
+Como ferramenta de build alternativo ao gradle, foi escolhido a ferramenta o apache ant. 
 
+Ao contrário do gradle, que apareceu mais recentemente, em 2012, e que se tem tornado uma ferramenta mais popular nos últimos 
+anos, o apache ant é uma ferramente de build mais antiga, qua apareceu por volta de 2000, e que foi o sucessor da ferramenta
+usada até então, o Make, como ferramenta de build em Java. Ant é o diminutivo de “Another Neat Tool” e é simples o suficiente para 
+que qualquer pessoa possa utilizar sem pré-requisitos específicos. 
 
+O maior benefício que o ant oferece é ser muito flexível pois não impõe nenhum tipo de convenção ou estrutura nos projetos. Por 
+outro lado, ao contrário do gradle e do maven, este benefício obriga a que os utlizadores que usem ant tenham de configurar todo
+o ficheiro de build do zero, o que por vezes os torna muito extensos e difíceis de manter. Assim, como o apache ant não suporta
+o formato de gestão automática de dependências, todas as dependências têm de ser geridas manualmente pelo utlizador através da
+manipulação de ficheiros jar ou war. 
 
+Alguns anos após o surgimento do apache ant, surgiu um sub-projeto baseada neste projeto, em 2007, chamado apache ivy. O apache
+ivy trata-se de um gestor de dependências fortemente orientado para projetos em Java e tem como objectivo incorporar no apache 
+ant as mesma vantagens de gestão de dependencias presentes no apache maven, para que utilizadores de ant não tivessem
+que ser obrigados a migrar para maven em projetos de maior dimensão e com muitas dependências. Para projetos que utilizem Spring
+Boot, é possivel utilizar o apache ant+ivy através do módulo spring boot antlib de forma a auxiliar o ant na criação de executáveis
+jar.
 
+Em relação ao tipo de linguagem, ao contrário do gradle, que usa uma *domain specific language* (DSL) baseada em Groovy, que é 
+muito simples e prática, o ant utiliza ficheiros que são escritos em XML. Isto é claramente também uma desvantagem pois o XML 
+é uma linguagem com mais regras e que gera muito mais linhas de código, levando a ficheiros build de tamanho considerável em projetos
+grandes. Ou seja, mais uma vez a manutenção destes ficheiros vai ser muito mais dificil de ser realizada. 
+
+Um dos benefícios que o Ant também possui é que as tarefas são organizadas em *targets* e permite desta forma construir tarefas
+personalizadas. Este facto tornou-se uma grande vantagem aquando do surgimento do maven (2004), em que as tarefas personalizadas são
+muito mais dificieis de construir, e que levou a que muitos utilizadores se mantivessem fiéis ao uso do ant para pequenos projetos, 
+mesmo não sendo possível a gestão automática de dependências. 
+
+Podemos então concluir que o apache ant, embora com algumas vantagens, é mais difícil para trabalhar do que a ferramenta gradle,
+especialmente em projetos de maior dimensão. O gradle é uma ferramenta que foi construída a partir de conceitos já existentes em 
+ant e em maven e, portanto, concilia a vantagem da gestão de dependências, através de plugins, com a possibilidade de definir 
+tarefas personalizadas que podem ser executadas quando o utilizador pretender. Para além disso, utiliza uma linguagem simples que
+permite a contrução de ficheiros de build mais simples e de muito mais fácil manutenção. Desta forma, o gradle é visto como uma 
+ferramenta de build muito útil e vantajosa e, embora o apache maven ainda seja a ferramenta mais utilizada, esta nova ferramenta
+tem vindo a tornar-se mais popular ao longo dos ultimos anos, sendo adotado pela Google como a ferramenta de build por omissão para
+o sistema operativo Android.
 
 
 ## 3. Implementação de uma alternativa - Ant
@@ -444,6 +477,15 @@ Como ferramenta de build alternativo ao Gradle, foi escolhido a ferramenta Ant.
 
 A preparação do assignment para Ant foi similar à feita para o gradle, mas neste caso foi instalado o apache ant com o gestor de pacotes 
 apt. Neste ponto, marcou-se o master branch com a annotated tag AntAltern.
+
+Para a implementação da alternativa foi sugerido que fosse seguido o guião proposto para a parte 2 do Ca2. Foi então feita uma
+tentativa de implementação da versão Basic da aplicação Tutorial React.js and Spring Data REST, que utiliza SpringBoot, com a ferramenta
+de build apache ant. Dado nesta aplicação ser necessária a gestão de múltiplas dependências, foi utilizado o sub-projeto apache ivy e o 
+módulo Spring Boot AntLib de forma a agilizar estas dependências e a não ser ser necessário configurar todos os ficheiros de forma manual.
+
+Após várias tentativas sem sucesso e devido à dificuldade em gerir múltiplas dependências em projetos ant, mesmo com o suporte do apache
+ivy e do spring boot antlib, optou-se pela implementação da alternativa seguindo o guião proposto para a parte 1 do Ca2, que apenas possui 
+4 ou 5 dependências para gerir e que demonstra de igual forma a capacidade de conseguir implentar uma ferramenta alternativa ao uso do gradle.
 
 
 ### Class Assignment 2, parte 1
@@ -607,7 +649,7 @@ De seguida, correu-se o teste no IDE e verificou-se se estava a passar e não oc
 à CLI do Ubuntu para verificar que a tarefa *test* é executada com sucesso, sem falhas ou erros.
 
 ````
-$ ant test
+$ ant junit
 ````
 
 Correndo tudo como previsto, fez-se commit e push das alterações, a partir dos respectivos comandos Git.
@@ -709,6 +751,7 @@ $ git tag
 * https://ant.apache.org/manual/Tasks/copy.html
 * https://www.javatpoint.com/apache-ant-copy-task
 * https://www.javatpoint.com/apache-ant-zip-task
-
-
-
+* https://ant.apache.org/ivy/features.html
+* https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#build-tool-plugins-antlib
+* https://docs.spring.io/spring-boot/docs/2.0.x/reference/html/build-tool-plugins-antlib.html#spring-boot-ant-exejar
+* https://docs.spring.io/spring-boot/docs/2.0.x/reference/html/using-boot-build-systems.html#using-boot-ant
