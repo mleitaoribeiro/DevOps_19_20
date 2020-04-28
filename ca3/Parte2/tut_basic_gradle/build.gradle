@@ -1,0 +1,47 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id 'org.siouan.frontend' version '1.4.1'
+	id 'war'
+}
+
+group = 'spring'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	// To support war file for deploying to tomcat
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+frontend {
+	nodeVersion = "12.13.1"
+	assembleScript = "run webpack"
+}
+
+task copyGeneratedJar(type: Copy) {
+	from 'build/libs'
+	into 'dist'
+}
+
+task deleteWebpackFiles(type: Delete) {
+	delete 'src/main/resources/static/built/'
+}
+
+clean.dependsOn deleteWebpackFiles

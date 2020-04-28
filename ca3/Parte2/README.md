@@ -141,13 +141,104 @@ fiz commit das alteracoes
 
 ````
 $ git add .
-$ git commit -m "fix #2"
+$ git commit -m "fix #29"
 $ git push -u origin master
 ````
 
 ### 1.5 Atualizar a versão gradle basic da spring application para que use o servidor H2 na máquina virtual "db"
 
+fiz as alterações necessárias para que aplicação corresse no interior da VM web
 
+
+* suporte para a construção do war file:
+
+nova classe ServletInitializer
+
+````
+package com.greglturnquist.payroll;
+
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+public class ServletInitializer extends SpringBootServletInitializer {
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(ReactAndSpringDataRestApplication.class);
+    }
+}
+````
+
+adicionar às dependencias no build.gradle
+
+````
+providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+````
+
+adionar aos plugins no build.gradle
+
+````
+id 'war'
+````
+
+* alterações ao ao ficheiro app.js para Application context path.
+
+na linha 18 passa de 
+
+````
+    client({method: 'GET', path: '/api/employees'}).done(response => {
+````
+
+para
+
+````
+    client({method: 'GET', path: '/basic-0.0.1-SNAPSHOT/api/employees'}).done(response => {
+````
+
+* alterações ao ficheiro index HTML
+
+corrigir o path para o ficheiro de CSS
+
+passa de 
+
+````
+<link rel="stylesheet" href="/main.css" />
+````
+
+para
+
+````
+<link rel="stylesheet" href="main.css" />
+````
+
+* alterar o ficheiro aplications.properties
+
+````
+server.servlet.context-path=/basic-0.0.1-SNAPSHOT
+spring.data.rest.base-path=/api
+#spring.datasource.url=jdbc:h2:mem:jpadb
+# In the following settings the h2 file is created in /home/vagrant folder
+spring.datasource.url=jdbc:h2:tcp://192.168.33.11:9092/./jpadb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+# So that spring will no drop de database on every execution.
+spring.jpa.hibernate.ddl-auto=update
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+spring.h2.console.settings.web-allow-others=true
+````
+
+onde se colocou todas as configurações necessárias para o servidor H2 e o context path para o war
+
+
+### 1.6 Executar o novo vagrantfile após as alterações às aplicação gradle basic da spring application
+
+executar o vagrant file
+ver se tudo corre bem
+
+ver novamente os links e verificar se houve sucesso
 
 
 
