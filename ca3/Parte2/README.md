@@ -1,7 +1,6 @@
 # Relatório Class Assignment 3 - Virtualização com Vagrant
 
-## Class Assignment 3, parte 2 - Utilizar o Vagrant para configurar um ambiente virtual que permita a execução do Tutorial Spring
-Boot Application, Gradle Basic Version 
+## Class Assignment 3, parte 2 - Utilizar o Vagrant para configurar um ambiente virtual que permita a execução do Tutorial Spring Boot Application, Gradle Basic Version 
 
 
 ## 1. Análise, Design e Implementação
