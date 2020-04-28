@@ -2,13 +2,13 @@ plugins {
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
-	id 'org.siouan.frontend' version '1.4.1'
+        id 'org.siouan.frontend' version '1.4.1'
 	id 'war'
 }
 
 group = 'spring'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
@@ -22,7 +22,7 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	// To support war file for deploying to tomcat
+        // To support war file for deploying to tomcat
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
