@@ -383,6 +383,8 @@ v1.3.1
 
 ## 2. Análise de uma alternativa
 
+Como ferramenta de virtualização alternativa à Virtual Box, foi escolhido o Hyper-V.
+
 
 
 
@@ -572,12 +574,51 @@ vagrant destroy
 Após todas a alterações mencionadas nos pontos 3.2 a 3.5, executou-se o ficheiro Vagrant file a partir da linha de comandos
 da Power Shell.
 
+````
+$ vagrant up
+````
+
+
+carregar nos links do readme e ver a app a correr
+
+os links para acesso dependem do ip definido pelo hiperv na altura da criação
+
+````
+http://192.168.1.93:8080/tut_basic_gradle-0.0.1-SNAPSHOT/
+````
+
+correr o link da base de dados
+
+
+````
+http://192.168.1.93:8080/tut_basic_gradle-0.0.1-SNAPSHOT/h2-console
+````
+
+não conseguiu aceder à base de dados, não dão os links
+
+
+**Spring Application**
+
+https://drive.google.com/file/d/1qQQUrG-wDZI809N6SDsVcYE2rwOPuxcO/view
+
+**Base de Dados H2**
+
+https://drive.google.com/file/d/1wR8XMOzJjMHGp1_Y7U9xg5N-HaiEDz3D/view
+
+
+Isto deve-se as limitações do Hyper-v!!!
 
 
 
+de seguida
 
+desliguei e destrui ambas as maquinas
 
+````
+vagrant halt
 
+vagrant destroy
+````
 
 
 
