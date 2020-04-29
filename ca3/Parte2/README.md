@@ -385,7 +385,29 @@ v1.3.1
 
 Como ferramenta de virtualização alternativa à Virtual Box, foi escolhido o Hyper-V.
 
+A Virtual Box é uma ferramenta de virtualização open-source pertencente à Oracle e é classificada um *hypervisor* de tipo 2, 
+ou seja, instala as máquinas virtuais sobre o sistema operativo da máquina host, tal como qualquer outro software instalado. 
+Assim, a máquina virtual é executada como um processo na máquina host, partilhando o hardware do sistema, mas a gestão da máquina
+virtual é feita através da maquina host em vez de os comandos serem diretamente executados. Como consequência, existe um ligeiro
+atraso entre as ações realizadas.
 
+O Hyper-V é um *bare-metal hypervisor* pertencente à Microsoft e é classificado como hypervisor de tipo 1 que corre directamente no
+hardare da máquina host. Desta forma, não é necessária a instalação adicional de um *package* externo e é possivel a gestão directa do
+sistema operativo da máquina virtual. O Hyper-V especificamente permite a virtualização de hardware, ou seja, a máquina virtual está a
+ser executada em hardware virtual, e permite a criação de discos duros virtuais, switches virtuais, etc, que no fim podem ser adicionados
+à máquina virutal.
+
+Em termos comparativos, a Virtual Box permite criar uma máquina virtual mais facilmente pois disponibiliza um assistente que guia o utilizador 
+na criação da máquina. Por outro lado, tem a desvantagem de exigir a instalação de software e também é um hypervisor com um nível de performance
+inferior ao Hyper-V. O Hyper-V já é um hypervisor que exige um pouco mais de conhecimento para a criação adequada de uma máquina virtual
+sem problemas de configuração. No entanto, possui a vantagem de atingir elevados níveis de performance e não necessitar da instalação de
+software.
+
+Em termos da utilização do Vagrant, o Hyper-V tem uma desvantagem grande relativamente ao Virtual Box porque o Vagrant neste hypervisor
+não consegue criar nem configurar novas ligações de rede. Quando uma máquina virtual é lançada com o Hyper-V, o Vagrant de imediato
+questiona a que switch virtual se deseja ligar a máquina virtual e vai gerar automaticamente um endereço de IP. Como resultado desta 
+configuração inicial, todas as configurações de rede definidas no VagrantFile vão ser ignoradas e o Vagrant nunca irá conseguir estabelecer
+um endereço IP de forma estática ou configurar automaticamente um NAT.
 
 
 ## 3. Implementação de uma alternativa - Hyper-V
@@ -423,7 +445,7 @@ vagrant up --provider hyperv
 
 Outra questão importante é a configuração de rede das máquina virtuais que vão ser criadas. Como foi referido em cima, uma das
 limitações de executar a configuração definida Vagrantfiles com Hyper-V é que o vagrant não é capaz de de realizar as configurações 
-de rede necessárias no Hyper-V automaticamente (ao contrário do que aconteceu no Oracle VirtualBox. Por isso, outro passo necessário 
+de rede necessárias no Hyper-V automaticamente (ao contrário do que aconteceu no Oracle VirtualBox). Por isso, outro passo necessário 
 antes de se executar o ficheiro é configurar uma ligação de rede para, mais tarde, a máquina virtual poder aceder à internet. Para isso, 
 é necessário criar um switch virtual externo, recorrendo ao Virtual Switch Manager do Hyper-V, como nome "External Switch".
 
@@ -599,11 +621,30 @@ não conseguiu aceder à base de dados, não dão os links
 
 **Spring Application**
 
-https://drive.google.com/file/d/1qQQUrG-wDZI809N6SDsVcYE2rwOPuxcO/view
+````
+HTTP Status 404 – Not Found
+Type Status Report
+
+Message /tut_basic_gradle-0.0.1-SNAPSHOT/
+
+Description The origin server did not find a current representation for the target resource or is not willing to disclose
+that one exists.
+
+Apache Tomcat/8.5.39 (Ubuntu)
+````
 
 **Base de Dados H2**
 
-https://drive.google.com/file/d/1wR8XMOzJjMHGp1_Y7U9xg5N-HaiEDz3D/view
+````
+HTTP Status 404 – Not Found
+Type Status Report
+
+Message /tut_basic_gradle-0.0.1-SNAPSHOT/h2-console
+
+Description The origin server did not find a current representation for the target resource or is not willing to disclose that one exists.
+
+Apache Tomcat/8.5.39 (Ubuntu)
+````
 
 
 Isto deve-se as limitações do Hyper-v!!!
@@ -625,10 +666,16 @@ vagrant destroy
 ## Referências
 
 * https://www.vagrantup.com/downloads.html
+* https://www.virtualbox.org/
+* https://www.makeuseof.com/tag/virtualbox-vs-vmware-vs-hyper-v/
+* https://www.vagrantup.com/docs/virtualbox/
+* https://www.vagrantup.com/docs/virtualbox/common-issues.html
 * https://www.vagrantup.com/docs/hyperv/
+* https://www.vagrantup.com/docs/hyperv/limitations.html
+* https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/
+* https://www.trustradius.com/compare-products/hyper-v-vs-oracle-vm-virtualbox
 * https://www.vagrantup.com/docs/hyperv/usage.html
 * https://www.vagrantup.com/docs/hyperv/configuration.html
-* https://www.vagrantup.com/docs/hyperv/limitations.html
 * https://www.vagrantup.com/docs/synced-folders/smb.html
 * https://app.vagrantup.com/hashicorp/boxes/bionic64
 * https://techcommunity.microsoft.com/t5/virtualization/vagrant-and-hyper-v-tips-and-tricks/ba-p/382373
