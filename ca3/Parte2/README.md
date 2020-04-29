@@ -27,9 +27,8 @@ ver como são criadas duas maquinas virtuais no ficheiro
 web: this VM is used to run tomcat and the spring boot basic application
 db: this VM is used to execute the H2 server database
 
-ver explicação do professor para explicar o vagrantfile
 
-realizar o comando na power shell
+ver explicação do professor para explicar o vagrantfile
 
 ````
 $ vagrant up
@@ -55,7 +54,7 @@ a maquina que queremos
 
 ````
 $ vagrant halt web
-$ vagrant halt web
+$ vagrant halt db
 ````
 
 carregar nos links do readme e ver a app a correr
@@ -90,13 +89,18 @@ e depois ligar à base de dados
 inserir dados na base de dados e ver no browser a alterar
 
 ````
-insert into employee values (3, 'wizard', 'Gandalf', 'Gandalf');
+insert into employee values (3, 'wizard', 'Gandalf', null);
 ````
 
 e ver se aparece na parte web - sucesso
 
 desliguei ambas as maquinas
 
+
+
+ver se tudo corre bem
+
+ver novamente os links e verificar se houve sucesso
 
 
 
@@ -133,7 +137,29 @@ nas linhas 70 e 71, alterar estas linhas para fazer clone do meu repositorio par
 
 ````
     git clone https://martalribeiro@bitbucket.org/martalribeiro/devops-19-20-a-1191779.git
-    cd devops-19-20-a-1191779/ca3/Parte2/tut_basic_gradle
+    cd devops-19-20-a-1191779/ca3/Parte2/basic
+````
+
+como se verificou por ligação ssh que o ficheiro gradlew não tinha permissões de execução para a root foi necessário adicionar o
+seguinte comando:
+
+````
+    sudo chmod u+x gradlew
+````
+
+para ficar assim
+
+````
+-rwxr--r--   1 root root   5764 Apr 28 18:16 gradlew
+````
+
+de seguida manteve-se a linha do comando build e foi necessário mudar o nome do war que vai ser gerado pelo build do gradle para
+tut_basic_gradle-0.0.1-SNAPSHOT.war, que vai ser expandido quando for copiado para a pasta tomcat8/webapps
+
+```` 
+    sudo ./gradlew clean build
+    # To deploy the war file to tomcat8 do the following command:
+    sudo cp build/libs/tut_basic_gradle-0.0.1-SNAPSHOT.war /var/lib/tomcat8/webapps
 ````
 
 fiz commit das alteracoes
@@ -180,6 +206,8 @@ adionar aos plugins no build.gradle
 id 'war'
 ````
 
+o war que vai ser construído vai ter o nome *tut_basic_gradle-0.0.1-SNAPSHOT*
+
 * alterações ao ao ficheiro app.js para Application context path.
 
 na linha 18 passa de 
@@ -191,7 +219,7 @@ na linha 18 passa de
 para
 
 ````
-    client({method: 'GET', path: '/basic-0.0.1-SNAPSHOT/api/employees'}).done(response => {
+    client({method: 'GET', path: '/tut_basic_gradle-0.0.1-SNAPSHOT/api/employees'}).done(response => {
 ````
 
 * alterações ao ficheiro index HTML
@@ -235,9 +263,94 @@ onde se colocou todas as configurações necessárias para o servidor H2 e o con
 ### 1.6 Executar o novo vagrantfile após as alterações às aplicação gradle basic da spring application
 
 executar o vagrant file
-ver se tudo corre bem
 
-ver novamente os links e verificar se houve sucesso
+realizar o comando na power shell
+
+````
+$ vagrant up
+````
+
+
+carregar nos links do readme e ver a app a correr
+
+````
+http://localhost:8080/tut_basic_gradle-0.0.1-SNAPSHOT/
+````
+
+e a base de dados a correr
+como há persisitencia sempre que arrancamos a vm ele cria nova linha para o frodo baggins porque essa parte da app não foi
+alterada porque era usada quando se executa a app em memoria
+
+sempre que fizer reload da vms ele adiciona uma linha igual
+
+````
+$ vagrant reload
+````
+
+correr o link da base de dados
+
+
+````
+http://localhost:8080/tut_basic_gradle-0.0.1-SNAPSHOT/h2-console
+````
+
+para aceder conectar à base de dados é necessário utilizar um url especifico, que está definido no vagrantfile na linha 37 que é 
+*jdbc:h2:tcp://192.168.33.11:9092/./jpadb*
+
+clicar em teste connection - Test successful
+
+e depois ligar à base de dados
+
+inserir dados na base de dados e ver no browser a alterar
+
+````
+insert into employee values (3, 'wizard', 'gandalf@lotr.com', 'Gandalf', null, null);
+````
+
+e ver se aparece na parte web - sucesso
+
+fiz ligação ssh e verfiquei que o war tinha sido copiado
+
+````
+$ cd /var/lib/tomcat8/webapps
+
+$ls
+drwxrwxr-x 4 tomcat8 tomcat8     4096 Apr 28 18:18 .
+drwxr-xr-x 4 root    root        4096 Apr 28 18:15 ..
+drwxr-xr-x 3 root    root        4096 Apr 28 18:15 ROOT
+drwxr-xr-x 5 tomcat8 tomcat8     4096 Apr 28 18:18 tut_basic_gradle-0.0.1-SNAPSHOT
+-rw-r--r-- 1 root    root    42355482 Apr 28 18:18 tut_basic_gradle-0.0.1-SNAPSHOT.war
+````
+
+fui verficar que o tomcat era ums dos processos ativos
+
+````
+$ ps aux
+
+tomcat8    565  3.6 51.4 2745404 522428 ?      Sl   18:23   0:32 /usr/lib/jvm/java-8-openjdk-amd64/bin/java -Djava.util.root
+````
+
+para vermos o estado do processo tomcat8
+
+````
+$ systemctl status tomcat8
+
+● tomcat8.service - LSB: Start Tomcat.
+   Loaded: loaded (/etc/init.d/tomcat8; bad; vendor preset: enabled)
+   Active: active (running) since Tue 2020-04-28 18:23:39 UTC; 32min ago
+     Docs: man:systemd-sysv-generator(8)
+  Process: 537 ExecStart=/etc/init.d/tomcat8 start (code=exited, status=0/SUCCESS)
+   CGroup: /system.slice/tomcat8.service
+           └─565 /usr/lib/jvm/java-8-openjdk-amd64/bin/java -Djava.util.logging.config.file=/var/lib/tomcat8/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.awt.headless=true -Xmx12
+8m -XX:+UseConcMarkSweepGC -Djava.endorsed.dirs=/usr/share/tomcat8/endorsed -classpath /usr/share/tomcat8/bin/bootstrap.jar:/usr/share/tomcat8/bin/tomcat-juli.jar -Dcatalina.base=/var/lib/tomcat8 -Dcatalina.home=/usr/share/tomcat8
+ -Djava.io.tmpdir=/tmp/tomcat8-tomcat8-tmp org.apache.catalina.startup.Bootstrap start
+````
+
+de seguida
+
+desliguei ambas as maquinas
+
+
 
 
 
@@ -256,6 +369,7 @@ Ant-ca2-part1
 AntAltern
 Ca1
 Ca2-part2
+HypervAltern
 ca2-part1
 ca3-part1
 ca3-part2
@@ -263,6 +377,63 @@ v1.2.0
 v1.3.0
 v1.3.1
 ````
+
+
+## 2. Análise de uma alternativa
+
+
+
+
+## 3. Implementação de uma alternativa - Hyper-V
+
+### 3.1 Preparação do Assignment
+
+A preparação do assignment para Hyper-V foi similar à feita para o Virtual Box, mas neste caso a ferramenta de virtualização utlizada 
+foi o Hyper-V da Microsoft. Neste ponto, marcou-se o master branch com a annotated tag HypervAltern.
+
+### 3.2 Adaptar o Vagrantfile utilizado no ponto 1.2 para o Hyper-V
+
+
+
+
+### 3.3 Copiar o Vagrantfile para o repositório pessoal Bitbucket
+
+
+
+### 3.4 Atualizar a configuração do Vagrantfile de forma a executar a versão gradle da spring application utilizada no Ca2, parte2
+
+
+
+### 3.5 Atualizar a versão gradle basic da spring application para que use o servidor H2 na máquina virtual "db"
+
+
+
+### 3.6 Executar o novo vagrantfile após as alterações às aplicação gradle basic da spring application
+
+
+
+````
+==> db: Verifying Hyper-V is enabled...
+==> db: Verifying Hyper-V is accessible...
+...
+==> db: Successfully added box 'hashicorp/bionic64' (v1.0.282) for 'hyperv'!
+````
+
+
+````
+==> db: Please choose a switch to attach to your Hyper-V instance.
+    db: If none of these are appropriate, please open the Hyper-V manager
+    db: to create a new virtual switch.
+    db:
+    db: 1) Default Switch
+    db: 2) Virtual Switch
+````
+
+
+### 3.7 Adicionar a tag HyperV-ca3-part2
+
+
+
 
 
 ## Referências
