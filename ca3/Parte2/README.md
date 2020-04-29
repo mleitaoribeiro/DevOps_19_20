@@ -170,6 +170,8 @@ $ git commit -m "fix #29"
 $ git push -u origin master
 ````
 
+**NOTA:** 
+
 ### 1.5 Atualizar a versão gradle basic da spring application para que use o servidor H2 na máquina virtual "db"
 
 fiz as alterações necessárias para que aplicação corresse no interior da VM web
@@ -391,46 +393,189 @@ v1.3.1
 A preparação do assignment para Hyper-V foi similar à feita para o Virtual Box, mas neste caso a ferramenta de virtualização utlizada 
 foi o Hyper-V da Microsoft. Neste ponto, marcou-se o master branch com a annotated tag HypervAltern.
 
-### 3.2 Adaptar o Vagrantfile utilizado no ponto 1.2 para o Hyper-V
+Para instalar o Hyper-V não é necessário descarregar um ficheiro de instalação. Este está disponível para sistemas operativos Windows,
+nomeadamente, em instalações a partir do Windows 8.1. Desta forma, apenas é necessário aceder a *Programs and Features*, clicar em *Turn
+Windows features on or off* e selecionar a opção de "Hyper-V". Outra opção é instalar via PowerShell com o comando:
 
+````
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+````
 
+### 3.2 Configuração do Hyper-V e adaptação do Vagrantfile utilizado no ponto 1.2
 
+Para poder executar o ficheiro Vagrantfile, é necessário definir como *default provider* o Hyper-V dado que, sempre que se executa
+o comanda *vagrant*, o hypervisor escolhido por omissão é o Virtual Box. Caso o Virtual Box não estiver instalado, o Vagrant vai tentar
+realizar o dowload di Virtual Box para cumprir este requisito. Desta forma, sempre que é criado um novo ficheiro Vagrantfile, é necessário
+definir o Hyper-V como default através da variável de ambiente "VAGRANT_DEFAULT_PROVIDER" e do seguinte comando:
 
-### 3.3 Copiar o Vagrantfile para o repositório pessoal Bitbucket
+````
+[Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "hyperv", "User")
+````
 
+Outra forma de forçar a utilização do Hyper-V por parte do Vagrant é, sempre que o comando *vagrant up* é executado, adicionar a
+seguinte opção:
 
+````
+vagrant up --provider hyperv
+````
 
-### 3.4 Atualizar a configuração do Vagrantfile de forma a executar a versão gradle da spring application utilizada no Ca2, parte2
+Outra questão importante é a configuração de rede das máquina virtuais que vão ser criadas. Como foi referido em cima, uma das
+limitações de executar a configuração definida Vagrantfiles com Hyper-V é que o vagrant não é capaz de de realizar as configurações 
+de rede necessárias no Hyper-V automaticamente (ao contrário do que aconteceu no Oracle VirtualBox. Por isso, outro passo necessário 
+antes de se executar o ficheiro é configurar uma ligação de rede para, mais tarde, a máquina virtual poder aceder à internet. Para isso, 
+é necessário criar um switch virtual externo, recorrendo ao Virtual Switch Manager do Hyper-V, como nome "External Switch".
 
+Nesta fase, foi também definido no Vagrantfile que o hipervisor utilizado em ambas as máquinas virtuais foi o Hyper-V.
 
+````
+Vagrant.configure("2") do |config|
+  config.vm.box = "envimation/ubuntu-xenial"
+  config.vm.provider "hyperv"
+````
 
-### 3.5 Atualizar a versão gradle basic da spring application para que use o servidor H2 na máquina virtual "db"
+De seguida, após inicialização da Power Shell em modo administrador, acedeu-se à pasta onde se encontra o Vagrantfile e este foi
+executado com o seguinte comando:
 
+````
+vagrant up --provider hyperv
+````
 
+A maquina virtual "db" definida no Vagrantfile começou a ser construída mas surgiu a seguinte mensagem de erro:
 
-### 3.6 Executar o novo vagrantfile após as alterações às aplicação gradle basic da spring application
+````
+The box you're attempting to add doesn't support the provider
+you requested. Please find an alternate box or use an alternate
+provider. Double-check your requested provider to verify you didn't
+simply misspell it.
+````
 
+Desta forma, verificou-se que a box "envimation/ubuntu-xenial", que estava pre-definida no Vagrantfile para a construção de ambas
+as máquinas virtuais, não suportava o Hyper-V.
 
+````
+vagrant box list envimation/ubuntu-xenial
+    envimation/ubuntu-xenial (virtualbox, 1.0.3-1516241473)
+````
+
+Para contornar este problema, recorreu-se à documentação existente na página do Vagrant para encontrar uma box que suportasse o
+Hyper-V. A box escolhida foi a "hashicorp/bionic64" que para além da virtual box também suporta Hyper-V. Foram realizadas as
+seguintes alterações ao ficheiro Vagrantfile:
+
+````
+Vagrant.configure("2") do |config|
+  config.vm.box = "hashicorp/bionic64"
+  config.vm.provider "hyperv"
+...
+config.vm.define "db" do |db|
+    db.vm.box = "hashicorp/bionic64"
+    db.vm.hostname = "db"
+...
+config.vm.define "web" do |web|
+    web.vm.box = "hashicorp/bionic64"
+    web.vm.hostname = "web"
+````
+
+Após esta configuração, voltou-se a executar novamente o ficheiro Vagrantfile. Apareceu a seguinta mensagem:
 
 ````
 ==> db: Verifying Hyper-V is enabled...
 ==> db: Verifying Hyper-V is accessible...
 ...
 ==> db: Successfully added box 'hashicorp/bionic64' (v1.0.282) for 'hyperv'!
-````
-
-
-````
-==> db: Please choose a switch to attach to your Hyper-V instance.
+...
+    db: Please choose a switch to attach to your Hyper-V instance.
     db: If none of these are appropriate, please open the Hyper-V manager
     db: to create a new virtual switch.
     db:
     db: 1) Default Switch
-    db: 2) Virtual Switch
+    db: 2) External Switch
+    db:
+    db: What switch would you like to use?
 ````
 
+Verfica-se então que a box "hashicorp/bionic64" foi adiconado com sucesso e que suporta o Hyper-V.
 
-### 3.7 Adicionar a tag HyperV-ca3-part2
+````
+vagrant box list
+    envimation/ubuntu-xenial (virtualbox, 1.0.3-1516241473)
+    hashicorp/bionic64       (hyperv, 1.0.282)
+````
+
+Como o Hyper-V vai ignorar as configurações de rede existentes no Vagrantfile devido às suas limitações, durante a instalação 
+das máquinas virtuais vai questionar o utilizador que placa de rede definida se quer escolher. Neste passo, deveria ser selecionado
+a opçao 2) External Switch, mas como o objectivo é fazer a automatização deste processo, procedeu-se às seguintes alterações no 
+ficheiro Vagrantfile:
+
+````
+    db.vm.network "private_network", ip: "192.168.33.11", bridge: "External Switch"
+...
+    web.vm.network "private_network", ip: "192.168.33.10", bridge: "External Switch"
+````
+
+Após esta configuração, voltou-se a executar novamente o ficheiro Vagrantfile. Apareceu a seguinta mensagem:
+
+````
+Vagrant requires administrator access for pruning SMB shares and
+may request access to complete removal of stale shares.
+==> db: Preparing SMB shared folders...
+    db: You will be asked for the username and password to use for the SMB
+    db: folders shortly. Please use the proper username/password of your
+    db: account.
+    db:
+    db: Username:
+````
+
+Durante a criação de uma máquina virtual com uma box hashicorp/precise64, o Vagrant tenta utilizar SMB synced folders que são 
+ficheiros que realizam a sincronização entre a máquina host e a máquina virtual de forma a melhorar a performance em sisitemas 
+operativos Windows relativamente a outros hipervisors. Como esta configuração não é pretendida, acrecentou-se o seguinte ao 
+Vagrantfile:
+
+````
+Vagrant.configure("2") do |config|
+  config.vm.box = "hashicorp/bionic64"
+  config.vm.provider "hyperv"
+  # disabling SMB shared folders (not needed)
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+````
+
+Nesta fase foram também implementadas duas configurações adicionais, de forma a melhorar a experiência com o Vagrant. Quando o comando 
+*vagrat up* é executado, uma grande porção deste tempo é utilizado a clonar a *hard drive* virtual. Com o Hyper-V existem mecanismos
+que ajudam a acelerar este processo através da utilização de *linked cloning*. Outra funcionalidade adicional interssante é a ativação
+de *virtualization extensions* que vão permitir a nested virtualization, em Hyper-V. Para isso, foram adicionadas as seguintes configurações:  
+
+````
+db.vm.provider "hyperv" do |v|
+  v.memory = 1024
+  v.enable_virtualization_extensions = true
+  v.linked_clone = true
+end
+...
+web.vm.provider "hyperv" do |v|
+  v.memory = 1024
+  v.enable_virtualization_extensions = true
+  v.linked_clone= true
+end
+````
+
+**NOTA:** Sempre que o ficheiro Vagrantfile foi alterado, a máquina virtual previamente criada foi destruída através do seguinte
+comando:
+
+````
+vagrant destroy
+````
+
+##### Os pontos 3.3, 3.4 e 3.5 foram realizada de forma idêntica à realizada em nos pontos 1.3, 1.4 e 1.5.
+
+
+### 3.6 Executar o novo vagrantfile após as alterações às aplicação gradle basic da spring application
+
+Após todas a alterações mencionadas nos pontos 3.2 a 3.5, executou-se o ficheiro Vagrant file a partir da linha de comandos
+da Power Shell.
+
+
+
+
+
 
 
 
@@ -439,5 +584,19 @@ foi o Hyper-V da Microsoft. Neste ponto, marcou-se o master branch com a annotat
 ## Referências
 
 * https://www.vagrantup.com/downloads.html
+* https://www.vagrantup.com/docs/hyperv/
+* https://www.vagrantup.com/docs/hyperv/usage.html
+* https://www.vagrantup.com/docs/hyperv/configuration.html
+* https://www.vagrantup.com/docs/hyperv/limitations.html
+* https://www.vagrantup.com/docs/synced-folders/smb.html
+* https://app.vagrantup.com/hashicorp/boxes/bionic64
+* https://techcommunity.microsoft.com/t5/virtualization/vagrant-and-hyper-v-tips-and-tricks/ba-p/382373
+* https://github.com/hashicorp/vagrant/blob/master/website/source/intro/getting-started/boxes.html.md
+* https://stackoverflow.com/questions/57796239/vagrant-not-adhering-to-static-ip-definition-in-vagrant-file
+* https://www.vagrantup.com/docs/boxes/info.html
+* https://superuser.com/questions/1354658/hyperv-static-ip-with-vagrant
+* https://help.moonrivers.com/support/solutions/articles/1000226850-creating-vm-clones-in-microsoft-hyper-v
+
+
 
 
