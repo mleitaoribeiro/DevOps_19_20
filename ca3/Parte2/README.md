@@ -175,9 +175,9 @@ No final de todas as alterações,fez-se commit e push a partir dos respectivos 
 Para que a versão basic da application seja capaz de utilizar o servidor H2 que está a correr na máquina virtual *db*, é necessário
 fazer as alterações necessárias ao projeto para que aplicação corra no interior da máquina virtual **web**. Para isso:
 
-1.Dar suporte para a construção do war file a partir de: 
+**1.Dar suporte para a construção do war file a partir de: **
 
--uma nova classe ServletInitializer:
+   Uma nova classe ServletInitializer:
 
     ````
     
@@ -196,7 +196,7 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
     
     ````
 
--adição da informação do servidor na secção das dependencias no ficheiro **build.gradle**:
+   Adição da informação do servidor na secção das dependencias no ficheiro **build.gradle**:
     
     
     ````
@@ -212,7 +212,7 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
 
     O war construído irá ter o nome *tut_basic_gradle-0.0.1-SNAPSHOT*.
 
--alterações ao ficheiro app.js para definar a context path da aplicação:
+   Alterações ao ficheiro app.js para definar a context path da aplicação:
 
     Na linha 18 passa de:
     
@@ -226,9 +226,9 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
         client({method: 'GET', path: '/tut_basic_gradle-0.0.1-SNAPSHOT/api/employees'}).done(response => {
     ````
 
-2.Alterações ao ficheiro index HTML:
+**2.Alterações ao ficheiro index HTML:**
 
-    Corrição do path para o ficheiro de CSS que passa de:
+   Correção do path para o ficheiro de CSS que passa de:
     
     ````
     <link rel="stylesheet" href="/main.css" />
@@ -240,9 +240,10 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
     <link rel="stylesheet" href="main.css" />
     ````
 
-3.Alterar o ficheiro aplications.properties para a configuração da base de dados H2:
+**3.Alterar o ficheiro aplications.properties para a configuração da base de dados H2:**
 
     ````
+    
     server.servlet.context-path=/tut_basic_gradle-0.0.1-SNAPSHOT
     spring.data.rest.base-path=/api    
     #spring.datasource.url=jdbc:h2:mem:jpadb
@@ -257,9 +258,10 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
     spring.h2.console.enabled=true
     spring.h2.console.path=/h2-console
     spring.h2.console.settings.web-allow-others=true
+    
     ````
 
-    Aqui foram colocadas todas as configurações necessárias para o servidor H2 e a context path para o ficheiro war.
+   Aqui foram colocadas todas as configurações necessárias para o servidor H2 e a context path para o ficheiro war.
 
 
 ### 1.6 Executar o novo vagrantfile após as alterações às aplicação gradle basic da spring application
