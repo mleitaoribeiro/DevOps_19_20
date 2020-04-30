@@ -203,14 +203,14 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     ````
     
-    Adição de informação de suporte ao war nos plugins do ficheiro **build.gradle**:
+   Adição de informação de suporte ao war nos plugins do ficheiro **build.gradle**:
     
     
     ````
     id 'war'
     ````
 
-    O war construído irá ter o nome *tut_basic_gradle-0.0.1-SNAPSHOT*.
+   O war construído irá ter o nome *tut_basic_gradle-0.0.1-SNAPSHOT*.
 
    Alterações ao ficheiro app.js para definar a context path da aplicação:
 
@@ -220,7 +220,7 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
         client({method: 'GET', path: '/api/employees'}).done(response => {
     ````
     
-    Para:
+   Para:
     
     ````
         client({method: 'GET', path: '/tut_basic_gradle-0.0.1-SNAPSHOT/api/employees'}).done(response => {
@@ -234,7 +234,7 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
     <link rel="stylesheet" href="/main.css" />
     ````
     
-    Para:
+   Para:
     
     ````
     <link rel="stylesheet" href="main.css" />
@@ -242,8 +242,6 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
 
 **3.Alterar o ficheiro aplications.properties para a configuração da base de dados H2:**
 
-    ````
-    
     server.servlet.context-path=/tut_basic_gradle-0.0.1-SNAPSHOT
     spring.data.rest.base-path=/api    
     #spring.datasource.url=jdbc:h2:mem:jpadb
@@ -258,8 +256,6 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
     spring.h2.console.enabled=true
     spring.h2.console.path=/h2-console
     spring.h2.console.settings.web-allow-others=true
-    
-    ````
 
    Aqui foram colocadas todas as configurações necessárias para o servidor H2 e a context path para o ficheiro war.
 
