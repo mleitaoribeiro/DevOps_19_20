@@ -541,24 +541,22 @@ da Power Shell.
 $ vagrant up
 ````
 
-
-carregar nos links do readme e ver a app a correr
-
-os links para acesso dependem do ip definido pelo hiperv na altura da criação
+Após conclusão do comando e com ambas as máquinas virtuais construídas e a correr, recorreu-se ao browser na máquina host para se aceder
+ao seguinte endereço:
 
 ````
 http://192.168.1.93:8080/tut_basic_gradle-0.0.1-SNAPSHOT/
 ````
 
-correr o link da base de dados
-
+De seguida, acedeu-se também ao servidor H2 no brownser, a partir do seguinte endereço:
 
 ````
 http://192.168.1.93:8080/tut_basic_gradle-0.0.1-SNAPSHOT/h2-console
 ````
 
-não conseguiu aceder à base de dados, não dão os links
-
+O endereço de IP utilizado para estes endereços depende do endereço de IP que é definido pelo Hyper-V na altura da criação da máquina
+virtual **web** e é automaticamente gerado pelo hypervisor quando se realiza a configuração inicial com o External Switch. Em ambas as
+situações a página não foi carregada com sucesso, tendo-se observado as seguintes mensagens:
 
 **Spring Application**
 
@@ -587,21 +585,36 @@ Description The origin server did not find a current representation for the targ
 Apache Tomcat/8.5.39 (Ubuntu)
 ````
 
+Este resultado pode ser explicado à luz das limitações que foram referidas anteriomente relativamente à utilização do Vagrant com 
+o Hyper-V. Mesmo estando definidas no Vagrantfile as configurações de rede necessárias para que exista a ligação do servidor H2 ao 
+servidor da aplicação web, como é utilizado o Hyper-V, o Vagrant vai ignorar todas estas configurações e vai assumir o endereço de IP
+configurado automaticamente na criação das máquinas virtuais. De cada vez que é feita a criação da máquina virtual neste hypervirsor, o
+endereço de IP gerado vai ser sempre diferente e não é possível definir um endereço de IP estático para configurar os dois servidores.
 
-Isto deve-se as limitações do Hyper-v!!!
+Desta forma, quando acedemos ao brownser a partir do endereço de IP gerado, é possível aceder à máquina **web** onde está a correr o
+tomcat mas no entanto como não há comunicação com o servidor da base de dados, não é possivel aceder aos dados disponibilizados pela 
+aplicação web e é verificado a mensagem de erro **404 - Not Found**.
 
+Uma das possíveis soluções para este problema é realizar a configuração manual dos endereços de IP por ligação *ssh* às máquinas virtuais,
+após estas serem construídas, e configurar também manualmente no Hyper-V o hardware das placas de rede a ser virtualizado. No entanto, o 
+objectivo do ca3, parte 2 é precisamente automatizar estas configurações no Vagrantfile para que não seja necessário realizar as configurações
+manuais. Por enquanto, o Vagrant ainda não possui esta funcionalidade no Hyper-V, mas na documentação oficial é referido que será uma funcionalidade
+a existir numa versão futura.
 
+Desta forma, existem outras soluções possíveis para contornar este problema e tornar o processo mais automatizado. Um das 
+soluções encontradas seria criar um switch NAT para o Hyper-V e realizar algumas configurações complexas no Vagrantfile que
+irão definir um IP estático que está no *range* do switch NAT criado. Assim, após o *vagrant up* e quando for ativada uma das configurações
+do Vagrantfile que vai obrigar ao reload da maquina virtual, a placa de rede definida para a máquina passa a ser o switch NAT e a maquina
+irá adquirir o endereço de IP estático definido anteriomente. Embora mais automatizada, continua a ser uma solução que requere alguma 
+configuração manual, não sendo portanto ainda a ideal.
 
-de seguida
+Nenhuma das soluções referidas anteriormente foram implementadas devido à complexidade exigida pela tarefa.
 
-desliguei e destrui ambas as maquinas
+Finalmente, é feita destruição de ambas as máquinas através do comando:
 
 ````
-vagrant halt
-
 vagrant destroy
 ````
-
 
 
 ## Referências
