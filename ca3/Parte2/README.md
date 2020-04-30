@@ -175,8 +175,9 @@ No final de todas as alterações,fez-se commit e push a partir dos respectivos 
 Para que a versão basic da application seja capaz de utilizar o servidor H2 que está a correr na máquina virtual *db*, é necessário
 fazer as alterações necessárias ao projeto para que aplicação corra no interior da máquina virtual **web**. Para isso:
 
-dar suporte para a construção do war file a partir de: 
-    uma nova classe ServletInitializer:
+1.Dar suporte para a construção do war file a partir de: 
+
+-uma nova classe ServletInitializer:
 
     ````
     
@@ -195,7 +196,7 @@ dar suporte para a construção do war file a partir de:
     
     ````
 
-    Adição da informação do servidor na secção das dependencias no ficheiro **build.gradle**:
+-adição da informação do servidor na secção das dependencias no ficheiro **build.gradle**:
     
     
     ````
@@ -211,7 +212,7 @@ dar suporte para a construção do war file a partir de:
 
     O war construído irá ter o nome *tut_basic_gradle-0.0.1-SNAPSHOT*.
 
-* alterações ao ficheiro app.js para definar a context path da aplicação:
+-alterações ao ficheiro app.js para definar a context path da aplicação:
 
     Na linha 18 passa de:
     
@@ -225,7 +226,7 @@ dar suporte para a construção do war file a partir de:
         client({method: 'GET', path: '/tut_basic_gradle-0.0.1-SNAPSHOT/api/employees'}).done(response => {
     ````
 
-* alterações ao ficheiro index HTML:
+2.Alterações ao ficheiro index HTML:
 
     Corrição do path para o ficheiro de CSS que passa de:
     
@@ -239,7 +240,7 @@ dar suporte para a construção do war file a partir de:
     <link rel="stylesheet" href="main.css" />
     ````
 
-* alterar o ficheiro aplications.properties para a configuração da base de dados H2:
+3.Alterar o ficheiro aplications.properties para a configuração da base de dados H2:
 
     ````
     server.servlet.context-path=/tut_basic_gradle-0.0.1-SNAPSHOT
