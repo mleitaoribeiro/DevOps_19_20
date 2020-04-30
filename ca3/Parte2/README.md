@@ -179,7 +179,8 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
 
     Uma nova classe ServletInitializer:
     
-    ````
+    
+    ```
     package com.greglturnquist.payroll;
     
     import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -192,7 +193,7 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
             return application.sources(ReactAndSpringDataRestApplication.class);
         }
     }
-    ````
+    ```
 
     Adição da informação do servidor na secção das dependencias no ficheiro **build.gradle**:
     
