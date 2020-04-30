@@ -193,7 +193,7 @@ java -cp basic_demo-0.1.0.jar basic_demo.ChatClientApp 192.168.56.5 59001
 
 Desta forma, a task *runClient* é executada com sucesso, ficando então disponível a janela do chat room.
 
-Outra justificação importante para testar que é possével correr o servidor e o cliente em máquinas distintas, prende-se ao facto de
+Outra justificação importante para testar que é possível correr o servidor e o cliente em máquinas distintas, prende-se ao facto de
 numa situação real, o servidor e o cliente nunca serem executados na mesma máquina. Fora do ambiente de teste e quando a aplicação
 está acessível ao público, normalmente o servidor de um chat room é executado sempre na mesma máquina, enquanto o cliente deve poder
 ser executado em qualquer outra máquina desde que possua o endereço de IP do servidor e o porto de entrada adequado. 
