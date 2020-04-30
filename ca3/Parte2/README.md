@@ -1,6 +1,6 @@
 # Relatório Class Assignment 3 - Virtualização com Vagrant
 
-## Class Assignment 3, parte 2 - Utilizar o Vagrant para configurar um ambiente virtual que permita a execução do Tutorial Spring Boot Application, Gradle Basic Version 
+## Class Assignment 3, parte 2 - Utilizar o Vagrant para configurar um ambiente virtual que permita a execução do Tutorial Spring Boot Application e do Gradle Basic Version 
 
 
 ## 1. Análise, Design e Implementação
@@ -26,19 +26,19 @@ Numa primeira fase, é feita uma configuração geral para a criação das duas 
 criar as máquinas - "envimation/ubuntu-xenial" e, de seguida, define-se todo o software que é necessário instalar em ambas.
 
 O segundo passo passa por configurar a máquina "db" que vai ser utilizada para executar o servidor H2 da base de dados, onde a
-web application se vai conectar. Nesta secção é definida o endereço de IP da máquina bem como os portos por onde se vai realizar a
-ligação à maquina host (8082) e outro para se poder aceder ao servidor H2 (9092). Finalmente, descarrega-se o servidor H2 atrvés do 
-comando *wget* e executa-se o comando para correr o servidor, definindo que este comando deverá ser sempre executado quando a máquina 
-é ligada. Para a conexão à base de dados, é necessário o URL: **jdbc:h2:tcp://192.168.33.11:9092/./jpadb**.
+web application se vai conectar. Nesta secção, é definido o endereço de IP da máquina bem como o porto por onde se vai aceder
+à maquina host (8082) e o porto de ligação ao servidor H2 (9092). Finalmente, descarrega-se o servidor H2 atrvés do comando *wget* e executa-se o
+comando para correr o servidor, definindo que este comando deverá ser sempre executado quando a máquina é ligada. Para a conexão
+à base de dados, é necessário o URL: **jdbc:h2:tcp://192.168.33.11:9092/./jpadb**.
 
 O terceiro passo passa por configurar a máquina "web" que vai ser utilizada para executar o tomcat e a web application no seu interior.
 Nesta secção define-se também o endereço de IP da máquina bem como os portos por onde o tomcat vai ficar disponível a partir da maquina
 host (8080). De seguida, é definido a memória RAM da máquina virtual (1024) e finalmente é feita a instalação de todo o software necessário
 para poder executar a web application.
 
-Finalmente, é feito o clone do repositório remoto onde a aplicação se encontra, acede-se à pasta da aplicação e faz-se o build do ficheiro
-build.gradle aí contido. De seguida, faz-me uma cópia do ficheiro war gerado no build para a pasta */var/lib/tomcat8/webapps* do tomcat, que 
-quando detectar este ficheiro, vai automaticamente expandi-lo e assim executar a *web application*.
+Finalmente, definem-se os comandos para realizar o *git clone* do repositório remoto onde a aplicação se encontra, para aceder à pasta da aplicação
+para se fazer o build do ficheiro build.gradle aí contido. De seguida, é definido o comando que vai realizar a cópia do ficheiro war gerado no build
+para a pasta */var/lib/tomcat8/webapps* do tomcat, que quando detectar este ficheiro, vai automaticamente expandi-lo e assim executar a *web application*.
 
 Após esta análise, foram seguidos os passos descritos no README disponível no repositório indicado. Foi criada uma pasta local na 
 máquina host e foi colocado aqui o VagrantFile. Executaram-se então os seguintes comandos na linha de comandos da PowerShell:
@@ -156,7 +156,7 @@ Para obter o seguinte resultado:
 
 De seguida, manteve-se a linha do comando build do gradle, mas foi necessário mudar a linha que executa a cópia do ficheiro war
 para a pasta *webapps* do tomcat. Como o nome do ficheiro war que vai ser gerado pelo build do gradle é diferente do existente,
-teve de alterar o nome do ficherio para *tut_basic_gradle-0.0.1-SNAPSHOT.war*:
+teve de se alterar o nome do ficherio para *tut_basic_gradle-0.0.1-SNAPSHOT.war*:
 
 ```` 
     sudo ./gradlew clean build
@@ -164,10 +164,10 @@ teve de alterar o nome do ficherio para *tut_basic_gradle-0.0.1-SNAPSHOT.war*:
     sudo cp build/libs/tut_basic_gradle-0.0.1-SNAPSHOT.war /var/lib/tomcat8/webapps
 ````
 
-No final de todas as alterações,fez-se commit e push a partir dos respectivos comandos Git
+No final de todas as alterações,fez-se commit e push a partir dos respectivos comandos Git.
 
 
-**NOTA:** Sempre que o ficheiro Vagrantfile foi alterado, a máquina virtual previamente criada foi destruída.
+**NOTA:** Sempre que o ficheiro Vagrantfile foi alterado executado novamente, a máquina virtual previamente criada foi destruída.
 
 
 ### 1.5 Atualizar a versão gradle basic da spring application para que use o servidor H2 na máquina virtual "db"
@@ -241,12 +241,12 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
     spring.h2.console.path=/h2-console
     spring.h2.console.settings.web-allow-others=true
 
-   Aqui foram colocadas todas as configurações necessárias para o servidor H2 e a context path para o ficheiro war.
+   Aqui foram colocadas todas as configurações necessárias para a ligação servidor H2 e a context path para o ficheiro war.
 
 
 ### 1.6 Executar o novo vagrantfile após as alterações às aplicação gradle basic da spring application
 
-Após todas as alterações necessaários ao ficheiro Vagrantfile e ao projeto gradle basic, executou-se o Vagrantfile a partir da
+Após todas as alterações necessárias ao ficheiro Vagrantfile e ao projeto gradle basic, executou-se o Vagrantfile a partir da
 linha de comandos da PowerShell:
 
 ````
@@ -311,11 +311,11 @@ v1.3.1
 
 Como ferramenta de virtualização alternativa à Virtual Box, foi escolhido o Hyper-V.
 
-A Virtual Box é uma ferramenta de virtualização open-source pertencente à Oracle e é classificada um *hypervisor* de tipo 2, 
+A Virtual Box é uma ferramenta de virtualização open-source pertencente à Oracle e é classificada como um *hypervisor* de tipo 2, 
 ou seja, instala as máquinas virtuais sobre o sistema operativo da máquina host, tal como qualquer outro software instalado. 
 Assim, a máquina virtual é executada como um processo na máquina host, partilhando o hardware do sistema, mas a gestão da máquina
-virtual é feita através da maquina host em vez de os comandos serem diretamente executados. Como consequência, existe um ligeiro
-atraso entre as ações realizadas.
+virtual é feita através da maquina host em vez de os comandos serem diretamente executados nesta. Como consequência, existe um ligeiro
+atraso entre as ações realizadas ao nível da máquina.
 
 O Hyper-V é um *bare-metal hypervisor* pertencente à Microsoft e é classificado como hypervisor de tipo 1 que corre directamente no
 hardare da máquina host. Desta forma, não é necessária a instalação adicional de um *package* externo e é possivel a gestão directa do
@@ -324,17 +324,16 @@ ser executada em hardware virtual, e permite a criação de discos duros virtuai
 à máquina virutal.
 
 Em termos comparativos, a Virtual Box permite criar uma máquina virtual mais facilmente pois disponibiliza um assistente que guia o utilizador 
-na criação da máquina. Por outro lado, tem a desvantagem de exigir a instalação de software e também é um hypervisor com um nível de performance
+na criação da máquina. Por outro lado, tem a desvantagem de exigir a instalação das maquinas como um produto de software e de possuir um nível de performance
 inferior ao Hyper-V. O Hyper-V já é um hypervisor que exige um pouco mais de conhecimento para a criação adequada de uma máquina virtual
-sem problemas de configuração. No entanto, possui a vantagem de atingir elevados níveis de performance e não necessitar da instalação de
-software.
+sem problemas de configuração. No entanto, possui a vantagem de atingir elevados níveis de performance e não necessitar de instalar as máquinas como
+um produto de software adicional.
 
 Em termos da utilização do Vagrant, o Hyper-V tem uma desvantagem grande relativamente ao Virtual Box porque o Vagrant neste hypervisor
 não consegue criar nem configurar novas ligações de rede. Quando uma máquina virtual é lançada com o Hyper-V, o Vagrant de imediato
 questiona a que switch virtual se deseja ligar a máquina virtual e vai gerar automaticamente um endereço de IP. Como resultado desta 
 configuração inicial, todas as configurações de rede definidas no VagrantFile vão ser ignoradas e o Vagrant nunca irá conseguir estabelecer
 um endereço IP de forma estática ou configurar automaticamente um NAT.
-
 
 
 ## 3. Implementação de uma alternativa - Hyper-V
@@ -356,7 +355,7 @@ $ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 
 Para poder executar o ficheiro Vagrantfile, é necessário definir como *default provider* o Hyper-V dado que, sempre que se executa
 o comanda *vagrant*, o hypervisor escolhido por omissão é o Virtual Box. Caso o Virtual Box não estiver instalado, o Vagrant vai tentar
-realizar o dowload di Virtual Box para cumprir este requisito. Desta forma, sempre que é criado um novo ficheiro Vagrantfile, é necessário
+realizar o download do Virtual Box para cumprir este requisito. Desta forma, sempre que é criado um novo ficheiro Vagrantfile, é necessário
 definir o Hyper-V como default através da variável de ambiente "VAGRANT_DEFAULT_PROVIDER" e do seguinte comando:
 
 ````
@@ -371,10 +370,10 @@ $ vagrant up --provider hyperv
 ````
 
 Outra questão importante é a configuração de rede das máquina virtuais que vão ser criadas. Como foi referido em cima, uma das
-limitações de executar a configuração definida Vagrantfiles com Hyper-V é que o vagrant não é capaz de de realizar as configurações 
+limitações de executar a configuração definida em Vagrantfiles com Hyper-V é que o vagrant não é capaz de de realizar as configurações 
 de rede necessárias no Hyper-V automaticamente (ao contrário do que aconteceu no Oracle VirtualBox). Por isso, outro passo necessário 
 antes de se executar o ficheiro é configurar uma ligação de rede para, mais tarde, a máquina virtual poder aceder à internet. Para isso, 
-é necessário criar um switch virtual externo, recorrendo ao Virtual Switch Manager do Hyper-V, como nome "External Switch".
+é necessário criar um switch virtual externo, recorrendo ao Virtual Switch Manager do Hyper-V Manager, como o nome "External Switch".
 
 Nesta fase, foi também definido no Vagrantfile que o hipervisor utilizado em ambas as máquinas virtuais foi o Hyper-V.
 
@@ -402,11 +401,6 @@ simply misspell it.
 
 Desta forma, verificou-se que a box "envimation/ubuntu-xenial", que estava pre-definida no Vagrantfile para a construção de ambas
 as máquinas virtuais, não suportava o Hyper-V.
-
-````
-$ vagrant box list envimation/ubuntu-xenial
-    envimation/ubuntu-xenial (virtualbox, 1.0.3-1516241473)
-````
 
 Para contornar este problema, recorreu-se à documentação existente na página do Vagrant para encontrar uma box que suportasse o
 Hyper-V. A box escolhida foi a "hashicorp/bionic64" que para além da virtual box também suporta Hyper-V. Foram realizadas as
@@ -446,14 +440,8 @@ Após esta configuração, voltou-se a executar novamente o ficheiro Vagrantfile
 
 Verfica-se então que a box "hashicorp/bionic64" foi adiconado com sucesso e que suporta o Hyper-V.
 
-````
-$ vagrant box list
-    envimation/ubuntu-xenial (virtualbox, 1.0.3-1516241473)
-    hashicorp/bionic64       (hyperv, 1.0.282)
-````
-
-Como o Hyper-V vai ignorar as configurações de rede existentes no Vagrantfile devido às suas limitações, durante a instalação 
-das máquinas virtuais vai questionar o utilizador que placa de rede definida se quer escolher. Neste passo, deveria ser selecionado
+Como o Vagrant vai ignorar as configurações de rede existentes no Vagrantfile devido às suas limitações, durante a instalação 
+das máquinas virtuais vai questionar o utilizador que placa de rede definida quer escolher. Neste passo, deveria ser selecionado
 a opçao 2) External Switch, mas como o objectivo é fazer a automatização deste processo, procedeu-se às seguintes alterações no 
 ficheiro Vagrantfile:
 
@@ -477,7 +465,7 @@ may request access to complete removal of stale shares.
 ````
 
 Durante a criação de uma máquina virtual com uma box hashicorp/precise64, o Vagrant tenta utilizar SMB synced folders que são 
-ficheiros que realizam a sincronização entre a máquina host e a máquina virtual de forma a melhorar a performance em sisitemas 
+ficheiros que realizam a sincronização entre a máquina host e a máquina virtual de forma a melhorar a performance em sistemas 
 operativos Windows relativamente a outros hipervisors. Como esta configuração não é pretendida, acrecentou-se o seguinte ao 
 Vagrantfile:
 
@@ -540,9 +528,9 @@ De seguida, acedeu-se também ao servidor H2 no brownser, a partir do seguinte e
 http://192.168.1.93:8080/tut_basic_gradle-0.0.1-SNAPSHOT/h2-console
 ````
 
-O endereço de IP utilizado para estes endereços depende do endereço de IP que é definido pelo Hyper-V na altura da criação da máquina
-virtual **web** e é automaticamente gerado pelo hypervisor quando se realiza a configuração inicial com o External Switch. Em ambas as
-situações a página não foi carregada com sucesso, tendo-se observado as seguintes mensagens:
+O endereço de IP utilizado para estes endereços depende do endereço de IP que é definido na altura da criação da máquina
+virtual **web** e é automaticamente gerado quando se realiza a configuração inicial com o External Switch.
+Em ambas as situações a página não foi carregada com sucesso, tendo-se observado as seguintes mensagens:
 
 **Spring Application**
 
@@ -587,7 +575,7 @@ objectivo do ca3, parte 2 é precisamente automatizar estas configurações no V
 manuais. Por enquanto, o Vagrant ainda não possui esta funcionalidade no Hyper-V, mas na documentação oficial é referido que será uma funcionalidade
 a existir numa versão futura.
 
-Desta forma, existem outras soluções possíveis para contornar este problema e tornar o processo mais automatizado. Um das 
+Desta forma, existem outras soluções possíveis para contornar este problema e tornar o processo mais automatizado. Uma das 
 soluções encontradas seria criar um switch NAT para o Hyper-V e realizar algumas configurações complexas no Vagrantfile que
 irão definir um IP estático que está no *range* do switch NAT criado. Assim, após o *vagrant up* e quando for ativada uma das configurações
 do Vagrantfile que vai obrigar ao reload da maquina virtual, a placa de rede definida para a máquina passa a ser o switch NAT e a maquina
