@@ -12,7 +12,7 @@ cumprir todos os requisitos necessários para a sua implementação foi necessá
 
   * acesso à Power Shell do Windows;
   * uma ferramenta de virtualização (neste caso, foi utlizado a Virtual Box da Oracle);
-  * ter instalado o Vagrant (neste caso, foi utilizado o gestor de pacotes apt);
+  * ter instalado o Vagrant (neste caso, recorreu-se ao executável fornecido em https://www.vagrantup.com/downloads.html);
   * um repositório remoto (neste caso, foi utilizado o Bitbucket);
   * o Spring Boot Tutorial Basic Project em gradle utilizada no Class Assignment 2, parte 2 proveniente do Tutorial React.js and Spring
   Data REST application;
