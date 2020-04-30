@@ -177,9 +177,7 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
 
 **1.Dar suporte para a construção do war file a partir de: **
 
-   Uma nova classe ServletInitializer:
-
-    ````
+  -Uma nova classe ServletInitializer:
     
     package com.greglturnquist.payroll;
     
@@ -193,52 +191,38 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
             return application.sources(ReactAndSpringDataRestApplication.class);
         }
     }
-    
-    ````
 
-   Adição da informação do servidor na secção das dependencias no ficheiro **build.gradle**:
+  -Adição da informação do servidor na secção das dependencias no ficheiro **build.gradle**:
     
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'`
     
-    ````
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-    ````
+  -Adição de informação de suporte ao war nos plugins do ficheiro **build.gradle**:
     
-   Adição de informação de suporte ao war nos plugins do ficheiro **build.gradle**:
-    
-    
-    ````
     id 'war'
-    ````
+    
 
    O war construído irá ter o nome *tut_basic_gradle-0.0.1-SNAPSHOT*.
 
-   Alterações ao ficheiro app.js para definar a context path da aplicação:
+  -Alterações ao ficheiro app.js para definar a context path da aplicação:
 
-    Na linha 18 passa de:
+   Na linha 18 passa de:
     
-    ````
         client({method: 'GET', path: '/api/employees'}).done(response => {
-    ````
     
    Para:
-    
-    ````
+
         client({method: 'GET', path: '/tut_basic_gradle-0.0.1-SNAPSHOT/api/employees'}).done(response => {
-    ````
+
 
 **2.Alterações ao ficheiro index HTML:**
 
    Correção do path para o ficheiro de CSS que passa de:
     
-    ````
     <link rel="stylesheet" href="/main.css" />
-    ````
     
    Para:
-    
-    ````
+
     <link rel="stylesheet" href="main.css" />
-    ````
 
 **3.Alterar o ficheiro aplications.properties para a configuração da base de dados H2:**
 
