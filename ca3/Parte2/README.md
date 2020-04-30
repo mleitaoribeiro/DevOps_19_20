@@ -107,7 +107,7 @@ Ao voltar à pagina do browser da aplicação, é feita a atualização da pági
 Finalmente, após a exploração de toda a aplicação, é feita destruição de ambas as máquinas através do comando:
 
 ````
-vagrant destroy
+$ vagrant destroy
 ````
 
 ### 1.3 Copiar o Vagrantfile para o repositório pessoal Bitbucket
@@ -135,7 +135,7 @@ maquina virtual **web**. O comando *cd* dever ser também alterado para que se p
 Ao executar o Vagrantfile, verificou-se por ligação **ssh** à máquina **web** que o ficheiro gradlew não tinha permissões de execução para a root.
   
 ````
-vagrant ssh web
+$ vagrant ssh web
 ```` 
  
 ````
@@ -218,11 +218,11 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
 
    Correção do path para o ficheiro de CSS que passa de:
     
-    <link rel="stylesheet" href="/main.css" />
+        <link rel="stylesheet" href="/main.css" />
     
    Para:
 
-    <link rel="stylesheet" href="main.css" />
+        <link rel="stylesheet" href="main.css" />
 
 **3.Alterar o ficheiro aplications.properties para a configuração da base de dados H2:**
 
@@ -250,7 +250,7 @@ Após todas as alterações necessaários ao ficheiro Vagrantfile e ao projeto g
 linha de comandos da PowerShell:
 
 ````
-vagrant up
+$ vagrant up
 ````
 
 Após conclusão do comando e com ambas as máquinas virtuais construídas e a correr, recorreu-se ao browser na máquina host para se aceder
@@ -279,7 +279,7 @@ Ao voltar à pagina do browser da aplicação, é feita a atualização da pági
 *reload* da máquina virtual **web**. Finalmente, é feita destruição de ambas as máquinas através do comando:
 
 ````
-vagrant destroy
+$ vagrant destroy
 ````
 
 ### 1.7 Adicionar a tag ca3-part2
@@ -349,7 +349,7 @@ nomeadamente, em instalações a partir do Windows 8.1. Desta forma, apenas é n
 Windows features on or off* e selecionar a opção de "Hyper-V". Outra opção é instalar via PowerShell com o comando:
 
 ````
-Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+$ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 ````
 
 ### 3.2 Configuração do Hyper-V e adaptação do Vagrantfile utilizado no ponto 1.2
@@ -360,14 +360,14 @@ realizar o dowload di Virtual Box para cumprir este requisito. Desta forma, semp
 definir o Hyper-V como default através da variável de ambiente "VAGRANT_DEFAULT_PROVIDER" e do seguinte comando:
 
 ````
-[Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "hyperv", "User")
+$ [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "hyperv", "User")
 ````
 
 Outra forma de forçar a utilização do Hyper-V por parte do Vagrant é, sempre que o comando *vagrant up* é executado, adicionar a
 seguinte opção:
 
 ````
-vagrant up --provider hyperv
+$ vagrant up --provider hyperv
 ````
 
 Outra questão importante é a configuração de rede das máquina virtuais que vão ser criadas. Como foi referido em cima, uma das
@@ -388,7 +388,7 @@ De seguida, após inicialização da Power Shell em modo administrador, acedeu-s
 executado com o seguinte comando:
 
 ````
-vagrant up --provider hyperv
+$ vagrant up --provider hyperv
 ````
 
 A maquina virtual "db" definida no Vagrantfile começou a ser construída mas surgiu a seguinte mensagem de erro:
@@ -404,7 +404,7 @@ Desta forma, verificou-se que a box "envimation/ubuntu-xenial", que estava pre-d
 as máquinas virtuais, não suportava o Hyper-V.
 
 ````
-vagrant box list envimation/ubuntu-xenial
+$ vagrant box list envimation/ubuntu-xenial
     envimation/ubuntu-xenial (virtualbox, 1.0.3-1516241473)
 ````
 
@@ -447,7 +447,7 @@ Após esta configuração, voltou-se a executar novamente o ficheiro Vagrantfile
 Verfica-se então que a box "hashicorp/bionic64" foi adiconado com sucesso e que suporta o Hyper-V.
 
 ````
-vagrant box list
+$ vagrant box list
     envimation/ubuntu-xenial (virtualbox, 1.0.3-1516241473)
     hashicorp/bionic64       (hyperv, 1.0.282)
 ````
@@ -512,7 +512,7 @@ end
 comando:
 
 ````
-vagrant destroy
+$ vagrant destroy
 ````
 
 ##### Os pontos 3.3, 3.4 e 3.5 foram realizada de forma idêntica à realizada em nos pontos 1.3, 1.4 e 1.5.
@@ -599,7 +599,7 @@ Nenhuma das soluções referidas anteriormente foram implementadas devido à com
 Finalmente, é feita destruição de ambas as máquinas através do comando:
 
 ````
-vagrant destroy
+$ vagrant destroy
 ````
 
 
