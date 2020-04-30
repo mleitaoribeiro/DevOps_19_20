@@ -20,27 +20,42 @@ cumprir todos os requisitos necessários para a sua implementação foi necessá
 
 ### 1.2 Descarregar e explorar o Vagrantfile disponível em https://bitbucket.org/atb/vagrant-multi-spring-tut-demo/
 
-descarregar, ler e fazer o README!!
+Após descarregar o Vagrantfile do repositório indicado, procedeu-se à análise do ficheiro.
 
-ver como são criadas duas maquinas virtuais no ficheiro
+Numa primeira fase, é feita uma configuração geral para a criação das duas máquinas virtuais: define-se a box da qual se vão
+criar as máquinas - "envimation/ubuntu-xenial" e, de seguida, define-se todo o software que é necessário instalar em ambas.
 
-web: this VM is used to run tomcat and the spring boot basic application
-db: this VM is used to execute the H2 server database
+O segundo passo passa por configurar a máquina "db" que vai ser utilizada para executar o servidor H2 da base de dados, onde a
+web application se vai conectar. Nesta secção é definida o endereço de IP da máquina bem como os portos por onde se vai realizar a
+ligação à maquina host (8082) e outro para se poder aceder ao servidor H2 (9092). Finalmente, descarrega-se o servidor H2 atrvés do 
+comando *wget* e executa-se o comando para correr o servidor, definindo que este comando deverá ser sempre executado quando a máquina 
+é ligada. Para a conexão à base de dados, é necessário o URL: **jdbc:h2:tcp://192.168.33.11:9092/./jpadb**.
 
+O terceiro passo passa por configurar a máquina "web" que vai ser utilizada para executar o tomcat e a web application no seu interior.
+Nesta secção define-se também o endereço de IP da máquina bem como os portos por onde o tomcat vai ficar disponível a partir da maquina
+host (8080). De seguida, é definido a memória RAM da máquina virtual (1024) e finalmente é feita a instalação de todo o software necessário
+para poder executar a web application.
 
-ver explicação do professor para explicar o vagrantfile
+Finalmente, é feito o clone do repositório remoto onde a aplicação se encontra, acede-se à pasta da aplicação e faz-se o build do ficheiro
+build.gradle aí contido. De seguida, faz-me uma cópia do ficheiro war gerado no build para a pasta */var/lib/tomcat8/webapps* do tomcat, que 
+quando detectar este ficheiro, vai automaticamente expandi-lo e assim executar a *web application*.
+
+Após esta análise, foram seguidos os passos descritos no README disponível no repositório indicado. Foi criada uma pasta local na 
+máquina host e foi colocado aqui o VagrantFile. Executaram-se então os seguintes comandos na linha de comandos da PowerShell:
 
 ````
 $ vagrant up
 ````
 
-base de dados é sempre a primeira porque a parte web precisa de aceder à base de dados
-depois ver as maquinas criadas na virtual box e correr o comando 
+Este comando vai dar início à execução do Vagrantfile e à construção das duas máquinas virtuais. A máquina **db** é sempre a primeira
+a ser construída porque a máquina **web** vai precisar de aceder à base de dados posteriormente. Após a execução do ficheiro ser finalizada,
+é possível verficar que as maquinas foram criadas na virtual box e correndo o seguinte comando:
 
 ````
 $ vagrant status
 ````
-ver o seguinte 
+
+Vai ser possível ver o estado de ambas as máquinas virtuais:
 
 ````
 Current machine states:
@@ -49,120 +64,56 @@ db                        running (virtualbox)
 web                       running (virtualbox)
 ````
 
-podemos por vagrant status db ou web para ver so o status de um a maquina e podemos ligar/desligar só uma também especificando
-a maquina que queremos
+Se for necessário, a partir do Vagrantfile podemos ligar/desligar ambas as máquinas ou se especificarmos o nome à frente
+dos comandos, apenas ligar/desligar a máquina pretendida:
 
 ````
+$ vagrant halt
+
 $ vagrant halt web
 $ vagrant halt db
+
+$ vagrant up web
+$ vagrant up db
+
+$ vagrant reload
 ````
 
-carregar nos links do readme e ver a app a correr
+Na ultima linha encontra-se o comando reload que é utilizado para reiniciar as máquinas virtuais caso pretendido.
+Com ambas as máquinas a correr, pode-se aceder à web application no brownser a partir do seguinte endereço:
 
 ````
 http://localhost:8080/basic-0.0.1-SNAPSHOT/
 ````
 
-e a base de dados a correr
-como há persisitencia sempre que arrancamos a vm ele cria nova linha para o frodo baggins porque essa parte da app não foi
-alterada porque era usada quando se executa a app em memoria
-
-sempre que fizer reload da vms ele adiciona uma linha igual
-
-````
-$ vagrant reload
-````
-
-
+Nesta página conseguimos observar o resultado final da web application, que é o esperado.
+Pode-se aceder também ao servidor H2 no brownser, a partir do seguinte endereço:
 
 ````
 http://localhost:8080/basic-0.0.1-SNAPSHOT/h2-console
 ````
 
-para aceder conectar à base de dados é necessário utilizar um url especifico, que está definido no vagrantfile na linha 37 que é 
-*jdbc:h2:tcp://192.168.33.11:9092/./jpadb*
+Para se realizar a conexão à base de dados, é necessário introduzir o URL definido no Vagrantfile na linha 37 - 
+**jdbc:h2:tcp://192.168.33.11:9092/./jpadb**
 
-clicar em teste connection - Test successful
-
-e depois ligar à base de dados
-
-inserir dados na base de dados e ver no browser a alterar
+A ligação é feita com sucesso e, desta forma, podemos introduzir dados na base de dados e depois verificar se, no lado da 
+aplicação, o resultado é visível:
 
 ````
 insert into employee values (3, 'wizard', 'Gandalf', null);
 ````
 
-e ver se aparece na parte web - sucesso
-
-desliguei ambas as maquinas
-
-
-
-ver se tudo corre bem
-
-ver novamente os links e verificar se houve sucesso
-
-
-
-Para iniciar o Ca3, part1, foi necessário criar a pasta Parte1 na pasta Ca3 já existente no repositório. De seguida, foi
-utilizado o programa Virtual Box da Oracle para construir uma máquina virtual, usando o Ubuntu como distribuição Linux para
-o sistema operativo. Para este efeito, foram seguidos os passos descritos na aula teórica "Introduction to Virtualization" e 
-realizadas todas as configurações de rede necessárias para existir acesso à internet por parte da máquina virtual, bem como
-acesso remoto por SSH à máquina host. A configuração foi concluída com sucesso, sem qualquer tipo de complicação. 
-
-De seguida, reiniciou-se a máquina virtual, escolhendo a opção *headless start* para que esta corresse em backgroud e acedeu-se
-à máquina através de uma ligação SSH na CLI do Ubuntu da máquina host, executando:
+Ao voltar à pagina do browser da aplicação, é feita a atualização da página e é possivel ver os dados introduzidos.
+Finalmente, após a exploração de toda a aplicação, é feita destruição de ambas as máquinas através do comando:
 
 ````
-$ ssh martalribeiro@192.168.56.5
+vagrant destroy
 ````
-
-O termo *martalribeiro* representa o nome do utlizador da sessão onde se irá fazer o login e *192.168.56.5* representa o endereço
-de IP no qual é feita a ligação entre a máquina virtual e a host.
-
-
-
 
 ### 1.3 Copiar o Vagrantfile para o repositório pessoal Bitbucket
 
-
-copiar o ficheiro para Ca3, parte 2 e passar para o repositorio local e remoto.
-
-
-
-### 1.4 Atualizar a configuração do Vagrantfile de forma a executar a versão gradle da spring application utilizada no Ca2, parte2
-
-
-nas linhas 70 e 71, alterar estas linhas para fazer clone do meu repositorio para a maquina virtual web
-
-````
-    git clone https://martalribeiro@bitbucket.org/martalribeiro/devops-19-20-a-1191779.git
-    cd devops-19-20-a-1191779/ca3/Parte2/basic
-````
-
-como se verificou por ligação ssh que o ficheiro gradlew não tinha permissões de execução para a root foi necessário adicionar o
-seguinte comando:
-
-````
-    sudo chmod u+x gradlew
-````
-
-para ficar assim
-
-````
--rwxr--r--   1 root root   5764 Apr 28 18:16 gradlew
-````
-
-de seguida manteve-se a linha do comando build e foi necessário mudar o nome do war que vai ser gerado pelo build do gradle para
-tut_basic_gradle-0.0.1-SNAPSHOT.war, que vai ser expandido quando for copiado para a pasta tomcat8/webapps
-
-```` 
-    sudo ./gradlew clean build
-    # To deploy the war file to tomcat8 do the following command:
-    sudo cp build/libs/tut_basic_gradle-0.0.1-SNAPSHOT.war /var/lib/tomcat8/webapps
-````
-
-fiz commit das alteracoes
+Para realizar esta tarefa, é criada a pasta *Parte2* dentro da pasta *ca3* já existente e faz-se cópia do Vagrantfile descarregado.
+De seguida, executam-se os seguintes comandos:
 
 ````
 $ git add .
@@ -170,191 +121,180 @@ $ git commit -m "fix #29"
 $ git push -u origin master
 ````
 
-**NOTA:** 
+### 1.4 Atualizar a configuração do Vagrantfile de forma a executar a versão gradle da spring application utilizada no Ca2, parte2
+
+Para executar a versão gradle da aplicação, é necessário realizar algumas alterações ao ficheiro Vagrantfile fornecido inicialmente.
+Nas linhas 70 e 71, deve-se alterar o comando *git clone* para que seja possível realizar o clone do repositorio remoto pessoal para a
+maquina virtual **web**. O comando *cd* dever ser também alterado para que se possa aceder à pasta onde se encontra a aplicação:
+
+````
+    git clone https://martalribeiro@bitbucket.org/martalribeiro/devops-19-20-a-1191779.git
+    cd devops-19-20-a-1191779/ca3/Parte2/basic
+````
+
+Ao executar o Vagrantfile, verificou-se por ligação **ssh** à máquina **web** que o ficheiro gradlew não tinha permissões de execução para a root.
+  
+````
+vagrant ssh web
+```` 
+ 
+````
+-rw-r--r--   1 root root   5764 Apr 28 18:16 gradlew
+```` 
+ 
+Desta forma, foi necessário adicionar o seguinte comando ao Vagrantfile:
+
+````
+    sudo chmod u+x gradlew
+````
+
+Para obter o seguinte resultado:
+
+````
+-rwxr--r--   1 root root   5764 Apr 28 18:16 gradlew
+````
+
+De seguida, manteve-se a linha do comando build do gradle, mas foi necessário mudar a linha que executa a cópia do ficheiro war
+para a pasta *webapps* do tomcat. Como o nome do ficheiro war que vai ser gerado pelo build do gradle é diferente do existente,
+teve de alterar o nome do ficherio para *tut_basic_gradle-0.0.1-SNAPSHOT.war*:
+
+```` 
+    sudo ./gradlew clean build
+    # To deploy the war file to tomcat8 do the following command:
+    sudo cp build/libs/tut_basic_gradle-0.0.1-SNAPSHOT.war /var/lib/tomcat8/webapps
+````
+
+No final de todas as alterações,fez-se commit e push a partir dos respectivos comandos Git
+
+
+**NOTA:** Sempre que o ficheiro Vagrantfile foi alterado, a máquina virtual previamente criada foi destruída.
+
 
 ### 1.5 Atualizar a versão gradle basic da spring application para que use o servidor H2 na máquina virtual "db"
 
-fiz as alterações necessárias para que aplicação corresse no interior da VM web
+Para que a versão basic da application seja capaz de utilizar o servidor H2 que está a correr na máquina virtual *db*, é necessário
+fazer as alterações necessárias ao projeto para que aplicação corra no interior da máquina virtual **web**. Para isso:
 
+* dar suporte para a construção do war file a partir de:
 
-* suporte para a construção do war file:
-
-nova classe ServletInitializer
-
-````
-package com.greglturnquist.payroll;
-
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-
-public class ServletInitializer extends SpringBootServletInitializer {
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(ReactAndSpringDataRestApplication.class);
+    Uma nova classe ServletInitializer:
+    
+    ````
+    package com.greglturnquist.payroll;
+    
+    import org.springframework.boot.builder.SpringApplicationBuilder;
+    import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+    
+    public class ServletInitializer extends SpringBootServletInitializer {
+    
+        @Override
+        protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+            return application.sources(ReactAndSpringDataRestApplication.class);
+        }
     }
-}
-````
+    ````
 
-adicionar às dependencias no build.gradle
+    Adição da informação do servidor na secção das dependencias no ficheiro **build.gradle**:
+    
+    ````
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    ````
+    
+    Adição de informação de suporte ao war nos plugins do ficheiro **build.gradle**:
+    
+    ````
+    id 'war'
+    ````
 
-````
-providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-````
+    O war construído irá ter o nome *tut_basic_gradle-0.0.1-SNAPSHOT*.
 
-adionar aos plugins no build.gradle
+* alterações ao ficheiro app.js para definar a context path da aplicação:
 
-````
-id 'war'
-````
+    Na linha 18 passa de:
+    
+    ````
+        client({method: 'GET', path: '/api/employees'}).done(response => {
+    ````
+    
+    Para:
+    
+    ````
+        client({method: 'GET', path: '/tut_basic_gradle-0.0.1-SNAPSHOT/api/employees'}).done(response => {
+    ````
 
-o war que vai ser construído vai ter o nome *tut_basic_gradle-0.0.1-SNAPSHOT*
+* alterações ao ficheiro index HTML:
 
-* alterações ao ao ficheiro app.js para Application context path.
+    Corrição do path para o ficheiro de CSS que passa de:
+    
+    ````
+    <link rel="stylesheet" href="/main.css" />
+    ````
+    
+    Para:
+    
+    ````
+    <link rel="stylesheet" href="main.css" />
+    ````
 
-na linha 18 passa de 
+* alterar o ficheiro aplications.properties para a configuração da base de dados H2:
 
-````
-    client({method: 'GET', path: '/api/employees'}).done(response => {
-````
+    ````
+    server.servlet.context-path=/tut_basic_gradle-0.0.1-SNAPSHOT
+    spring.data.rest.base-path=/api
+    #spring.datasource.url=jdbc:h2:mem:jpadb
+    # In the following settings the h2 file is created in /home/vagrant folder
+    spring.datasource.url=jdbc:h2:tcp://192.168.33.11:9092/./jpadb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    spring.datasource.driverClassName=org.h2.Driver
+    spring.datasource.username=sa
+    spring.datasource.password=
+    spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+    # So that spring will no drop de database on every execution.
+    spring.jpa.hibernate.ddl-auto=update
+    spring.h2.console.enabled=true
+    spring.h2.console.path=/h2-console
+    spring.h2.console.settings.web-allow-others=true
+    ````
 
-para
-
-````
-    client({method: 'GET', path: '/tut_basic_gradle-0.0.1-SNAPSHOT/api/employees'}).done(response => {
-````
-
-* alterações ao ficheiro index HTML
-
-corrigir o path para o ficheiro de CSS
-
-passa de 
-
-````
-<link rel="stylesheet" href="/main.css" />
-````
-
-para
-
-````
-<link rel="stylesheet" href="main.css" />
-````
-
-* alterar o ficheiro aplications.properties
-
-````
-server.servlet.context-path=/basic-0.0.1-SNAPSHOT
-spring.data.rest.base-path=/api
-#spring.datasource.url=jdbc:h2:mem:jpadb
-# In the following settings the h2 file is created in /home/vagrant folder
-spring.datasource.url=jdbc:h2:tcp://192.168.33.11:9092/./jpadb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-# So that spring will no drop de database on every execution.
-spring.jpa.hibernate.ddl-auto=update
-spring.h2.console.enabled=true
-spring.h2.console.path=/h2-console
-spring.h2.console.settings.web-allow-others=true
-````
-
-onde se colocou todas as configurações necessárias para o servidor H2 e o context path para o war
+    Aqui foram colocadas todas as configurações necessárias para o servidor H2 e a context path para o ficheiro war.
 
 
 ### 1.6 Executar o novo vagrantfile após as alterações às aplicação gradle basic da spring application
 
-executar o vagrant file
-
-realizar o comando na power shell
+Após todas as alterações necessaários ao ficheiro Vagrantfile e ao projeto gradle basic, executou-se o Vagrantfile a partir da
+linha de comandos da PowerShell:
 
 ````
 $ vagrant up
 ````
 
-
-carregar nos links do readme e ver a app a correr
+Após conclusão do comando e com ambas as máquinas virtuais construídas e a correr, recorreu-se ao browser na máquina host para se aceder
+ao seguinte endereço:
 
 ````
 http://localhost:8080/tut_basic_gradle-0.0.1-SNAPSHOT/
 ````
 
-e a base de dados a correr
-como há persisitencia sempre que arrancamos a vm ele cria nova linha para o frodo baggins porque essa parte da app não foi
-alterada porque era usada quando se executa a app em memoria
-
-sempre que fizer reload da vms ele adiciona uma linha igual
-
-````
-$ vagrant reload
-````
-
-correr o link da base de dados
-
+A página foi carregada com sucesso, permitindo assim concluir que a execução do Vagrantfile com todas as alterações feitas ao
+ficheiro e ao projeto gradle foi realizado com secesso.
+De seguida acedeu-se também ao servidor H2 no brownser, a partir do seguinte endereço:
 
 ````
 http://localhost:8080/tut_basic_gradle-0.0.1-SNAPSHOT/h2-console
 ````
 
-para aceder conectar à base de dados é necessário utilizar um url especifico, que está definido no vagrantfile na linha 37 que é 
-*jdbc:h2:tcp://192.168.33.11:9092/./jpadb*
-
-clicar em teste connection - Test successful
-
-e depois ligar à base de dados
-
-inserir dados na base de dados e ver no browser a alterar
+A página foi carregada com sucesso e é possivel observar a janela de login na base de dados. Foi introduzido o URL correcto -
+**jdbc:h2:tcp://192.168.33.11:9092/./jpadb** e depois introduziram-se os seguintes dados na base de dados:
 
 ````
 insert into employee values (3, 'wizard', 'gandalf@lotr.com', 'Gandalf', null, null);
 ````
 
-e ver se aparece na parte web - sucesso
-
-fiz ligação ssh e verfiquei que o war tinha sido copiado
-
-````
-$ cd /var/lib/tomcat8/webapps
-
-$ls
-drwxrwxr-x 4 tomcat8 tomcat8     4096 Apr 28 18:18 .
-drwxr-xr-x 4 root    root        4096 Apr 28 18:15 ..
-drwxr-xr-x 3 root    root        4096 Apr 28 18:15 ROOT
-drwxr-xr-x 5 tomcat8 tomcat8     4096 Apr 28 18:18 tut_basic_gradle-0.0.1-SNAPSHOT
--rw-r--r-- 1 root    root    42355482 Apr 28 18:18 tut_basic_gradle-0.0.1-SNAPSHOT.war
-````
-
-fui verficar que o tomcat era ums dos processos ativos
+Ao voltar à pagina do browser da aplicação, é feita a atualização da página e é possivel ver os dados introduzidos, após 
+*reload* da máquina virtual **web**. Finalmente, é feita destruição de ambas as máquinas através do comando:
 
 ````
-$ ps aux
-
-tomcat8    565  3.6 51.4 2745404 522428 ?      Sl   18:23   0:32 /usr/lib/jvm/java-8-openjdk-amd64/bin/java -Djava.util.root
+vagrant destroy
 ````
-
-para vermos o estado do processo tomcat8
-
-````
-$ systemctl status tomcat8
-
-● tomcat8.service - LSB: Start Tomcat.
-   Loaded: loaded (/etc/init.d/tomcat8; bad; vendor preset: enabled)
-   Active: active (running) since Tue 2020-04-28 18:23:39 UTC; 32min ago
-     Docs: man:systemd-sysv-generator(8)
-  Process: 537 ExecStart=/etc/init.d/tomcat8 start (code=exited, status=0/SUCCESS)
-   CGroup: /system.slice/tomcat8.service
-           └─565 /usr/lib/jvm/java-8-openjdk-amd64/bin/java -Djava.util.logging.config.file=/var/lib/tomcat8/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.awt.headless=true -Xmx12
-8m -XX:+UseConcMarkSweepGC -Djava.endorsed.dirs=/usr/share/tomcat8/endorsed -classpath /usr/share/tomcat8/bin/bootstrap.jar:/usr/share/tomcat8/bin/tomcat-juli.jar -Dcatalina.base=/var/lib/tomcat8 -Dcatalina.home=/usr/share/tomcat8
- -Djava.io.tmpdir=/tmp/tomcat8-tomcat8-tmp org.apache.catalina.startup.Bootstrap start
-````
-
-de seguida
-
-desliguei ambas as maquinas
-
-
-
-
 
 ### 1.7 Adicionar a tag ca3-part2
 
@@ -408,6 +348,7 @@ não consegue criar nem configurar novas ligações de rede. Quando uma máquina
 questiona a que switch virtual se deseja ligar a máquina virtual e vai gerar automaticamente um endereço de IP. Como resultado desta 
 configuração inicial, todas as configurações de rede definidas no VagrantFile vão ser ignoradas e o Vagrant nunca irá conseguir estabelecer
 um endereço IP de forma estática ou configurar automaticamente um NAT.
+
 
 
 ## 3. Implementação de uma alternativa - Hyper-V
