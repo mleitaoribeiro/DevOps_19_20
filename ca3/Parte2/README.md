@@ -264,7 +264,7 @@ Após todas as alterações necessaários ao ficheiro Vagrantfile e ao projeto g
 linha de comandos da PowerShell:
 
 ````
-$ vagrant up
+vagrant up
 ````
 
 Após conclusão do comando e com ambas as máquinas virtuais construídas e a correr, recorreu-se ao browser na máquina host para se aceder
