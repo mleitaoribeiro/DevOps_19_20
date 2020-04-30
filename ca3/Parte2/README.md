@@ -175,10 +175,9 @@ No final de todas as alterações,fez-se commit e push a partir dos respectivos 
 Para que a versão basic da application seja capaz de utilizar o servidor H2 que está a correr na máquina virtual *db*, é necessário
 fazer as alterações necessárias ao projeto para que aplicação corra no interior da máquina virtual **web**. Para isso:
 
-* dar suporte para a construção do war file a partir de:
+dar suporte para a construção do war file a partir de: 
+    uma nova classe ServletInitializer:
 
-    Uma nova classe ServletInitializer:
-    
     ````
     
     package com.greglturnquist.payroll;
@@ -244,31 +243,18 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
 
     ````
     server.servlet.context-path=/tut_basic_gradle-0.0.1-SNAPSHOT
-    
-    spring.data.rest.base-path=/api
-    
+    spring.data.rest.base-path=/api    
     #spring.datasource.url=jdbc:h2:mem:jpadb
-    
     # In the following settings the h2 file is created in /home/vagrant folder
-    
     spring.datasource.url=jdbc:h2:tcp://192.168.33.11:9092/./jpadb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    
     spring.datasource.driverClassName=org.h2.Driver
-    
     spring.datasource.username=sa
-    
     spring.datasource.password=
-    
     spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-    
     # So that spring will no drop de database on every execution.
-    
     spring.jpa.hibernate.ddl-auto=update
-    
     spring.h2.console.enabled=true
-    
     spring.h2.console.path=/h2-console
-    
     spring.h2.console.settings.web-allow-others=true
     ````
 
