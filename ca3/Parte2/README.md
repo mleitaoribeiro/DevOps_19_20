@@ -179,8 +179,8 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
 
     Uma nova classe ServletInitializer:
     
+    ````
     
-    ```
     package com.greglturnquist.payroll;
     
     import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -193,15 +193,18 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
             return application.sources(ReactAndSpringDataRestApplication.class);
         }
     }
-    ```
+    
+    ````
 
     Adição da informação do servidor na secção das dependencias no ficheiro **build.gradle**:
+    
     
     ````
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     ````
     
     Adição de informação de suporte ao war nos plugins do ficheiro **build.gradle**:
+    
     
     ````
     id 'war'
@@ -241,18 +244,31 @@ fazer as alterações necessárias ao projeto para que aplicação corra no inte
 
     ````
     server.servlet.context-path=/tut_basic_gradle-0.0.1-SNAPSHOT
+    
     spring.data.rest.base-path=/api
+    
     #spring.datasource.url=jdbc:h2:mem:jpadb
+    
     # In the following settings the h2 file is created in /home/vagrant folder
+    
     spring.datasource.url=jdbc:h2:tcp://192.168.33.11:9092/./jpadb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    
     spring.datasource.driverClassName=org.h2.Driver
+    
     spring.datasource.username=sa
+    
     spring.datasource.password=
+    
     spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+    
     # So that spring will no drop de database on every execution.
+    
     spring.jpa.hibernate.ddl-auto=update
+    
     spring.h2.console.enabled=true
+    
     spring.h2.console.path=/h2-console
+    
     spring.h2.console.settings.web-allow-others=true
     ````
 
