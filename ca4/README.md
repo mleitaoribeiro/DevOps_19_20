@@ -57,6 +57,52 @@ $ docker-compose down
 ### 1.4 Publicar as imagens "db" e "web" no Docker Hub
 
 
+a seguir a ter uma conta no docker hub, criado um repositório e com ambos os containers a correr
+
+````
+$ docker commit ca4_web_1 web_spring_boot_application
+````
+
+fazer login no docker hub
+
+````
+$ docker login
+````
+
+primeiro tenho de fazer uma tag da minha imagem associada à minha conta docker hub
+
+You need to include the namespace for Docker Hub to associate it with your account.
+The namespace is the same as your Docker Hub account name.
+You need to rename the image to YOUR_DOCKERHUB_NAME/docker-whale.
+
+````
+$ docker tag web_spring_boot_application martalribeiro/devops2019-2020:web_spring_boot_application
+````
+
+de seguida fazer o push
+
+````
+$ docker push martalribeiro/devops2019-2020:web_spring_boot_application
+````
+
+repetir o processo para o container "db"
+
+````
+$ docker commit ca4_db_1 db_spring_boot_application
+
+$ docker tag db_spring_boot_application martalribeiro/devops2019-2020:db_spring_boot_application
+
+$ docker push martalribeiro/devops2019-2020:db_spring_boot_application
+````
+
+Para poder o pull dos containers realizar os seguinte comandos:
+
+````
+$ docker pull martalribeiro/devops2019-2020:db_spring_boot_application
+
+$ docker pull martalribeiro/devops2019-2020:web_spring_boot_application
+````
+
 
 ### 1.5 Utilizar um volume no container "db" para copiar o ficheiro gerado para a base de dados
 
