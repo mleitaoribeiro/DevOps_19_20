@@ -235,9 +235,39 @@ v1.3.1
 
 Como ferramenta alternativa ao Docker, foram exloradas as Kubernetes.
 
+O Docker é uma tecnologia open-source que possui o objectivo de utilizar ficheiros para automatizar a implementação de aplicações
+como contentores portáteis e autossuficientes que possam ser executados localmente ou numa cloud. Nos ultimos anos tornou-se no
+no formato de contentor predefinido e inclui o motor Docker, que é um ambiente de runtime. É uma ferramenta que permite compilar
+e executar contentores em qualquer máquina de desenvolvimento e, depois, armazenar ou partilhar as imagens do contentor através
+de um registo de contentor em locais como o Docker Hub. Embora o Docker forneça uma norma aberta para empacotar e distribuir aplicações
+contentorizadas, as potenciais complexidades podem facilmente escalar.
 
+O Kubernetes é um software de orquestração open-source que fornece uma API para controlar como e onde é que esses contentores
+vão ser executados. Permite executar os contentores e as cargas de trabalho do Docker e ajuda a contornar algumas das complexidades
+operacionais inerentes ao dimensionamento de vários contentores implementados em múltiplos servidores. Com o Kubernetes, pode-se
+orquestrar um cluster de máquinas virtuais e agendar a execução de contentores nessas máquinas virtuais com base nos recursos de
+computação disponíveis e nos requisitos de recursos de cada contentor. Os contentores estão agrupados em pods, a unidade operacional
+básica do Kubernetes. 
+
+Apesar de ser comum comparar o Kubernetes ao Docker, a comparação mais adequada é Kubernetes vs. Docker Swarm. O Docker 
+Swarm é a tecnologia de orquestração da Docker que se dedica ao clustering para contentores do Docker e está totalmente 
+integrado no ecossistema da Docker e utiliza a sua própria API. Desta forma, em vez de se utilizar o Docker Swarm pode ser
+utilizado o Kubernetes para o mesmo propósito, sendo assim Docker e Kubernetes ferramentas complementares. Embora a promessa
+dos contentores seja programar uma vez e executar em qualquer local, a complementaridade com o Kubernetes oferece o potencial
+de orquestrar e gerir todos os recursos de contentores num único plano de controlo.
+
+Uma diferença fundamental entre o Kubernetes e o Docker é que o primeiro destina-se a execução num cluster e o segundo num 
+único nó. O Kubernetes é mais extenso do que o Docker Swarm e tem como objetivo coordenar clusters de nós em escala em produção
+de forma eficiente. Os pods do Kubernetes, que são unidades de agendamento que contêm um ou mais contentores no ecossistema do
+Kubernetes, são distribuídos pelos nós para proporcionarem elevada disponibilidade.
 
 
 ## Referências:
 
 * https://www.docker.com/products/docker-desktop
+* https://azure.microsoft.com/pt-pt/topic/kubernetes-vs-docker/
+* https://www.sumologic.com/blog/kubernetes-vs-docker/
+* https://containerjournal.com/topics/container-ecosystems/kubernetes-vs-docker-a-primer/
+* https://www.knowledgehut.com/blog/devops/kubernetes-vs-docker
+* https://stackify.com/kubernetes-vs-docker-how-to-choose/
+* https://www.padok.fr/en/blog/docker-vs-kubernetes-complementary-more-than-different
