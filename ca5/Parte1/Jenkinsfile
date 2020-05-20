@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo 'Checking out...'
                 git credentialsId: 'mlrBitbucket', url:
-                    'https://https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/'
+                    'https://martalribeiro@bitbucket.org/martalribeiro/devops-19-20-a-1191779.git'
             }
         }
         stage('Assemble') {
