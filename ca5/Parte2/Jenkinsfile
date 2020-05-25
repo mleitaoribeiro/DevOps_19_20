@@ -1,0 +1,69 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out...'
+                git credentialsId: 'mlrBitbucket', url:
+                    'https://martalribeiro@bitbucket.org/martalribeiro/devops-19-20-a-1191779.git'
+            }
+        }
+        stage('Assemble') {
+            steps {
+                dir('ca2/Parte2/tut_basic_gradle') {
+                    echo 'Building...'
+                    sh 'chmod +x gradlew'
+                    sh './gradlew assemble'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                dir('ca2/Parte2/tut_basic_gradle') {
+                    echo 'Building...'
+                    sh 'chmod +x gradlew'
+                    sh './gradlew test'
+                    sh 'touch build/test-results/test/*.xml'
+                    junit 'build/test-results/test/*.xml'
+                }
+            }
+        }
+        stage ('Javadoc'){
+            steps {
+                dir('ca2/Parte2/tut_basic_gradle') {
+                    echo 'Publishing javadoc...'
+                    sh 'chmod +x gradlew'
+                    sh './gradlew javadoc'
+                    publishHTML([
+                                reportName: 'Javadoc',
+                                reportDir: 'build/docs/javadoc/',
+                                reportFiles: 'index.html',
+                                keepAll: true,
+                                alwaysLinkToLastBuild: false,
+                                allowMissing: false
+                                ])
+                }
+            }
+        }
+        stage('Archive') {
+            steps {
+                dir('ca2/Parte2/tut_basic_gradle') {
+                    sh 'pwd'
+                    echo 'Archiving...'
+                    archiveArtifacts 'build/distributions/'
+                }
+            }
+        }
+        stage ('Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://hub.docker.com/', 'mlrDockerHub'){
+                    def customImage =
+                    docker.build("martalribeiro/devops2019-2020:${env.BUILD_ID}")
+                    customImage.push()
+                }
+            }
+        }
+    }
+}
