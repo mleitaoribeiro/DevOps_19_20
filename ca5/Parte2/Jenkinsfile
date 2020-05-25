@@ -13,6 +13,8 @@ pipeline {
             steps {
                 dir('ca2/Parte2/tut_basic_gradle') {
                     echo 'Building...'
+                    sh 'rm -r node_modules'
+                    sh 'npm install'
                     sh 'chmod +x gradlew'
                     sh './gradlew assemble'
                 }
