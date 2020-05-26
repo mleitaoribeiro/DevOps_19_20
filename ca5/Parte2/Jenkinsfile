@@ -39,7 +39,7 @@ pipeline {
                                 reportName: 'Javadoc',
                                 reportDir: 'build/docs/javadoc/',
                                 reportFiles: 'index.html',
-                                keepAll: true,
+                                keepAll: false,
                                 alwaysLinkToLastBuild: false,
                                 allowMissing: false
                                 ])
