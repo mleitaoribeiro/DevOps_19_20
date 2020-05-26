@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Assemble') {
             steps {
-                dir('ca2/Parte2/tut_basic_gradle') {
+                dir('ca3/Parte2/tut_basic_gradle') {
                     echo 'Building...'
                     sh 'chmod +x gradlew'
                     sh './gradlew -x test'
@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                dir('ca2/Parte2/tut_basic_gradle') {
+                dir('ca3/Parte2/tut_basic_gradle') {
                     echo 'Building...'
                     sh 'chmod +x gradlew'
                     sh './gradlew test'
@@ -31,7 +31,7 @@ pipeline {
         }
         stage ('Javadoc'){
             steps {
-                dir('ca2/Parte2/tut_basic_gradle') {
+                dir('ca3/Parte2/tut_basic_gradle') {
                     echo 'Publishing javadoc...'
                     sh 'chmod +x gradlew'
                     sh './gradlew javadoc'
@@ -48,7 +48,7 @@ pipeline {
         }
         stage('Archive') {
             steps {
-                dir('ca2/Parte2/tut_basic_gradle') {
+                dir('ca3/Parte2/tut_basic_gradle') {
                     sh 'pwd'
                     echo 'Archiving...'
                     archiveArtifacts 'build/libs/'
