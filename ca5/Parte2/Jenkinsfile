@@ -58,10 +58,9 @@ pipeline {
         stage ('Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://hub.docker.com/', 'mlrISEP') {
-                        def customImage = docker.build("martalribeiro/devops2019-2020:${env.BUILD_ID}")
-                        customImage.push()
-                    }
+                    sh 'docker login -u="martalribeiro" -p="devopsMLR"'
+                    def customImage = docker.build("martalribeiro/devops2019-2020:${env.BUILD_ID}")
+                    customImage.push()
                 }
             }
         }
