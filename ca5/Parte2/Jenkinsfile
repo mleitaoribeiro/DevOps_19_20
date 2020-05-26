@@ -60,9 +60,9 @@ pipeline {
                 dir('ca5/Parte2') {
                     script {
                         sh 'docker login -u="martalribeiro" -p="devopsMLR"'
-                        sh 'docker build web_app .'
-                        sh 'docker tag web_app martalribeiro/devops2019-2020:web_app'
-                        sh 'docker push martalribeiro/devops2019-2020:web_app'
+                        sh 'docker build --tag spring_app_tut .'
+                        sh 'docker tag spring_app_tut martalribeiro/devops2019-2020:spring_app_tut'
+                        sh 'docker push martalribeiro/devops2019-2020:spring_app_tut'
                         //def customImage = docker.build("martalribeiro/devops2019-2020:${env.BUILD_ID}")
                         //customImage.push()
                     }
