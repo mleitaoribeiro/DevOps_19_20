@@ -51,7 +51,7 @@ pipeline {
                 dir('ca3/Parte2/tut_basic_gradle') {
                     sh 'pwd'
                     echo 'Archiving...'
-                    archiveArtifacts 'build/libs'
+                    archiveArtifacts 'build/libs/*.war'
                 }
             }
         }
