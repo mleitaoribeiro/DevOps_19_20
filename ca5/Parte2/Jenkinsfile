@@ -59,7 +59,7 @@ pipeline {
             steps {
                 script {
                     sh 'docker login -u="martalribeiro" -p="devopsMLR"'
-                    //docker.build("martalribeiro/devops2019-2020:${env.BUILD_ID}")
+                    def customImage = docker.build("martalribeiro/devops2019-2020:${env.BUILD_ID}")
                     //customImage.push()
                 }
             }
