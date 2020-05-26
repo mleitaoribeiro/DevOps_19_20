@@ -37,7 +37,7 @@ pipeline {
                     sh './gradlew javadoc'
                     publishHTML([
                                 reportName: 'Javadoc',
-                                reportDir: 'build/docs/javadoc/',
+                                reportDir: 'build/tmp/javadoc/',
                                 reportFiles: 'index.html',
                                 keepAll: false,
                                 alwaysLinkToLastBuild: false,
