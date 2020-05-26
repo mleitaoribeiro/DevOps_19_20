@@ -55,14 +55,24 @@ pipeline {
                 }
             }
         }
-        stage ('Docker Image') {
+        stage('Docker Image') {
             steps {
-                script {
-                    customImage = docker.build("martalribeiro/devops2019-2020:${env.BUILD_ID}")
-                    sh 'docker login -u="martalribeiro" --password-stdin'
-                    customImage.push()
+                dir('ca5/part2') {
+                    script {
+                        dockerimage = docker.build("martalribeiro/devops2019-2020:${env.BUILD_ID}")
+                    }
                 }
             }
         }
+        stage('Publish Image') {
+            steps {
+                dir('ca5/part2') {
+                    script{
+                        sh 'docker login -u="martalribeiro" --password-stdin'
+                        dockerimage.push()
+                    }
+                }
+            }
+       }
     }
 }
