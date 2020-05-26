@@ -61,6 +61,8 @@ pipeline {
                     script {
                         sh 'docker login -u="martalribeiro" -p="devopsMLR"'
                         sh 'docker build --tag web_app:1.0 .'
+                        sh 'docker tag web_app martalribeiro/devops2019-2020:web_app'
+                        sh 'docker push martalribeiro/devops2019-2020:web_app'
                         //def customImage = docker.build("martalribeiro/devops2019-2020:${env.BUILD_ID}")
                         //customImage.push()
                     }
