@@ -136,7 +136,7 @@ acedeu-se à secção **Console Output** para poder verificar se ocorrem erros.
 Neste assignment, o build falhou uma primeira vez devido a um erro de sintaxe no ficheiro Jenkinsfile e uma segunda vez devido a
 um erro no link de acesso ao repositório remoto. À terceira tentativa, o build correu com sucesso. Na secção **Build Artifacts**,
 foi possivel verificar o armazenamento do arquivo gerado no Assemble e, na secção **Test Result**, é possivel verificar o resultado
-dos testes unitários.
+dos testes unitários gerado na stage Test.
 
 ### 1.5 Adicionar a tag ca5, parte 1
 
