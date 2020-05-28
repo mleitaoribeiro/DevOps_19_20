@@ -11,5 +11,3 @@ This repository contains the files for all the class assignemts of DevOps.
 * [Class Assignment 4](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca4/)
 
 * [Class Assignment 5](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca5/)
-
-* [Class Assignment 6](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca6/)
