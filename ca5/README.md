@@ -135,7 +135,7 @@ acedeu-se à secção **Console Output** para poder verificar se ocorrem erros.
 
 Neste assignment, o build falhou uma primeira vez devido a um erro de sintaxe no ficheiro Jenkinsfile e uma segunda vez devido a
 um erro no link de acesso ao repositório remoto. À terceira tentativa, o build correu com sucesso. Na secção **Build Artifacts**,
-foi possivel verificar o armazenamento do arquivo gerado no Assemble e, na secção Test Result, é possivel verificar o resultado
+foi possivel verificar o armazenamento do arquivo gerado no Assemble e, na secção **Test Result**, é possivel verificar o resultado
 dos testes unitários.
 
 ### 1.5 Adicionar a tag ca5, parte 1
@@ -169,10 +169,10 @@ v1.3.1
 O código fonte para esta tarefa está localizado na pasta [ca5/Parte2](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca5/Parte2).
 
 O objectivo do class assignment 5, parte 2, é utilizar o Jenkins para configurar um pipeline com o projeto Tutorial Spring Boot
-Application, Gardle Basic Version, realizado no Ca3, parte 2.
+Application, Gradle Basic Version, realizado no Ca3, parte 2.
 
 
-### 1.6 Criar um job e configurar o pipeline para o Tutorial Spring Boot, Gardle Basic Version
+### 1.6 Criar um job e configurar o pipeline para o Tutorial Spring Boot, Gradle Basic Version
 
 A criação do job e a configuração do pipeline para o projeto Gradle Basic Version foi similar à feita para o projeto Gradle Basic Demo,
 feito no ponto 1.2.
@@ -238,7 +238,7 @@ stage('Test') {
 
 Esta stage tem como objectivo gerar o Javadoc do projeto e publica-lo no Jenkins. Para isso, foi primeiro definida a pasta do projeto
 e, de seguida, após após conceder a permissão de execução do ficheiro build do gradle, é executada a task javadoc do gradle para que 
-o javadoc seja gerado na pasta **build/docs/javadoc/*. Finalmente, é utilizado o comando **publishHTML** para aceder ao ficheiro index.html
+o javadoc seja gerado na pasta **build/docs/javadoc/**. Finalmente, é utilizado o comando **publishHTML** para aceder ao ficheiro index.html
 na pasta javadoc, de forma a armazená-lo no Jenkins.
 
 ````
@@ -379,10 +379,10 @@ stage ('Docker Image') {
 ````
 
 Após várias tentativas e depois de corrigir todos os erros gerados, o build correu com sucesso. Na secção **Build Artifacts**,
-foi possivel verificar o armazenamento do arquivo gerado no Assemble e, na secção Test Result, é possivel verificar o resultado
-dos testes unitários. Na secção Javadoc, temos acesso a um zip que permite fazer o dowload dos ficheiros contidos na pasta Javadoc
-e que permite carregar a página index.html com a documentação do projeto. Finalmente, acedendo à conta do Docker Hub pode ser 
-verificado que o publicação da imagem **spring_app_tut**, gerada a partir do Jenkinsfile, foi realizado com sucesso. Para aceder à
+foi possivel verificar o armazenamento do arquivo gerado no Assemble e, na secção **Test Result**, é possivel verificar o resultado
+dos testes unitários. Na secção **Javadoc**, temos acesso a um zip que permite fazer o dowload dos ficheiros contidos na pasta Javadoc
+e que permite carregar a página index.html com a documentação do projeto. Finalmente, acedendo à conta do **Docker Hub** pode ser 
+verificada a publicação da imagem **spring_app_tut**, gerada a partir do Jenkinsfile, foi realizado com sucesso. Para aceder à
 imagem apenas é necessário executar o seguinte comando, com o Docker Desktop em execução:
 
 ````
@@ -466,18 +466,97 @@ Spring Data REST application, guardado no interior do repositório remoto.
 O código fonte para esta tarefa está localizado na pasta [ca5/Alternativa_Buddy](https://bitbucket.org/martalribeiro/devops-19-20-a-1191779/src/master/ca5/Alternativa_Buddy).
 
 O objectivo é repetir o class assignment 5, parte 2, usando a alternativa ao Jenkins, o Buddy para configurar um pipeline com o projeto
-Tutorial Spring Boot Application, Gardle Basic Version, realizado no Ca3, parte 2.
+Tutorial Spring Boot Application, Gradle Basic Version, realizado no Ca3, parte 2. No início do assignment para a alternativa, marcou-se o
+master branch com a annotated tag **BuddyAltern**.
 
 
 ### 3.2 Criar uma conta no Buddy e um job
 
+Para poder utilizar a ferramenta Buddy, é necessário primeiro criar uma conta no website do Buddy. A forma de realizar o build no
+Buddy é feita através de uma pipeline constituída por **Actions**, que são equivalentes às **Stages** configuradas no Jenkins. As actions
+não precisam de ser obrigatoriamente criadas através de um script com a pipeline desejada e podem ser configuradas directamente no website
+do Buddy, através de uma UI, após a criação da conta de utilizador. Outra vantagem desta ferramenta é que permite criar um conta com acesso
+automático ao repositório remoto no Bitbucket, sendo desnecessária uma action específica que configure o acesso a este repositório.
+
+Após criação da conta, é necessário criar um job para que depois se possa construir a pipeline desejada para o projecto Gradle Basic Version.
+Neste projeto, foi dado o nome **devops19-20_tutorial_spring_app_basic_gradle** ao job e, de seguida, realizou-se a configuração da pipeline.
+Foi definido que os builds neste job iriam ser manuais, apenas quando o utilizador pretendesse, e que o branch a partir do qual se iria 
+executar a pipeline era o **master branch**.
+
+### 3.3 Criar o job e a pipeline
+
+Após criação do job, foi necessário configurar as várias actions presentes na pipeline. Foram então definidas 5 actions: Gradle Assemble,
+Gradle Test, Gradle Javadoc, Build Docker Image e Publish Docker Image.
+
+#### 3.3.1 Gradle Assemble
+
+Esta action é equivalente à stage Assemble do projeto Gradle Basic Version e possui o mesmo objetivo. Após selecionar a opção **New Action**
+e a **integration** Gradle, apenas foi necessário colocar os comandos desejados para esta action na caixa de texto especificada para o efeito
+e fazer o save das alterações. Os comandos utilizados foram:
+
+````
+cd ca3/Parte2/tut_basic_gradle
+echo "Building..."
+chmod +x gradlew
+./gradlew assemble
+````
+
+#### 3.3.2 Gradle Test
+
+Esta action é equivalente à stage Test do projeto Gradle Basic Version e possui o mesmo objetivo. Após selecionar a opção **New Action**
+e a **integration** Gradle, definiram-se os seguintes comandos:
+
+````
+cd ca3/Parte2/tut_basic_gradle
+echo 'Building...'
+chmod +x gradlew
+./gradlew test
+````
+
+#### 3.3.3 Gradle Javadoc
+
+Esta action é equivalente à stage Javadoc do projeto Gradle Basic Version e possui o mesmo objetivo. Após selecionar a opção **New Action**
+e a **integration** Gradle, definiram-se os seguintes comandos:
+
+````
+cd ca3/Parte2/tut_basic_gradle
+echo 'Publishing javadoc...'
+chmod +x gradlew
+./gradlew javadoc
+````
+
+#### 3.3.4 Build Docker image
+
+Esta action é equivalente à stage Docker Image do projeto Gradle Basic Version e possui o mesmo objetivo. Após selecionar a opção **New Action**
+e a **integration** Docker, apenas foi necessário definir a pasta do repositório remoto que continha o Dockerfile para criação da imagem -
+**ca5/Parte2/Dockerfile**.
+
+#### 3.3.5 Publish Docker Image
+
+Esta action é equivalente à stage Docker Image do projeto Gradle Basic Version e possui o mesmo objetivo. Após selecionar a opção **New Action**
+e a **integration** Docker, foi necessário definir o local para onde se pretendia realizar o push da imagem criada - **Docker Hub**, colocar o
+username e a password de acesso à conta Docker Hub, definir o repositório onde ia ser publicada a imagem - **martalribeiro/devops2019-2020**, e
+definir o nome da imagem a ser publicada - **spring_app_tut_buddy.
 
 
-### 3.3 Criar e executar o build do job
+### 3.4 Executar o build da pipeline
 
+Após configuração de todas as actions da pipeline, selecionou-se a opção **Run Pipeline**, presente na barra de tarefas do lado direito.
+Durante a execução do build, ocorreram alguns erros de sintaxe específicos para esta ferramenta. Outra vantagem em relação ao Jenkins, é
+o Buddy permitir a correção imediata no local específico onde o erro ocorre e, a partir do momento em que é corrigido, permite continuar a
+execução do build no ponto em que foi interrompido. Não é necessário fazer commit e push de um ficheiro tal como acontece no Jenkins nem iniciar
+o build novamente. 
 
+Neste assignment, após duas tentativas de build em que ocorreram alguns erros, a terceira tentativa executou o build com sucesso. Na secção 
+**File System**, foi possivel verificar o armazenamento do arquivo war gerado no Gradle Assemble na pasta **build/libs/**, o armazenamento do 
+resultado dos testes gerados no Gralde Teste na pasta **build/test-result/test** e o armazenamento dos documentos gerados no Gradle Javadoc na
+pasta **build/docs/javadoc**. Finalmente, acedendo à conta do **Docker Hub** pode ser verificada a publicação da imagem **spring_app_tut_buddy**,
+gerada no Build Docker Image, e verficar que a publicação foi realizadoa com sucesso. Para aceder à imagem apenas é necessário executar o seguinte
+comando, com o Docker Desktop em execução:
 
+````
 docker pull martalribeiro/devops2019-2020:spring_app_tut_buddy
+````
 
 
 ## Referências:
