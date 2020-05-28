@@ -352,7 +352,7 @@ stage('Archive') {
 ````
 
 Numa terceira fase, a stage Docker Image não estava a conseguir ser executada com sucesso. O login era realizado mas o comando de
-build da imagem sugerido nas instruções do Ca5, part2, - docker.build("my-image:${env.BUILD_ID}" - não estava a conseguir ser executado,
+build da imagem sugerido nas instruções do Ca5, part2, - **docker.build("my-image:${env.BUILD_ID}** - não estava a conseguir ser executado,
 exibindo o seguinte erro:
 
 ````
