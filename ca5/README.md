@@ -33,7 +33,7 @@ Após concluida a instalação do Jenkins, é necessário aceder ao Browser atra
 plugins standard para utilizadores com pouca experiência. De seguida, é necessário criar um *job*, selecionar a opção *pipeline* e realizar
 a configuração do pipeline de forma a que se adequando ao projeto. 
 
-Neste projeto foi dado o nome **devops19-20_gradle_demo** ao pipeline e para configurar o projeto adequadamente foi necessário aceder
+Neste projeto foi dado o nome **devops19-20_gradle_demo** ao job e para configurar o projeto adequadamente foi necessário aceder
 à secçção Pipeline. Antes de configurar esta secção, é primeiro necessário aceder à secção **Credentials** na página inicial do Jenkins e
 adicionar uma nova credencial com o username e a password de acesso à conta do repositório remoto. É essencial definir um id para que este
 possa ser mais tarde utilizado no script do Jenkinsfile.
@@ -48,7 +48,7 @@ o job fica assim preparado para realizar o build do projeto.
 ### 1.3 Criar o Jenkinsfile
 
 Para podermos correr a pipeline, precisamos de um Jenkinsfile que é composto por várias stages. Para cumprir todos os requisitos necessários
-da Ca5, parte 1, foram definidos 4 stages: Checkout, Assemble, Test e Archive,
+da Ca5, parte 1, foram definidos 4 stages: Checkout, Assemble, Test e Archive.
 
 
 #### 1.3.1 Checkout
@@ -58,12 +58,12 @@ Esta stage tem como objectivo fazer o checkout do conteúdo que se encontra no r
 
 ````
 stage('Checkout') {
-            steps {
-                echo 'Checking out...'
-                git credentialsId: 'mlrBitbucket', url:
-                    'https://martalribeiro@bitbucket.org/martalribeiro/devops-19-20-a-1191779.git'
-            }
-        }
+    steps {
+        echo 'Checking out...'
+        git credentialsId: 'mlrBitbucket', url:
+            'https://martalribeiro@bitbucket.org/martalribeiro/devops-19-20-a-1191779.git'
+    }
+}
 ````
 
 #### 1.3.2 Assemble
@@ -75,14 +75,14 @@ não fossem também executados. Por isso, utilizou-se a task assemble do gradle.
 
 ````
 stage('Assemble') {
-            steps {
-                dir('ca2/Parte1/gradle_basic_demo') {
-                    echo 'Building...'
-                    sh 'chmod +x gradlew'
-                    sh './gradlew assemble'
-                }
-            }
+    steps {
+        dir('ca2/Parte1/gradle_basic_demo') {
+            echo 'Building...'
+            sh 'chmod +x gradlew'
+            sh './gradlew assemble'
         }
+    }
+}
 ````
 
 #### 1.3.3 Test
@@ -94,16 +94,16 @@ testes vão ser armazenados e é utilizado o comando **junit** para a execução
 
 ````
 stage('Test') {
-            steps {
-                dir('ca2/Parte1/gradle_basic_demo') {
-                    echo 'Building...'
-                    sh 'chmod +x gradlew'
-                    sh './gradlew test'
-                    sh 'touch build/test-results/test/*.xml'
-                    junit 'build/test-results/test/*.xml'
-                }
-            }
+    steps {
+        dir('ca2/Parte1/gradle_basic_demo') {
+            echo 'Building...'
+            sh 'chmod +x gradlew'
+            sh './gradlew test'
+            sh 'touch build/test-results/test/*.xml'
+            junit 'build/test-results/test/*.xml'
         }
+    }
+}
 ````
 
 #### 1.3.4 Archive
@@ -114,16 +114,15 @@ ficheiro war a guardar.
 
 ````
 stage('Archive') {
-            steps {
-                dir('ca2/Parte1/gradle_basic_demo') {
-                    sh 'pwd'
-                    echo 'Archiving...'
-                    archiveArtifacts 'build/distributions/'
-                }
-            }
+    steps {
+        dir('ca2/Parte1/gradle_basic_demo') {
+            sh 'pwd'
+            echo 'Archiving...'
+            archiveArtifacts 'build/distributions/'
         }
+    }
+}
 ````
-
 
 Após conclusão do Jenkinsfile, este foi colocado na pasta **ca5/Parte1** e foi feito o commit e push para o repositorio remoto.
 
@@ -174,10 +173,92 @@ Application, Gardle Basic Version, realizado no Ca3, parte 2.
 
 ### 1.6 Criar um job e configurar o pipeline para o Tutorial Spring Boot, Gardle Basic Version
 
+A criação do job e a configuração do pipeline para o projeto Gradle Basic Version foi similar à feita para o projeto Gradle Basic Demo,
+feito no ponto 1.2.
 
+Neste caso, o nome dado ao job foi **devops19-20_tutorial_spring_app_basic_gradle** e na configuração do job, na secção Pipeline, foi definida
+uma path diferente para o Jenkinsfile - **ca5/Parte2/Jenkinsfile**.
 
 ### 1.7 Criar o Jenkinsfile
 
+Para podermos correr a pipeline, precisamos de novamente de um Jenkinsfile que é composto 6 stages: Checkout, Assemble, Test, Javadoc,
+Archive e Docker Image.
+
+
+#### 1.7.1 Checkout
+
+Esta stage tem como objectivo fazer o checkout do conteúdo que se encontra no repositório pessoal. Para isso, é utilizada a credencial 
+**mlrBitbucket* criada anteriomente com os dados de acesso ao repositório remoto. 
+
+````
+stage('Checkout') {
+    steps {
+        echo 'Checking out...'
+        git credentialsId: 'mlrBitbucket', url:
+            'https://martalribeiro@bitbucket.org/martalribeiro/devops-19-20-a-1191779.git'
+    }
+}
+````
+
+#### 1.7.2 Assemble
+
+Esta stage tem como objectivo compilar e produzir o ficheiro de arquivo com a aplicação, que neste caso se trata de um ficheiro war.
+Numa primeira fase, é estabelecido o local onde se encontra o ficheiro a compilar e, de seguida, após conceder a permissão de execução
+a este ficheiro, é feito o comando que permite gerar o arquivo. A task build do gradle não foi utilizada neste stage para que os testes 
+não fossem também executados. Por isso, utilizou-se a task assemble do gradle.
+
+````
+stage('Assemble') {
+    steps {
+        dir('ca2/Parte1/gradle_basic_demo') {
+            echo 'Building...'
+            sh 'chmod +x gradlew'
+            sh './gradlew assemble'
+        }
+    }
+}
+````
+
+#### 1.7.3 Test
+
+Esta stage tem como objectivo executar os testes unitários existentes no projecto e publicar no Jenkins os resultados destes
+testes. Para isso, foi primeiro definida a pasta do projeto e, de seguida, após após conceder a permissão de execução do ficheiro
+build do gradle, é executada a task test do gradle para que os testes sejam executados também. Finalmente, é criada a pasta onde os
+testes vão ser armazenados e é utilizado o comando **junit** para a execução e armazenamentos do resultado dos testes no Jenkins.
+
+````
+stage('Test') {
+    steps {
+        dir('ca2/Parte1/gradle_basic_demo') {
+            echo 'Building...'
+            sh 'chmod +x gradlew'
+            sh './gradlew test'
+            sh 'touch build/test-results/test/*.xml'
+            junit 'build/test-results/test/*.xml'
+        }
+    }
+}
+````
+
+#### 1.7.4 Archive
+
+Esta stage tem como objectivo arquivar no Jenkins os ficheiros gerados durante o Assemble, ou seja, o ficheiro war. Para isso, primeiro
+estabeleceu-se a pasta onde se encontra o projeto e, de seguida, a partir do comando **archiveArtifacts**, definiu-se onde se encontra o
+ficheiro war a guardar.
+
+````
+stage('Archive') {
+    steps {
+        dir('ca2/Parte1/gradle_basic_demo') {
+            sh 'pwd'
+            echo 'Archiving...'
+            archiveArtifacts 'build/distributions/'
+        }
+    }
+}
+````
+
+Após conclusão do Jenkinsfile, este foi colocado na pasta **ca5/Parte1** e foi feito o commit e push para o repositorio remoto.
 
 
 ### 1.8 Executar o build do Jenkinsfile
