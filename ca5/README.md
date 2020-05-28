@@ -6,7 +6,7 @@
 ### 1.1 Preparação do Assigment
 
 Para a realização da Class Assignment 5 (Ca5) foi sugerido utilizar o Jenkins como ferramenta de *Continuous Integration/Continuous 
-Integration* (CI/CD).
+Delivery* (CI/CD).
 
 Na realização desta tarefa foi usada a distribuição Linux Ubuntu 18.04 LTS e para poder cumprir todos os requisitos necessários
 para a sua implementação foi necessário:
@@ -14,8 +14,8 @@ para a sua implementação foi necessário:
 * acesso à CLI do Ubuntu;
 * ter instalado o Jenkins (neste caso, foi utilizado um ficheiro war para por o servidor a correr);
 * um repositório remoto (neste caso, foi utilizado o Bitbucket);
-* o Spring Boot Tutorial Basic Project em gradle utilizada no Class Assignment 3, parte 2 proveniente do Tutorial React.js and
-Spring Data REST application.
+* o Gradle Basic Demo utilizado no Class Assignment 2, parte 1;
+* o Spring Boot Tutorial Basic Project em gradle utilizada no Class Assignment 3, parte 2 proveniente do Tutorial React.js and Spring Data REST application.
 
 
 ### Class Assignment 5, parte 1
@@ -28,34 +28,34 @@ no Ca2, parte 1.
 
 ### 1.2 Criar um job e configurar o pipeline para o Gradle Basic Demo
 
-Após concluida a instalação do Jenkins, é necessário aceder ao Browser através do endereço "https://localhost:8080". Num primeiro passo
+Após concluída a instalação do Jenkins, é necessário aceder ao Browser através do endereço "https://localhost:8080". Num primeiro passo
 é realizada toda a configuração do Jenkins e é feita a decisão dos plugins a serem instalados. É recomendável selecionar o pacote de 
 plugins standard para utilizadores com pouca experiência. De seguida, é necessário criar um *job*, selecionar a opção *pipeline* e realizar
-a configuração do pipeline de forma a que se adequando ao projeto. 
+a configuração do pipeline de forma a que se adeque ao projeto. 
 
-Neste projeto foi dado o nome **devops19-20_gradle_demo** ao job e para configurar o projeto adequadamente foi necessário aceder
+Neste projeto, foi dado o nome **devops19-20_gradle_demo** ao job e para realizar a configuração adequadamente foi necessário aceder
 à secçção Pipeline. Antes de configurar esta secção, é primeiro necessário aceder à secção **Credentials** na página inicial do Jenkins e
 adicionar uma nova credencial com o username e a password de acesso à conta do repositório remoto. É essencial definir um id para que este
 possa ser mais tarde utilizado no script do Jenkinsfile.
 
-Voltando à secção Pipeline, na configuração do *job*, foi escolhida a opção **Pipeline script from SCM** e de seguida escolher o sistema
+Voltando à secção Pipeline, na configuração do *job*, foi escolhida a opção **Pipeline script from SCM** e de seguida escolhido o sistema
 de controlo de versões a utilizar. Neste caso, foi escolhido o Git e adicionado o repositório pessoal do Bitbucket com a credencial previamente
-criada. Foi também escolhido o branch ao que se pertence aceder, neste caso o *master branch* e de seguida definida a path onde se encontra o 
-Jenkinsfile a utilizar no build. Nesta pipeline, o path escolhido foi **ca5/Parte1/Jenkinsfile**. Finalmente, salvam-se todas as configurações e
+criada. Foi também escolhido o branch ao que se pertence aceder, neste caso, o *master branch* e, de seguida, definida a path onde se encontra o 
+Jenkinsfile a utilizar no build. Nesta pipeline, o path escolhido foi **ca5/Parte1/Jenkinsfile**. Finalmente, salvou-se todas as configurações e
 o job fica assim preparado para realizar o build do projeto.
 
 
 ### 1.3 Criar o Jenkinsfile
 
 Para podermos correr a pipeline, precisamos de um Jenkinsfile que é composto por várias stages. Para cumprir todos os requisitos necessários
-da Ca5, parte 1, foram definidos 4 stages: Checkout, Assemble, Test e Archive. Em todas as stages, a pasta onde está o projecto Gradle Basic
-Version é **ca2/Parte1/gradle_basic_demo**.
+da Ca5, parte 1, foram definidos 4 stages: Checkout, Assemble, Test e Archive. Na maioria das stages, definiu-se a pasta onde está o projecto Gradle Basic
+Demo - **ca2/Parte1/gradle_basic_demo**.
 
 
 #### 1.3.1 Checkout
 
 Esta stage tem como objectivo fazer o checkout do conteúdo que se encontra no repositório pessoal. Para isso, é utilizada a credencial 
-**mlrBitbucket* criada anteriomente com os dados de acesso ao repositório remoto. 
+**mlrBitbucket** criada anteriomente com os dados de acesso ao repositório remoto. 
 
 ````
 stage('Checkout') {
@@ -90,7 +90,7 @@ stage('Assemble') {
 
 Esta stage tem como objectivo executar os testes unitários existentes no projecto e publicar no Jenkins os resultados destes
 testes. Para isso, foi primeiro definida a pasta do projeto e, de seguida, após após conceder a permissão de execução do ficheiro
-build do gradle, é executada a task test do gradle para que os testes sejam executados também. Finalmente, é criada a pasta onde os
+gradlew, é executada a task test do gradle para que os testes sejam executados também. Finalmente, é criada a pasta onde os
 testes vão ser armazenados e é utilizado o comando **junit** para a execução e armazenamentos do resultado dos testes no Jenkins.
 
 ````
@@ -183,7 +183,7 @@ uma path diferente para o Jenkinsfile - **ca5/Parte2/Jenkinsfile**.
 ### 1.7 Criar o Jenkinsfile
 
 Para podermos correr a pipeline, precisamos de novamente de um Jenkinsfile que é composto 6 stages: Checkout, Assemble, Test, Javadoc,
-Archive e Docker Image. Em todas as stages, a pasta onde está o projecto Gradle Basic Version é **ca3/Parte2/tut_basic_gradle**.
+Archive e Docker Image. Na maioria das stages, é definida a pasta onde está o projecto Gradle Basic Version - **ca3/Parte2/tut_basic_gradle**.
 
 
 #### 1.7.1 Checkout
@@ -237,9 +237,9 @@ stage('Test') {
 #### 1.7.4 Javadoc
 
 Esta stage tem como objectivo gerar o Javadoc do projeto e publica-lo no Jenkins. Para isso, foi primeiro definida a pasta do projeto
-e, de seguida, após após conceder a permissão de execução do ficheiro build do gradle, é executada a task javadoc do gradle para que 
+e, de seguida, após após conceder a permissão de execução do ficheiro gradlew, é executada a task javadoc do gradle para que 
 o javadoc seja gerado na pasta **build/docs/javadoc/**. Finalmente, é utilizado o comando **publishHTML** para aceder ao ficheiro index.html
-na pasta javadoc, de forma a armazená-lo no Jenkins.
+na pasta javadoc, de forma a publicá-lo no Jenkins.
 
 ````
 stage ('Javadoc'){
@@ -307,10 +307,10 @@ Após conclusão do Jenkinsfile, este foi colocado na pasta **ca5/Parte2** e foi
 ### 1.8 Executar o build do Jenkinsfile
 
 A execução do Jenkinsfile foi similar à feita para o projeto Gradle Basic Demo. No entanto, foram necessários mais alguns passos
-para que o build fosse executado com sucesso. Para que o comando publishHTML fosse executado na stage Javadoc, foi primeiro necessário
-instalar o plugin HTMLpublisher do Jenkins. Por outro lado, como iria ser necessário criar uma imagem a partir de um Dockerfile e depois
+para que o build fosse executado com sucesso. Para que o comando **publishHTML** fosse executado na stage Javadoc, foi primeiro necessário
+instalar o plugin HTML publisher do Jenkins. Por outro lado, como iria ser necessário criar uma imagem a partir de um Dockerfile e depois
 publica-la no Doker Hub, foi necessário colocar o Docker Desktop a correr para permitir a execução desta stage. Após estes passos, foi
-final executado o build no Jenkins.
+finalmente executado o build no Jenkins.
 
 Neste assignment, numa primeira fase o build falhou porque a task javadoc do gradle não estava a conseguir ser executada através do Jenkinsfile.
 
@@ -330,7 +330,8 @@ execução do stage Javadoc. Desta forma, interrompeu-se o servidor e o Jenkins 
 a stage Javadoc foi executada com sucesso.
 
 Numa segunda fase, o build voltou a falhar porque a pasta definida para a localização do ficheiro war na stage Archive não existia e foi
-necessário aceder à secção Workspaces na barra lateral de tarefas, no lado esquerdo, após entrar nos resultado do ultimo build realizado.
+necessário aceder à secção Workspaces do Jenkins, na barra lateral de tarefas, no lado esquerdo, após entrar no resultado do ultimo build realizado.
+Foi possivel observar o seguinte erro:
 
 ````
 ‘build/distributions/’ doesn’t match anything, but ‘build’ does. Perhaps that’s what you mean?
@@ -382,7 +383,7 @@ Após várias tentativas e depois de corrigir todos os erros gerados, o build co
 foi possivel verificar o armazenamento do arquivo gerado no Assemble e, na secção **Test Result**, é possivel verificar o resultado
 dos testes unitários. Na secção **Javadoc**, temos acesso a um zip que permite fazer o dowload dos ficheiros contidos na pasta Javadoc
 e que permite carregar a página index.html com a documentação do projeto. Finalmente, acedendo à conta do **Docker Hub** pode ser 
-verificada a publicação da imagem **spring_app_tut**, gerada a partir do Jenkinsfile, foi realizado com sucesso. Para aceder à
+verificada que a publicação da imagem **spring_app_tut**, gerada a partir do Jenkinsfile, foi realizada com sucesso. Para aceder à
 imagem apenas é necessário executar o seguinte comando, com o Docker Desktop em execução:
 
 ````
@@ -445,7 +446,7 @@ Manutenção                        | Manutenção regular                | Não
 Integrações                       | Plugins open source               | Integrações pré-feitas e testadas
 Pipelines                         | **Scripts** e UI                  | **UI** e scripts                         
 
-**NOTA:** Na ultima linha da tabela, os elementos a negrito são as opções mais fiaveis e mais utilizadas.
+**NOTA:** Na ultima linha da tabela, os elementos a negrito são as opções mais fiáveis e mais utilizadas.
 
 
 ## 3. Implementação da alternativa - Buddy
@@ -457,8 +458,7 @@ sua implementação foi necessário:
 
 * acesso à ferramenta Buddy através de um browser (neste caso, foi utilizado o Google Chrome);
 * um repositório remoto (neste caso, foi utilizado o Bitbucket);
-* o Spring Boot Tutorial Basic Project em gradle utilizada no Class Assignment 3, parte 2 proveniente do Tutorial React.js and
-Spring Data REST application, guardado no interior do repositório remoto.
+* o Spring Boot Tutorial Basic Project em gradle utilizada no Class Assignment 3, parte 2 proveniente do Tutorial React.js and Spring Data REST application, guardado no interior do repositório remoto.
 
 
 ### Class Assignment 5, parte 2
